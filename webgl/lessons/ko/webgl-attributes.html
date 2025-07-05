@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<!-- this file is auto-generated from webgl/lessons/ko/webgl-attributes.md. Do not edited directly -->
+<!--
+Copyright 2021, GFXFundamentals.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+*   Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+*   Redistributions in binary form must reproduce the above
+    copyright notice, this list of conditions and the following disclaimer
+    in the documentation and/or other materials provided with the
+    distribution.
+
+*   Neither the name of GFXFundamentals. nor the names of his
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="WebGL의 attribute란 무엇일까요?">
+<meta name="keywords" content="webgl webgl2 graphics">
+<meta name="thumbnail" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-attributes_ko.jpg">
+
+<meta property="og:title" content="WebGL2 Attributes">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-attributes_ko.jpg">
+<meta property="og:description" content="WebGL의 attribute란 무엇일까요?">
+<meta property="og:url" content="https://webgl2fundamentals.org/webgl/lessons/ko/webgl-attributes.html">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@greggman">
+<meta name="twitter:creator" content="@greggman">
+<meta name="twitter:domain" content="webgl2fundamentals.org">
+<meta name="twitter:title" content="WebGL2 Attributes">
+<meta name="twitter:url" content="https://webgl2fundamentals.org/webgl/lessons/ko/webgl-attributes.html">
+<meta name="twitter:description" content="WebGL의 attribute란 무엇일까요?">
+<meta name="twitter:image:src" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-attributes_ko.jpg">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebSite",
+      "@id":"https://webgl2fundamentals.org/#website",
+      "url":"https://webgl2fundamentals.org/",
+      "name":"Webgl2Fundamentals"
+    },
+    {
+      "@type":"ImageObject",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/ko/webgl-attributes.html#primaryimage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-attributes_ko.jpg",
+      "width":1200,
+      "height":630
+    },
+    {
+      "@type":"WebPage",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/ko/webgl-attributes.html#webpage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/ko/webgl-attributes.html",
+      "inLanguage":"ko",
+      "name":"WebGL2 Attributes",
+      "keywords":"webgl webgl2 graphics programming",
+      "isPartOf":{
+        "@id":"https://webgl2fundamentals.org/#website"
+      },
+      "primaryImageOfPage":{
+        "@id":"https://webgl2fundamentals.org/webgl/lessons/ko/webgl-attributes.html#primaryimage"
+      }
+    }
+  ]
+}
+</script>
+
+
+<title>WebGL2 Attributes</title>
+<link href="/webgl/lessons/resources/webgl2fundamentals-icon.png" rel="shortcut icon" type="image/png">
+<link rel="stylesheet" href="/webgl/lessons/lang.css">
+<link rel="stylesheet" href="/webgl/lessons/ko/lang.css">
+<link rel="stylesheet" href="/webgl/lessons/resources/lesson.css">
+
+  <link rel="alternate" hreflang="en" href="https://webglfundamentals.org/webgl/lessons/webgl-attributes.html">
+  <link rel="alternate" hreflang="de" href="https://webglfundamentals.org/webgl/lessons/de/webgl-attributes.html">
+  <link rel="alternate" hreflang="ja" href="https://webglfundamentals.org/webgl/lessons/ja/webgl-attributes.html">
+  <link rel="alternate" hreflang="ko" href="https://webglfundamentals.org/webgl/lessons/ko/webgl-attributes.html">
+  <link rel="alternate" hreflang="pt-br" href="https://webglfundamentals.org/webgl/lessons/pt-br/webgl-attributes.html">
+  <link rel="alternate" hreflang="ru" href="https://webglfundamentals.org/webgl/lessons/ru/webgl-attributes.html">
+  <link rel="alternate" hreflang="zh_cn" href="https://webglfundamentals.org/webgl/lessons/zh_cn/webgl-attributes.html">
+
+
+
+
+</head>
+<body>
+<div class="webgl_navbar">
+  <div>
+    <select class="language">
+    <option value="/webgl/lessons/webgl-attributes.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-attributes.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-attributes.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-attributes.html" selected>한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-attributes.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-attributes.html" >Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-attributes.html" >简体中文</a>
+</select>
+
+
+    <a href="#toc">목차</a>
+    <input type="search" placeholder="?" id="search">
+  </div>
+</div>
+<div class="webgl_header">
+  <h1><a href="/webgl/lessons/ko/">WebGL2Fundamentals.org</a></h1>
+<style>
+#forkongithub>div {
+    background: #000;
+    color: #fff;
+    font-family: arial,sans-serif;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 40px;
+    font-size: 0.9rem;
+    line-height: 1.3rem;
+    position: relative;
+    transition: 0.5s;
+    display: block;
+    width: 400px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(200px) rotate(45deg) translate(10px,70px);
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.8);
+    pointer-events: auto;
+}
+#forkongithub a {
+  text-decoration: none;
+  color: #fff;
+}
+#forkongithub>div:hover {
+    background: #c11;
+    color: #fff;
+}
+#forkongithub .contributors {
+  font-size: 0.75rem;
+  background: rgba(255,255,255,0.2);
+  line-height: 1.2;
+  padding: 0.1em;
+}
+#forkongithub>div::before,#forkongithub>div::after {
+    content: "";
+    width: 100%;
+    display: block;
+    position: absolute;
+    top: 1px;
+    left: 0;
+    height: 1px;
+    background: #fff;
+}
+#forkongithub>div::after {
+    bottom: 1px;
+    top: auto;
+}
+
+#forkongithub{
+    z-index: 9999;
+    /* needed for firefox */
+    overflow: hidden;
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    pointer-events: none;
+}
+#forkongithub svg{
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+}
+#forkongithub img {
+  width: 1em;
+  height: 1em;
+  border-radius: 100%;
+  vertical-align: middle;
+}
+
+@media (max-width: 900px) {
+    #forkongithub>div {
+        line-height: 1.2rem;
+    }
+}
+@media (max-width: 700px) {
+  #forkongithub {
+    display: none;
+  }
+}
+@media (max-width: 410px) {
+    #forkongithub>div {
+        font-size: 0.7rem;
+        transform: translateX(150px) rotate(45deg) translate(20px,40px);
+    }
+}
+
+</style>
+<div id="forkongithub"><div><div><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">Fix, Fork, Contribute <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 136 133" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(3.92891,0,0,3.92891,67.867,129.125)">
+        <path d="M0,-31.904C-8.995,-31.904 -16.288,-24.611 -16.288,-15.614C-16.288,-8.417 -11.621,-2.312 -5.148,-0.157C-4.333,-0.008 -4.036,-0.511 -4.036,-0.943C-4.036,-1.329 -4.05,-2.354 -4.058,-3.713C-8.589,-2.729 -9.545,-5.897 -9.545,-5.897C-10.286,-7.779 -11.354,-8.28 -11.354,-8.28C-12.833,-9.29 -11.242,-9.27 -11.242,-9.27C-9.607,-9.155 -8.747,-7.591 -8.747,-7.591C-7.294,-5.102 -4.934,-5.821 -4.006,-6.238C-3.858,-7.29 -3.438,-8.008 -2.972,-8.415C-6.589,-8.826 -10.392,-10.224 -10.392,-16.466C-10.392,-18.244 -9.757,-19.698 -8.715,-20.837C-8.883,-21.249 -9.442,-22.905 -8.556,-25.148C-8.556,-25.148 -7.188,-25.586 -4.076,-23.478C-2.777,-23.84 -1.383,-24.02 0.002,-24.026C1.385,-24.02 2.779,-23.84 4.08,-23.478C7.19,-25.586 8.555,-25.148 8.555,-25.148C9.444,-22.905 8.885,-21.249 8.717,-20.837C9.761,-19.698 10.392,-18.244 10.392,-16.466C10.392,-10.208 6.583,-8.831 2.954,-8.428C3.539,-7.925 4.06,-6.931 4.06,-5.411C4.06,-3.234 4.04,-1.477 4.04,-0.943C4.04,-0.507 4.333,0 5.16,-0.159C11.628,-2.318 16.291,-8.419 16.291,-15.614C16.291,-24.611 8.997,-31.904 0,-31.904" style="fill:white;"/>
+    </g>
+</svg>
+</a></div></div></div>
+
+</div>
+
+
+<div class="container">
+  <div class="lesson-title">
+    <h1>WebGL2 Attributes</h1>
+  </div>
+  <div class="lesson">
+    <div class="lesson-main">
+      <p>이 글은 WebGL에서 attribute 상태(state)가 어떻게 구성되는지에 대한 개념의 이해를 돕기 위해 작성되었습니다. <a href="webgl-texture-units.html">텍스처 유닛</a> 및 <a href="webgl-framebuffers.html">프레임 버퍼</a>에 대해서도 유사한 글이 있으니 참고 하세요.</p>
+<p>이 내용을 이해하기 위해서는 먼저 <a href="webgl-how-it-works.html">WebGL 작동 원리</a>와 <a href="https://webglfundamentals.org/webgl/lessons/webgl-shaders-and-glsl.html">WebGL 셰이더와 GLSL</a>을 먼저 읽으셔야 합니다.</p>
+<h2 id="attributes">Attributes</h2>
+<p>WebGL의 attribute는 버퍼로부터 데이터를 읽어와서 정점 셰이더의 입력으로 주어지는 데이터를 말합니다.
+WebGL에서는 <code class="notranslate" translate="no">gl.drawArrays</code> 또는 <code class="notranslate" translate="no">gl.drawElements</code>가 호출되면 사용자가 작성한 정점 셰이더를 N번 실행합니다.
+각 iteration마다 attribute는 바인딩 되어있는 버퍼로부터 어떻게 데이터를 가져올지를 정의하고 그 데이터를 정점 셰이더 내의 attribute로 넘겨줍니다.</p>
+<p>이러한 동작이 만약 자바스크립트로 구현되었다면 아마 아래와 같이 쓰여졌을 겁니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">// pseudo code
+const gl = {
+  arrayBuffer: null,
+  vertexArray: {
+    attributes: [
+      { enable: ?, type: ?, size: ?, normalize: ?, stride: ?, offset: ?, buffer: ?, divisor: 0 },
+      { enable: ?, type: ?, size: ?, normalize: ?, stride: ?, offset: ?, buffer: ?, divisor: 0 },
+      { enable: ?, type: ?, size: ?, normalize: ?, stride: ?, offset: ?, buffer: ?, divisor: 0 },
+      { enable: ?, type: ?, size: ?, normalize: ?, stride: ?, offset: ?, buffer: ?, divisor: 0 },
+      { enable: ?, type: ?, size: ?, normalize: ?, stride: ?, offset: ?, buffer: ?, divisor: 0 },
+      { enable: ?, type: ?, size: ?, normalize: ?, stride: ?, offset: ?, buffer: ?, divisor: 0 },
+      { enable: ?, type: ?, size: ?, normalize: ?, stride: ?, offset: ?, buffer: ?, divisor: 0 },
+      { enable: ?, type: ?, size: ?, normalize: ?, stride: ?, offset: ?, buffer: ?, divisor: 0 },
+      { enable: ?, type: ?, size: ?, normalize: ?, stride: ?, offset: ?, buffer: ?, divisor: 0 },
+      { enable: ?, type: ?, size: ?, normalize: ?, stride: ?, offset: ?, buffer: ?, divisor: 0 },
+      { enable: ?, type: ?, size: ?, normalize: ?, stride: ?, offset: ?, buffer: ?, divisor: 0 },
+      { enable: ?, type: ?, size: ?, normalize: ?, stride: ?, offset: ?, buffer: ?, divisor: 0 },
+      { enable: ?, type: ?, size: ?, normalize: ?, stride: ?, offset: ?, buffer: ?, divisor: 0 },
+      { enable: ?, type: ?, size: ?, normalize: ?, stride: ?, offset: ?, buffer: ?, divisor: 0 },
+      { enable: ?, type: ?, size: ?, normalize: ?, stride: ?, offset: ?, buffer: ?, divisor: 0 },
+      { enable: ?, type: ?, size: ?, normalize: ?, stride: ?, offset: ?, buffer: ?, divisor: 0 },
+    ],
+    elementArrayBuffer: null,
+  },
+}
+</code></pre>
+<p>위에서 볼 수 있듯이 16개의 attribute가 있습니다.</p>
+<p><code class="notranslate" translate="no">gl.enableVertexAttribArray(location)</code> 또는 <code class="notranslate" translate="no">gl.disableVertexAttribArray</code>를 호출하는 것은 아래와 같은 상황으로 생각하시면 됩니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">// pseudo code
+gl.enableVertexAttribArray = function(location) {
+  const attrib = gl.vertexArray.attributes[location];
+  attrib.enable = true;
+};
+
+gl.disableVertexAttribArray = function(location) {
+  const attrib = gl.vertexArray.attributes[location];
+  attrib.enable = false;
+};
+</code></pre>
+<p>다시말해, location은 attribute의 인덱스를 직접 참조하는 값입니다.</p>
+<p>비슷하게, <code class="notranslate" translate="no">gl.vertexAttribPointer</code>는 attribute의 나머지 값들을 세팅하기 위해 사용됩니다.
+아래와 같은 방식으로 구현될 수 있을겁니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">// pseudo code
+gl.vertexAttribPointer = function(location, size, type, normalize, stride, offset) {
+  const attrib = gl.vertexArray.attributes[location];
+  attrib.size = size;
+  attrib.type = type;
+  attrib.normalize = normalize;
+  attrib.stride = stride ? stride : sizeof(type) * size;
+  attrib.offset = offset;
+  attrib.buffer = gl.arrayBuffer;  // !!!! &lt;-----
+};
+</code></pre>
+<p><code class="notranslate" translate="no">gl.vertexAttribPointer</code>를 호출하면 <code class="notranslate" translate="no">attrib.buffer</code>는 현재 활성화 상태인 <code class="notranslate" translate="no">gl.arrayBuffer</code>로 설정되게 됩니다.
+위 의사 코드(pseudo code)에서 <code class="notranslate" translate="no">gl.arrayBuffer</code>는 <code class="notranslate" translate="no">gl.bindBuffer(gl.ARRAY_BUFFER, someBuffer)</code>를 호출함으로써 설정됩니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">// pseudo code
+gl.bindBuffer = function(target, buffer) {
+  switch (target) {
+    case ARRAY_BUFFER:
+      gl.arrayBuffer = buffer;
+      break;
+    case ELEMENT_ARRAY_BUFFER;
+      gl.vertexArray.elementArrayBuffer = buffer;
+      break;
+  ...
+};
+</code></pre>
+<p>다음으로, 정점 셰이더를 봅시다. 정점 셰이더에서는 attribute를 선언할 수 있습니다.
+예를들어:</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">#version 300 es
+in vec4 position;
+in vec2 texcoord;
+in vec3 normal;
+
+...
+
+void main() {
+  ...
+}
+</code></pre>
+<p><code class="notranslate" translate="no">gl.linkProgram(someProgram)</code>를 호출해서 정점 셰이더와 프래그먼트 셰이더를 링크하면
+WebGL (드라이버/GPU/브라우저)은 어떤 인덱스/location을 각 attibute에 대해 사용할지를 결정합니다. 추후에 보여드릴 코드처럼 직접 location을 할당해 주지 않는 한, WebGL에서 각 attribute에 대해 어떤 인덱스를 고를지 알 수 없습니다.
+그러니 position, texcoord, normal에 대해 어떤 attibute를 사용하기로 결정했는지 물어봐야겠죠?
+<code class="notranslate" translate="no">gl.getAttribLocation</code>를 호출해서 물어볼 수 있습니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const positionLoc = gl.getAttribLocation(program, 'position');
+const texcoordLoc = gl.getAttribLocation(program, 'texcoord');
+const normalLoc = gl.getAttribLocation(program, 'normal');
+</code></pre>
+<p><code class="notranslate" translate="no">positionLoc</code> = <code class="notranslate" translate="no">5</code>라고 가정해봅시다. 그 말은 정점 셰이더가 실행될 때(여러분이 <code class="notranslate" translate="no">gl.drawArrays</code> 또는 <code class="notranslate" translate="no"> gl.drawElements</code>를 호출했을 때) 정점 셰이더는 여러분이 attribute 5에 대해 올바른 type, size, offset, stride, buffer 등등을 설정했다고 가정한다는 것입니다.</p>
+<p>프로그램을 링크하기 <em>전에</em> <code class="notranslate" translate="no">gl.bindAttribLocation(program, location, nameOfAttribute)</code>를 호출해서 location을 직접 선택할 수 있습니다. 예를들어:</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">// `gl.linkProgram`에게 `position`에 대해 attribute 7번을 사용하도록 명시
+gl.bindAttribLocation(program, 7, 'position');
+</code></pre>
+<p>GLSL ES 3.00 셰이더를 사용한다면 셰이더 내에서 직접적으로 어떤 location을 사용할지 아래와 같이 명시해 줄 수도 있습니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">layout(location = 0) in vec4 position;
+layout(location = 1) in vec2 texcoord;
+layout(location = 2) in vec3 normal;
+
+...
+</code></pre>
+<p><code class="notranslate" translate="no">bindAttribLocation</code>을 사용하는 것이 훨씬 <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">D.R.Y.</a>한 것 같긴 하지만, 여러분이 원하는대로 하시면 됩니다.</p>
+<h2 id="전체-attribute-state">전체 Attribute State</h2>
+<p>위의 설명 중 빠진 것 중 하나는, 각 attribute는 기본값이 있다는 것입니다.
+위에서 설명하지 않은 이유는 이를 활용하는 경우가 흔하지 않기 때문입니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">attributeValues: [
+  [0, 0, 0, 1],
+  [0, 0, 0, 1],
+  ...
+],
+vertexArray: {
+  attributes: [
+   { enable: ?, type: ?, size: ?, normalize: ?, stride: ?, offset: ?, buffer: ?,
+   　divisor: 0, },
+   { enable: ?, type: ?, size: ?, normalize: ?, stride: ?, offset: ?, buffer: ?,
+   　divisor: 0, },
+   ...
+
+</code></pre>
+<p><code class="notranslate" translate="no">gl.vertexAttribXXX</code>들을 사용해 각 attibute의 값을 설정해 줄 수 있습니다.
+이 값들은 <code class="notranslate" translate="no">enable</code>가 false일 때 사용됩니다. <code class="notranslate" translate="no">enable</code>이 true라면 attribute의 데이터는 할당된 버퍼로부터 가져옵니다.</p>
+<p><a id="vaos"></a></p>
+<h2 id="vertex-array-objects-vaos">Vertex Array Objects (VAO)s</h2>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const vao = gl.createVertexArray();
+</code></pre>
+<p>이 코드는 위쪽 <em>의사 코드</em>의 <code class="notranslate" translate="no">gl.vertexArray</code>에 할당될 객체를 만듭니다.
+<code class="notranslate" translate="no">gl.bindVertexArray(vao)</code>를 호출하면 생성된 vertex array object를 현재 vertex array로 만듭니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">// pseudo code
+gl.bindVertexArray = function(vao) {
+  gl.vertexArray = vao ? vao : defaultVAO;
+};
+</code></pre>
+<p>이 코드는 현재 VAO에 있는 모든 attribute와 <code class="notranslate" translate="no">ELEMENT_ARRAY_BUFFER</code>를 설정해서 여러분이 특정 형상을 화면에 그리고 싶을 때 <code class="notranslate" translate="no">gl.bindVertexArray</code>만을 호출해서 모든 attibute를 설정할 수 있게 합니다.
+그렇지 않으면 <strong>각 attibute마다</strong> <code class="notranslate" translate="no">gl.bindBuffer</code>, <code class="notranslate" translate="no">gl.vertexAttribPointer</code> (추가적으로 <code class="notranslate" translate="no">gl.enableVertexAttribArray</code>까지)를 호출해야 합니다.</p>
+<p>보시다시피 vertex array object를 사용하는 것이 훨씬 좋습니다.
+하지만 그러려면 코드가 좀 더 구조화가 필요합니다.
+예를 들어 한 셰이더를 통해 <code class="notranslate" translate="no">gl.TRIANGLES</code>로 정육면체를 그리고 다른 셰이더로 <code class="notranslate" translate="no">gl.LINES</code>로 한번 더 그리고 싶다고 해봅시다.
+삼각형들을 그릴 때는 조명 효과를 위해 법선을 사용하기 때문에 셰이더에서 attribute를 아래와 같이 선언했다고 해 봅시다:</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">#version 300 es
+// 조명 효과 셰이더
+// 정육면체를 삼각형 기반으로 그릴 때 사용하는 셰이더
+
+in vec4 a_position;
+in vec3 a_normal;
+</code></pre>
+<p>이 위치와 법선값들을 <a href="webgl-3d-lighting-directional.html">조명 효과 관련한 첫 글</a>에서처럼 사용한다고 합시다.</p>
+<p>라인으로 그릴 때는 조명 효과가 필요 없고, 단일 색상으로 그려서 <a href="webgl-fundamentals.html">첫 글</a>에서 사용한 셰이더와 유사한 효과를 얻고 싶다고 해 봅시다.
+색상을 위한 uniform을 선언하고, 정점 셰이더에서는 위치값만 사용합니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">#version 300 es
+// 단일 색상 셰이더
+// 정육면체를 라인 기반으로 그릴 때 사용하는 셰이더
+
+in vec4 a_position;
+</code></pre>
+<p>각 셰이더에 대해 attribute의 location이 어떻게 결정될지 알 수 없습니다.
+예를 들어 조명 효과 셰이더에서는 location이 아래와 같이 되었다고 해 봅시다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">a_position location = 1
+a_normal location = 0
+</code></pre>
+<p>그리고 단일 색상 셰이더에 대해서는 아래와 같다고 합시다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">a_position location = 0
+</code></pre>
+<p>셰이더를 바꾸면 attribute 설정이 달라져야 하는것이 자명합니다.
+한 셰이더에서는 <code class="notranslate" translate="no">a_position</code>의 데이터가 attribute 0에 들어와야 하고, 다른 셰이더에서는 attribute 1에 들어와야 합니다.</p>
+<p>attribute를 다시 설정하는 추가적인 작업이 필요합니다. vertex array object를 사용하는 이유는 그 작업을 하지 않기 위해서였는데도 말입니다.
+이 문제를 해결하기 위해서 셰이더 프로그램을 링크하기 전에 location을 바인딩해 줄겁니다.</p>
+<p>WebGL에 아래와 같이 알려줍니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">gl.bindAttribLocation(solidProgram, 0, 'a_position');
+gl.bindAttribLocation(lightingProgram, 0, 'a_position');
+gl.bindAttribLocation(lightingProgram, 1, 'a_normal');
+</code></pre>
+<p><strong>gl.linkProgram을 호출하기 전에요</strong>. 이렇게 하면 WebGL에게 셰이더를 링크하기 전에 어떤 location을 할당할지를 알려줄 수 있습니다.
+이렇게 하면 두 셰이더에 대해서 동일한 VAO를 사용할 수 있습니다.</p>
+<h2 id="attribute-상한">Attribute 상한</h2>
+<p>WebGL2 명세에서는 최소 16개의 attibute를 지원하도록 되어 있지만 특정 컴퓨터/브라우저/구현/드라이버는 더 많은 attribute를 지원할 수 있습니다.
+얼마나 많은 attribute를 지원하는지 아래 코드를 호출하여 확인할 수 있습니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const maxAttributes = gl.getParameter(gl.MAX_VERTEX_ATTRIBS);
+</code></pre>
+<p>16개 이상의 attribute를 사용하고자 하면 실제 지원하는 것이 몇개인지를 확인하는 것이 좋고,
+사용자의 환경에서 그 만큼을 지원하지 않는다면 이를 사용자에게 알려주거나 다른 더 간단한 셰이더를 사용하도록 해야 합니다.</p>
+
+    </div>
+    <div class="lesson-sidebar">
+        <select class="language">
+    <option value="/webgl/lessons/webgl-attributes.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-attributes.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-attributes.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-attributes.html" selected>한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-attributes.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-attributes.html" >Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-attributes.html" >简体中文</a>
+</select>
+
+
+        <div id="toc">
+          <ul>  <li>기초</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-getting-webgl2.html">WebGL2 사용법</a></li>
+<li><a href="/webgl/lessons/ko/webgl-fundamentals.html">기초</a></li>
+<li><a href="/webgl/lessons/ko/webgl-how-it-works.html">WebGL2 작동 원리</a></li>
+<li><a href="/webgl/lessons/ko/webgl-shaders-and-glsl.html">WebGL2 셰이더와 GLSL</a></li>
+<li><a href="/webgl/lessons/resources/webgl-state-diagram.html">WebGL2 State Diagram</a></li>
+        </ul>
+  <li>WebGL2 vs WebGL1</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl2-whats-new.html">WebGL2 새로운 기능</a></li>
+<li><a href="/webgl/lessons/ko/webgl1-to-webgl2.html">WebGL1에서 WebGL2로의 변경</a></li>
+<li><a href="/webgl/lessons/ko/webgl1-to-webgl2-fundamentals.html">WebGLFundamentals.org과 WebGL2Fundamentals.org의 차이점</a></li>
+        </ul>
+  <li>이미지 처리</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-image-processing.html">이미지 처리</a></li>
+<li><a href="/webgl/lessons/ko/webgl-image-processing-continued.html">WebGL2 이미지 처리 심화</a></li>
+        </ul>
+  <li>2D 이동, 회전, 크기 변환 행렬 계산</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-2d-translation.html">WebGL2 2D 이동</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-rotation.html">WebGL2 2D 회전</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-scale.html">WebGL2 2D 크기 변환</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-matrices.html">WebGL2 2D 행렬</a></li>
+        </ul>
+  <li>3D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-3d-orthographic.html">3D 직교 투영</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-perspective.html">3D 원근 투영</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-camera.html">3D - 카메라</a></li>
+<li><a href="/webgl/lessons/ko/webgl-matrix-naming.html">3D - 행렬의 이름</a></li>
+        </ul>
+  <li>Lighting</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-3d-lighting-directional.html">방향성 조명 효과(Directional Lighting)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-lighting-point.html">점 조명 효과(Point Lighting)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-lighting-spot.html">스팟 조명 효과(Spot Lighting)</a></li>
+        </ul>
+  <li>Structure and Organization</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-less-code-more-fun.html">더 적은 코드로 즐겁게 코딩하기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-drawing-multiple-things.html">여러 물체를 그리는 법</a></li>
+<li><a href="/webgl/lessons/ko/webgl-scene-graph.html">장면(Scene) 그래프</a></li>
+        </ul>
+  <li>Geometry</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-3d-geometry-lathe.html">3D Geometry - Lathe</a></li>
+<li><a href="/webgl/lessons/ko/webgl-load-obj.html">.obj 파일 로딩</a></li>
+<li><a href="/webgl/lessons/ko/webgl-load-obj-w-mtl.html">Loading .obj w .mtl files</a></li>
+        </ul>
+  <li>Textures</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-3d-textures.html">텍스처</a></li>
+<li><a href="/webgl/lessons/ko/webgl-data-textures.html">데이터 텍스처</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2-textures.html">두개 이상의 텍스처 사용하기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-cors-permission.html">교차 출처 이미지(Cross Origin Image)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-perspective-correct-texturemapping.html">원근 교정 텍스처 매핑</a></li>
+<li><a href="/webgl/lessons/ko/webgl-planar-projection-mapping.html">평면 및 원근 투영 매핑</a></li>
+        </ul>
+  <li>Rendering To A Texture</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-render-to-texture.html">텍스처에 렌더링하기</a></li>
+        </ul>
+  <li>Shadows</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-shadows.html">그림자</a></li>
+        </ul>
+  <li>Techniques</li>
+        <ul>
+            <li>2D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-2d-drawimage.html">2D - DrawImage</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-matrix-stack.html">2D - 행렬 스택</a></li>
+<li><a href="/webgl/lessons/ko/webgl-sprites.html">Sprite</a></li>
+        </ul>
+  <li>3D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-cube-maps.html">큐브맵</a></li>
+<li><a href="/webgl/lessons/ko/webgl-environment-maps.html">환경맵</a></li>
+<li><a href="/webgl/lessons/ko/webgl-skybox.html">Skybox</a></li>
+<li><a href="/webgl/lessons/ko/webgl-skinning.html">Skinning</a></li>
+<li><a href="/webgl/lessons/ko/webgl-fog.html">Fog</a></li>
+<li><a href="/webgl/lessons/ko/webgl-picking.html">Picking (clicking on stuff)</a></li>
+        </ul>
+  <li>Text</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-text-html.html">텍스트 - HTML</a></li>
+<li><a href="/webgl/lessons/ko/webgl-text-canvas2d.html">텍스트 - Canvas 2D</a></li>
+<li><a href="/webgl/lessons/ko/webgl-text-texture.html">텍스트 - 텍스처 사용</a></li>
+<li><a href="/webgl/lessons/ko/webgl-text-glyphs.html">Text - Using a Glyph Texture</a></li>
+        </ul>
+  <li>GPGPU</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-gpgpu.html">GPGPU</a></li>
+        </ul>
+        </ul>
+  <li>Tips</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-smallest-programs.html">Smallest Programs</a></li>
+<li><a href="/webgl/lessons/ko/webgl-drawing-without-data.html">Drawing Without Data</a></li>
+<li><a href="/webgl/lessons/ko/webgl-shadertoy.html">Shadertoy</a></li>
+<li><a href="/webgl/lessons/ko/webgl-pulling-vertices.html">Pulling Vertices</a></li>
+        </ul>
+  <li>Optimization</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-indexed-vertices.html">정점 인덱스 (gl.drawElements)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-instanced-drawing.html">인스턴스 드로잉(Instanced Drawing)</a></li>
+        </ul>
+  <li>기타</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-setup-and-installation.html">설정 및 설치</a></li>
+<li><a href="/webgl/lessons/ko/webgl-boilerplate.html">보일러플레이트(Boilerplate)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-resizing-the-canvas.html">Canvas 리사이징</a></li>
+<li><a href="/webgl/lessons/ko/webgl-animation.html">애니메이션</a></li>
+<li><a href="/webgl/lessons/ko/webgl-points-lines-triangles.html">점, 선, 삼각형</a></li>
+<li><a href="/webgl/lessons/ko/webgl-multiple-views.html">Multiple Views, Multiple Canvases</a></li>
+<li><a href="/webgl/lessons/ko/webgl-visualizing-the-camera.html">Visualizing the Camera</a></li>
+<li><a href="/webgl/lessons/ko/webgl-and-alpha.html">WebGL2 알파(Alpha)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-vs-3d-library.html">2D vs 3D 라이브러리</a></li>
+<li><a href="/webgl/lessons/ko/webgl-anti-patterns.html">안티패턴</a></li>
+<li><a href="/webgl/lessons/ko/webgl-matrix-vs-math.html">WebGL2 행렬 vs 수학에서의 행렬</a></li>
+<li><a href="/webgl/lessons/ko/webgl-precision-issues.html">정밀도 이슈</a></li>
+<li><a href="/webgl/lessons/ko/webgl-tips.html#screenshot">스크린샷 찍기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-tips.html#preservedrawingbuffer">Canvas Clear 방지</a></li>
+<li><a href="/webgl/lessons/ko/webgl-tips.html#tabindex">캔버스에서 키보드 입력 받기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-tips.html#html-background">HTML에서 WebGL2를 배경으로 사용하기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-cross-platform-issues.html">Cross Platform 문제</a></li>
+<li><a href="/webgl/lessons/ko/webgl-qna.html">질문 및 답변</a></li>
+        </ul>
+  <li>Reference</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-attributes.html">Attributes</a></li>
+<li><a href="/webgl/lessons/ko/webgl-texture-units.html">텍스처 유닛</a></li>
+<li><a href="/webgl/lessons/ko/webgl-framebuffers.html">Framebuffer</a></li>
+<li><a href="/webgl/lessons/ko/webgl-readpixels.html">readPixels</a></li>
+<li><a href="/webgl/lessons/ko/webgl-references.html">참고 자료</a></li>
+        </ul></ul>
+<ul>
+  <li><a href="/docs/">Helper API Docs</a></li>
+  <li><a href="https://twgljs.org">TWGL, A tiny WebGL helper library</a></li>
+  <li><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">github</a></li>
+</ul>
+        </div>
+    </div>
+    <div class="lesson-comments">
+        
+    <div>이슈나 버그가 있나요? <a href="https://github.com/greggman/webgl2-fundamentals/issues">깃헙에서 이슈 만들기</a>.</div>
+  
+
+        <div id="disqus_thread"></div>
+        <script>
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'webgl2fundamentals'; // required: replace example with your forum shortname
+            var disqus_identifier = 'WebGL2 Attributes';
+            var disqus_title = 'WebGL2 Attributes';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                if (window.location.hostname.indexOf("webgl2fundamentals.org") < 0) {
+                    return;
+                }
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+const settings = {
+  contribTemplate: "<a href=\"${html_url}\"><img src=\"${avatar_url}\"> ${login}</a>님, <br>당신의 <a href=\"https://github.com/${owner}/${repo}/commits?author=${login}\">${contributions} 기여</a>에 감사드립니다.",
+  owner: "gfxfundamentals",
+  repo: "webgl2-fundamentals",
+};
+</script>
+<script src="/contributors.js"></script>
+<script src="/3rdparty/jquery-1.11.2.min.js"></script>
+<script src="/webgl/lessons/resources/prettify.js"></script>
+<script src="/webgl/lessons/resources/lesson.js" type="module"></script>
+<script>
+</script>
+
+
+</html>
+
+
+

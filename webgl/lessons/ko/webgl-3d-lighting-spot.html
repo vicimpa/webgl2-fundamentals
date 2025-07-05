@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<!-- this file is auto-generated from webgl/lessons/ko/webgl-3d-lighting-spot.md. Do not edited directly -->
+<!--
+Copyright 2021, GFXFundamentals.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+*   Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+*   Redistributions in binary form must reproduce the above
+    copyright notice, this list of conditions and the following disclaimer
+    in the documentation and/or other materials provided with the
+    distribution.
+
+*   Neither the name of GFXFundamentals. nor the names of his
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="WebGL에서 스팟 조명 효과를 구현하는 방법">
+<meta name="keywords" content="webgl webgl2 graphics">
+<meta name="thumbnail" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-3d-lighting-spot_ko.jpg">
+
+<meta property="og:title" content="WebGL2 3D - 스팟 조명 효과(Spot Lighting)">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-3d-lighting-spot_ko.jpg">
+<meta property="og:description" content="WebGL에서 스팟 조명 효과를 구현하는 방법">
+<meta property="og:url" content="https://webgl2fundamentals.org/webgl/lessons/ko/webgl-3d-lighting-spot.html">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@greggman">
+<meta name="twitter:creator" content="@greggman">
+<meta name="twitter:domain" content="webgl2fundamentals.org">
+<meta name="twitter:title" content="WebGL2 3D - 스팟 조명 효과(Spot Lighting)">
+<meta name="twitter:url" content="https://webgl2fundamentals.org/webgl/lessons/ko/webgl-3d-lighting-spot.html">
+<meta name="twitter:description" content="WebGL에서 스팟 조명 효과를 구현하는 방법">
+<meta name="twitter:image:src" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-3d-lighting-spot_ko.jpg">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebSite",
+      "@id":"https://webgl2fundamentals.org/#website",
+      "url":"https://webgl2fundamentals.org/",
+      "name":"Webgl2Fundamentals"
+    },
+    {
+      "@type":"ImageObject",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/ko/webgl-3d-lighting-spot.html#primaryimage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-3d-lighting-spot_ko.jpg",
+      "width":1200,
+      "height":630
+    },
+    {
+      "@type":"WebPage",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/ko/webgl-3d-lighting-spot.html#webpage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/ko/webgl-3d-lighting-spot.html",
+      "inLanguage":"ko",
+      "name":"WebGL2 3D - 스팟 조명 효과(Spot Lighting)",
+      "keywords":"webgl webgl2 graphics programming",
+      "isPartOf":{
+        "@id":"https://webgl2fundamentals.org/#website"
+      },
+      "primaryImageOfPage":{
+        "@id":"https://webgl2fundamentals.org/webgl/lessons/ko/webgl-3d-lighting-spot.html#primaryimage"
+      }
+    }
+  ]
+}
+</script>
+
+
+<title>WebGL2 3D - 스팟 조명 효과(Spot Lighting)</title>
+<link href="/webgl/lessons/resources/webgl2fundamentals-icon.png" rel="shortcut icon" type="image/png">
+<link rel="stylesheet" href="/webgl/lessons/lang.css">
+<link rel="stylesheet" href="/webgl/lessons/ko/lang.css">
+<link rel="stylesheet" href="/webgl/lessons/resources/lesson.css">
+
+  <link rel="alternate" hreflang="en" href="https://webglfundamentals.org/webgl/lessons/webgl-3d-lighting-spot.html">
+  <link rel="alternate" hreflang="de" href="https://webglfundamentals.org/webgl/lessons/de/webgl-3d-lighting-spot.html">
+  <link rel="alternate" hreflang="ja" href="https://webglfundamentals.org/webgl/lessons/ja/webgl-3d-lighting-spot.html">
+  <link rel="alternate" hreflang="ko" href="https://webglfundamentals.org/webgl/lessons/ko/webgl-3d-lighting-spot.html">
+  <link rel="alternate" hreflang="pt-br" href="https://webglfundamentals.org/webgl/lessons/pt-br/webgl-3d-lighting-spot.html">
+  <link rel="alternate" hreflang="ru" href="https://webglfundamentals.org/webgl/lessons/ru/webgl-3d-lighting-spot.html">
+  <link rel="alternate" hreflang="zh_cn" href="https://webglfundamentals.org/webgl/lessons/zh_cn/webgl-3d-lighting-spot.html">
+
+
+
+
+</head>
+<body>
+<div class="webgl_navbar">
+  <div>
+    <select class="language">
+    <option value="/webgl/lessons/webgl-3d-lighting-spot.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-3d-lighting-spot.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-3d-lighting-spot.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-3d-lighting-spot.html" selected>한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-3d-lighting-spot.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-3d-lighting-spot.html" >Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-3d-lighting-spot.html" >简体中文</a>
+</select>
+
+
+    <a href="#toc">목차</a>
+    <input type="search" placeholder="?" id="search">
+  </div>
+</div>
+<div class="webgl_header">
+  <h1><a href="/webgl/lessons/ko/">WebGL2Fundamentals.org</a></h1>
+<style>
+#forkongithub>div {
+    background: #000;
+    color: #fff;
+    font-family: arial,sans-serif;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 40px;
+    font-size: 0.9rem;
+    line-height: 1.3rem;
+    position: relative;
+    transition: 0.5s;
+    display: block;
+    width: 400px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(200px) rotate(45deg) translate(10px,70px);
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.8);
+    pointer-events: auto;
+}
+#forkongithub a {
+  text-decoration: none;
+  color: #fff;
+}
+#forkongithub>div:hover {
+    background: #c11;
+    color: #fff;
+}
+#forkongithub .contributors {
+  font-size: 0.75rem;
+  background: rgba(255,255,255,0.2);
+  line-height: 1.2;
+  padding: 0.1em;
+}
+#forkongithub>div::before,#forkongithub>div::after {
+    content: "";
+    width: 100%;
+    display: block;
+    position: absolute;
+    top: 1px;
+    left: 0;
+    height: 1px;
+    background: #fff;
+}
+#forkongithub>div::after {
+    bottom: 1px;
+    top: auto;
+}
+
+#forkongithub{
+    z-index: 9999;
+    /* needed for firefox */
+    overflow: hidden;
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    pointer-events: none;
+}
+#forkongithub svg{
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+}
+#forkongithub img {
+  width: 1em;
+  height: 1em;
+  border-radius: 100%;
+  vertical-align: middle;
+}
+
+@media (max-width: 900px) {
+    #forkongithub>div {
+        line-height: 1.2rem;
+    }
+}
+@media (max-width: 700px) {
+  #forkongithub {
+    display: none;
+  }
+}
+@media (max-width: 410px) {
+    #forkongithub>div {
+        font-size: 0.7rem;
+        transform: translateX(150px) rotate(45deg) translate(20px,40px);
+    }
+}
+
+</style>
+<div id="forkongithub"><div><div><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">Fix, Fork, Contribute <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 136 133" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(3.92891,0,0,3.92891,67.867,129.125)">
+        <path d="M0,-31.904C-8.995,-31.904 -16.288,-24.611 -16.288,-15.614C-16.288,-8.417 -11.621,-2.312 -5.148,-0.157C-4.333,-0.008 -4.036,-0.511 -4.036,-0.943C-4.036,-1.329 -4.05,-2.354 -4.058,-3.713C-8.589,-2.729 -9.545,-5.897 -9.545,-5.897C-10.286,-7.779 -11.354,-8.28 -11.354,-8.28C-12.833,-9.29 -11.242,-9.27 -11.242,-9.27C-9.607,-9.155 -8.747,-7.591 -8.747,-7.591C-7.294,-5.102 -4.934,-5.821 -4.006,-6.238C-3.858,-7.29 -3.438,-8.008 -2.972,-8.415C-6.589,-8.826 -10.392,-10.224 -10.392,-16.466C-10.392,-18.244 -9.757,-19.698 -8.715,-20.837C-8.883,-21.249 -9.442,-22.905 -8.556,-25.148C-8.556,-25.148 -7.188,-25.586 -4.076,-23.478C-2.777,-23.84 -1.383,-24.02 0.002,-24.026C1.385,-24.02 2.779,-23.84 4.08,-23.478C7.19,-25.586 8.555,-25.148 8.555,-25.148C9.444,-22.905 8.885,-21.249 8.717,-20.837C9.761,-19.698 10.392,-18.244 10.392,-16.466C10.392,-10.208 6.583,-8.831 2.954,-8.428C3.539,-7.925 4.06,-6.931 4.06,-5.411C4.06,-3.234 4.04,-1.477 4.04,-0.943C4.04,-0.507 4.333,0 5.16,-0.159C11.628,-2.318 16.291,-8.419 16.291,-15.614C16.291,-24.611 8.997,-31.904 0,-31.904" style="fill:white;"/>
+    </g>
+</svg>
+</a></div></div></div>
+
+</div>
+
+
+<div class="container">
+  <div class="lesson-title">
+    <h1>WebGL2 3D - 스팟 조명 효과(Spot Lighting)</h1>
+  </div>
+  <div class="lesson">
+    <div class="lesson-main">
+      <p>이 글은 <a href="webgl-3d-lighting-point.html">WebGL 3D 점 조명 효과</a>에서 이어지는 글입니다.
+이전 글을 아직 읽지 않았다면 <a href="webgl-3d-lighting-point.html">먼저 읽어 보시길 권장합니다</a>.</p>
+<p>지난 글에서는 물체의 모든 점마다 빛이 그 점을 향하는 방향 벡터를 계산하는 점 조명 효과에 대해 다뤘습니다.
+그 이후 과정은 <a href="webgl-3d-lighting-directional.html">방향성 조명 효과</a>와 동일한데,
+표면의 법선(표면이 바라보는 방향)과 조명 방향을 내적하는 것이었습니다.
+두 방향이 동일한 경우 값이 1이되고, 완전히 비춰지게(fully lit) 됩니다.
+만일 두 방향이 수직하다면 0이 되고, 반대라면 -1이 됩니다.
+우리는 이 값을 표면의 색상에 직접 곱해서 조명 효과를 얻었습니다.</p>
+<p>스팟 조명 효과(spot lighting)는 아주 약간 다를 뿐입니다.
+사실 지금까지 해온 내용에 여러분이 약간의 창의력만 더하면 스스로 구현하는 방법을 찾으실 수 있을 겁니다.</p>
+<p>점 조명은 어떤 위치에서 모든 방향으로 빛이 뻗어나가는 조명으로 생각할 수 있습니다.
+스팟 조명을 구현하기 위해서는 위치를 중심으로 빛이 향하는 특정 방향을 정해야 합니다.
+그리고 빛이 향하는 방향마다 그 방향과 우리가 정한 특정 방향와의 내적을 해 줍니다.
+임의로 어떤 제한값을 정해서 제한값 이내이면 빛을 비추고, 제한값 밖이면 빛을 비추지 않도록 하는겁니다.</p>
+<p><div class="webgl_diagram_container">
+  <iframe class="webgl_example noborder" style="width: 500px; height: 400px;" src="/webgl/lessons/resources/spot-lighting.html"></iframe>
+</div>
+
+</p>
+<p>다이어그램에서 모든 방향으로 뻗어나가는 광선을 볼 수 있고, 각 광선에는 특정 방향과의 내적값이 표시되어 있습니다.
+특정 <strong>방향</strong>은 스팟 조명의 방향입니다.
+제한값을 정하면 (위쪽에 degree 단위로 나타내고 있습니다.) 그 제한값으로부터 <em>내적 제한값</em>을 계산하는데, 이는 제한값의 코사인 값입니다.
+스팟 조명의 방향과 광선 방향을 내적했을 때 내적 제한값보다 크다면 빛을 비춥니다. 그렇지 않으면 비추지 않습니다.</p>
+<p>다른 방식으로 설명해 보자면, 예를 들어 제한값이 20도라고 합시다.
+이를 라디안으로 변환하고 코사인을 취해 -1과 1사이의 값으로 변환합니다.
+이를 내적 공간이라고 합시다.
+다시말해 아래 표와 같은 제한값이 있다고 합시다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">          limits in
+ degrees | radians | dot space
+ --------+---------+----------
+    0    |   0.0   |    1.0
+    22   |    .38  |     .93
+    45   |    .79  |     .71
+    67   |   1.17  |     .39
+    90   |   1.57  |    0.0
+   180   |   3.14  |   -1.0
+</code></pre>
+<p>그러면 아래와 같은 체크를 하기만 하면 됩니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">dotFromDirection = dot(surfaceToLight, -lightDirection)
+if (dotFromDirection &gt;= limitInDotSpace) {
+   // 조명 효과 계산
+}
+</code></pre>
+<p>한번 해 봅시다.</p>
+<p>먼저 지난 <a href="webgl-3d-lighting-point.html">지난 글</a>의 프래그먼트 셰이더를 수정합시다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">#version 300 es
+precision highp float;
+
+// 정점 셰이더에서 넘어온 값
+in vec3 v_normal;
+in vec3 v_surfaceToLight;
+in vec3 v_surfaceToView;
+
+uniform vec4 u_color;
+uniform float u_shininess;
++uniform vec3 u_lightDirection;
++uniform float u_limit;          // 내적 공간에서의 값
+
+// 프래그먼트 셰이더에서는 출력값을 선언해야 합니다.
+out vec4 outColor;
+
+void main() {
+  // v_normal은 보간되는 varying 이기 때문에 단위 벡터가 아닙니다.
+  // 정규화를 해야 다시 단위 벡터가 됩니다.
+  vec3 normal = normalize(v_normal);
+
+  vec3 surfaceToLightDirection = normalize(v_surfaceToLight);
+  vec3 surfaceToViewDirection = normalize(v_surfaceToView);
+  vec3 halfVector = normalize(surfaceToLightDirection + surfaceToViewDirection);
+
+-  float light = dot(normal, surfaceToLightDirection);
++  float light = 0.0;
+  float specular = 0.0;
+
++  float dotFromDirection = dot(surfaceToLightDirection,
++                               -u_lightDirection);
++  if (dotFromDirection &gt;= u_limit) {
+*    light = dot(normal, surfaceToLightDirection);
+*    if (light &gt; 0.0) {
+*      specular = pow(dot(normal, halfVector), u_shininess);
+*    }
++  }
+
+  outColor = u_color;
+
+  // 알파를 제외한 색상 부분만 light값을 곱해줍니다.
+  outColor.rgb *= light;
+
+  // specular 값을 더해줍니다.
+  outColor.rgb += specular;
+}
+</code></pre>
+<p>당연히 방금 추가한 uniform들의 위치를 가지고 있어야 합니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">  var lightDirection = [?, ?, ?];
+  var limit = degToRad(20);
+
+  ...
+
+  var lightDirectionLocation = gl.getUniformLocation(program, &quot;u_lightDirection&quot;);
+  var limitLocation = gl.getUniformLocation(program, &quot;u_limit&quot;);
+</code></pre>
+<p>그리고 값을 설정해 주어야 합니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">    gl.uniform3fv(lightDirectionLocation, lightDirection);
+    gl.uniform1f(limitLocation, Math.cos(limit));
+</code></pre>
+<p>결과는 아래와 같습니다.</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-3d-lighting-spot.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-3d-lighting-spot.html" target="_blank">새 창으로 열기</a>
+</div>
+
+</p>
+<p>몇 가지 주의사항입니다: 먼저 위 코드에서 <code class="notranslate" translate="no">u_lightDirection</code>의 방향을 뒤집었다는 것입니다.
+구현하는 방법은 두 가지가 있습니다. 우리가 필요한 건 비교하는 두 개의 방향이 동일하도록 맞춰주는 것입니다.
+즉, surfaceToLightDirection과 스팟 조명의 반대 방향을 비교해야 한다는 것입니다.
+여러가지 다른 방식으로 구현할 수 있는데, uniform 값을 설정할때 방향을 뒤집어서 전달해 줄 수도 있습니다.
+저라면 이렇게 하겠지만 uniform을 <code class="notranslate" translate="no">u_lightDirection</code>라고 이름짓는 것이
+<code class="notranslate" translate="no">u_reverseLightDirection</code> 또는 <code class="notranslate" translate="no">u_negativeLightDirection</code>보다 덜 헷갈릴 것으로 생각됩니다.</p>
+<p>다른 하나는 개인 선호도에 달린 것이긴 한데, 저는 가능하면 셰이더에 조건문을 사용하지 않으려 합니다.
+아마도 그 이유는 실제로는 셰이더에 조건문이 없기 때문입니다.
+셰이더에 조건문을 사용하게 되면 셰이더 컴파일러가 코드를 여기저기 0과 1을 곱하는 식으로 확장해서 실제로는 조건문이 없는 형태로 바꿉니다.
+그 말은 조건문을 사용하면 조합하는 만큼 코드가 길어진다는 뜻입니다.
+지금도 그런지는 확실하진 않지만 어쨋든 몇 가지 기술을 보여드리는 겸 해서 조건문을 없애 보겠습니다.
+조건문을 사용할지 말지는 여러분이 스스로 결정하시면 됩니다.</p>
+<p>GLSL에는 <code class="notranslate" translate="no">step</code>이라는 함수가 있습니다.
+2개의 값을 인자로 받는데 두 번째 값이 첫 번째 값보다 크거나 같으면 1.0을 반환합니다.
+그렇지 않으면 0을 반환합니다. 아래 자바스크립트 코드처럼요.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">function step(a, b) {
+   if (b &gt;= a) {
+       return 1;
+   } else {
+       return 0;
+   }
+}
+</code></pre>
+<p>조건문을 없애기 위해 <code class="notranslate" translate="no">step</code>을 사용해 봅시다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">  float dotFromDirection = dot(surfaceToLightDirection,
+                               -u_lightDirection);
+  // spotLight 영역 안이면 inLight는 1이되고 아니면 0이 됩니다.
+  float inLight = step(u_limit, dotFromDirection);
+  float light = inLight * dot(normal, surfaceToLightDirection);
+  float specular = inLight * pow(dot(normal, halfVector), u_shininess);
+</code></pre>
+<p>보기에는 결과가 동일하지만 결과는 아래와 같습니다.</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-3d-lighting-spot-using-step.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-3d-lighting-spot-using-step.html" target="_blank">새 창으로 열기</a>
+</div>
+
+</p>
+<p>다른 하나는 스팟 라이트의 경계가 매우 거칠다는 것입니다.
+스팟 라이트 영역 안에 있거나 밖에 있거나 둘 중 하나고 밖에 있다면 완전히 어둡습니다.</p>
+<p>이것을 수정하기 위해서 하나의 경계값 대신 안쪽 경계값과 바깥쪽 경계값, 두 개의 경계값을 사용할 수 있습니다.
+안쪽 경계값 안에 있으면 1.0을 사용합니다. 그리고 바깥쪽 경계값 밖에 있으면 0.0을 사용합니다.
+안쪽 경계값과 바깥쪽 경계값 사이라면 1.0과 0.0 사이의 값을 lerp(linear interpolation)합니다.</p>
+<p>아래는 구현 방법 중 하나입니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">-uniform float u_limit;          // 내적 공간에서의 값
++uniform float u_innerLimit;     // 내적 공간에서의 값
++uniform float u_outerLimit;     // 내적 공간에서의 값
+
+...
+
+  float dotFromDirection = dot(surfaceToLightDirection,
+                               -u_lightDirection);
+-  float inLight = step(u_limit, dotFromDirection);
++  float limitRange = u_innerLimit - u_outerLimit;
++  float inLight = clamp((dotFromDirection - u_outerLimit) / limitRange, 0.0, 1.0);
+  float light = inLight * dot(normal, surfaceToLightDirection);
+  float specular = inLight * pow(dot(normal, halfVector), u_shininess);
+
+</code></pre>
+<p>잘 동작하네요.</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-3d-lighting-spot-falloff.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-3d-lighting-spot-falloff.html" target="_blank">새 창으로 열기</a>
+</div>
+
+</p>
+<p>이제 좀 더 스팟 라이트처럼 보이는 결과를 얻었습니다!</p>
+<p>하나 주의해야 할 것은 <code class="notranslate" translate="no">u_innerLimit</code>와 <code class="notranslate" translate="no">u_outerLimit</code>값이 같으면 <code class="notranslate" translate="no">limitRange</code>값이 0.0이 된다는 것입니다.
+이후 계산에서 <code class="notranslate" translate="no">limitRange</code>로 나누는데, 0으로 나누는 것은 나쁜/정의되지 않은 결과가 도출됩니다.
+셰이더 코드 안에서 우리가 무언가 할 수 있는것은 없고, 자바스크립트 코드 안에서 <code class="notranslate" translate="no">u_innerLimit</code>와 <code class="notranslate" translate="no">u_outerLimit</code>가 같은 값이 되지 않도록 해야 합니다. (주의: 예제 코드에서 이 작업을 하고 있지는 앖습니다.)</p>
+<p>GLSL에도 이러한 작업을 약간 간단한게 할 수 있는 함수가 있습니다.
+<code class="notranslate" translate="no">smoothstep</code>이라는 함수인데 <code class="notranslate" translate="no">step</code>처럼 0과 1 사이의 값을 반환하지만 하한값과 상한값을 모두 인자로 받아서 그 범위 안에서 lerp한 값을 반환합니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no"> smoothstep(lowerBound, upperBound, value)
+</code></pre>
+<p>사용해 봅시다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">  float dotFromDirection = dot(surfaceToLightDirection,
+                               -u_lightDirection);
+-  float limitRange = u_innerLimit - u_outerLimit;
+-  float inLight = clamp((dotFromDirection - u_outerLimit) / limitRange, 0.0, 1.0);
+  float inLight = smoothstep(u_outerLimit, u_innerLimit, dotFromDirection);
+  float light = inLight * dot(normal, surfaceToLightDirection);
+  float specular = inLight * pow(dot(normal, halfVector), u_shininess);
+</code></pre>
+<p>마찬가지로 잘 동작합니다.</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-3d-lighting-spot-falloff-using-smoothstep.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-3d-lighting-spot-falloff-using-smoothstep.html" target="_blank">새 창으로 열기</a>
+</div>
+
+</p>
+<p>차이점이라면 <code class="notranslate" translate="no">smoothstep</code>은 선형 보간 대신 hermite 보간을 한다는 것입니다.
+그 말은 <code class="notranslate" translate="no">lowerBound</code>와 <code class="notranslate" translate="no">upperBound</code> 사이 값을 아래 오른쪽 그림처럼 보간한다는 것입니다.
+반면 선형 보간은 아래 왼쪽 그림처럼 보간합니다.</p>
+<img class="webgl_center invertdark" src="../resources/linear-vs-hermite.png" />
+<p>그 차이에 신경쓸 것인지 아닌지는 여러분에게 달려 있습니다.</p>
+<p>하나 더 주의해야 할 것은 <code class="notranslate" translate="no">smoothstep</code>함수는 <code class="notranslate" translate="no">lowerBound</code>가 <code class="notranslate" translate="no">upperBound</code>보다 크거나 같으면 정의되지 않은 결과가 도출됩니다.
+두 값이 동일하면 위에서 언급한 것과 같은 동일한 문제가 발생합니다.
+추가로 <code class="notranslate" translate="no">lowerBound</code>가 <code class="notranslate" translate="no">upperBound</code>보다 클 때 새로운 이슈가 발생하지만 스팟 조명의 목적상 이러한 경우는 없어야 합니다.</p>
+<div class="webgl_bottombar">
+<h3>GLSL에서 정의되지 않은 동작에 주의하세요</h3>
+<p>
+GLSL의 몇몇 함수는 특정한 값에 대해 정의되지 않은 동작을 불러일으킵니다.
+<code class="notranslate" translate="no">pow</code>함수를 사용하여 음수를 거듭제곱하려고 하는 것이 하나의 예인데, 결과가 허수가 될 수 있기 때문입니다.
+위 글에서 <code class="notranslate" translate="no">smoothstep</code>에 대한 예도 살펴봤습니다.
+</p>
+<p>
+이러한 경우를 주의해야 하는데 여러분의 셰이더가 다른 머신에서 다른 결과를 도출할 수 있기 때문입니다.
+<a href="https://www.khronos.org/registry/OpenGL/specs/es/3.0/GLSL_ES_Specification_3.00.pdf">명세의 섹션 8</a>에 모든 내장 함수와 그것들의 기능, 정의되지 않은 동작을 불러일으킬 수 있는지 여부가 나열되어 있습니다.
+</p>
+<p>아래는 정의되지 않은 동작들의 리스트입니다. <code class="notranslate" translate="no">genType</code>은 <code class="notranslate" translate="no">float</code>, <code class="notranslate" translate="no">vec2</code>, <code class="notranslate" translate="no">vec3</code>, 또는 <code class="notranslate" translate="no">vec4</code>를 의미압니다.</p>
+  <pre class="prettyprint"><code class="notranslate" translate="no">genType asin (genType x)</code></pre><p>
+  아크사인 입니다. 사인을 취하면 x가 되는 각도를 반환합니다.
+이 함수에 의해 반환되는 값의 범위는 [−π/2, π/2]입니다.
+만일 ∣x∣ > 1이라면 정의되지 않은 동작을 불러일으킵니다.</p>
+<pre class="prettyprint"><code class="notranslate" translate="no">genType acos (genType x)</code></pre><p>
+<p>아크코사인입니다. 코사인을 취하면 x가 되는 각도를 반환합니다.
+이 함수에 의해 반환되는 값의 범위는 [0, π]입니다.
+만일 ∣x∣ &gt; 1이라면 정의되지 않은 동작을 불러일으킵니다.</p></p>
+<pre class="prettyprint"><code class="notranslate" translate="no">genType atan (genType y, genType x)</code></pre><p>
+<p>아크탄젠트입니다. 탄젠트를 취하면 y/x가 되는 각도를 반환합니다.
+x와 y의 부호가 반환되는 각도가 어느 사분면인지를 결정합니다.
+이 함수에 의해 반환되는 값의 범위는 [−π,π]입니다.
+만일 x와 y가 모두 0이라면 정의되지 않은 동작을 불러일으킵니다.</p></p>
+<pre class="prettyprint"><code class="notranslate" translate="no">genType acosh (genType x)</code></pre><p>
+<p>아크 쌍곡(hyperbolic) 코사인입니다. cosh의 음수가 아닌 역을 반환합니다.
+만일 x &lt; 1이라면 정의되지 않은 동작을 불러일으킵니다.</p></p>
+<pre class="prettyprint"><code class="notranslate" translate="no">genType atanh (genType x)</code></pre><p>
+<p>아크 쌍곡(hyperbolic) 탄젠트입니다. tanh의 음수가 아닌 역을 반환합니다.
+만일 ∣x∣≥1이라면 정의되지 않은 동작을 불러일으킵니다.</p></p>
+<pre class="prettyprint"><code class="notranslate" translate="no">genType pow (genType x, genType y)</code></pre><p>
+<p>x를 y제곱한 결과를 반환합니다. 즉, x<sup>y</sup>입니다.
+만일 x &lt; 0이라면 정의되지 않은 동작을 불러일으킵니다.
+만일 x = 0이고 y &lt;= 0이라면 정의되지 않은 동작을 불러일으킵니다.</p></p>
+<pre class="prettyprint"><code class="notranslate" translate="no">genType log (genType x)</code></pre><p>
+<p>x의 자연로그를 반환합니다. 즉, x = e<sup>y</sup>를 만족하는 y를 반환합니다.
+만일 x &lt;= 0이라면 정의되지 않은 동작을 불러일으킵니다.</p></p>
+<pre class="prettyprint"><code class="notranslate" translate="no">genType log2 (genType x)</code></pre><p>
+<p>x의 밑이 2인 로그값을 반환합니다. 즉, x=2<sup>y</sup>를 만족하는 y를 반환합니다.
+만일 x &lt;= 0이라면 정의되지 않은 동작을 불러일으킵니다.</p></p>
+<pre class="prettyprint"><code class="notranslate" translate="no">genType sqrt (genType x)</code></pre><p>
+<p>√x를 반환합니다.
+만일 x &lt; 0이라면 정의되지 않은 동작을 불러일으킵니다.</p></p>
+<pre class="prettyprint"><code class="notranslate" translate="no">genType inversesqrt (genType x)</code></pre><p>
+<p>1/√x를 반환합니다.
+만일 x &lt;= 0이라면 정의되지 않은 동작을 불러일으킵니다.</p></p>
+<pre class="prettyprint"><code class="notranslate" translate="no">genType clamp (genType x, genType minVal, genType maxVal)
+genType clamp (genType x, float minVal, float maxVal)</code></pre><p>
+<p>min (max (x, minVal), maxVal)를 반환합니다.
+만일 minVal &gt; maxVal이라면 정의되지 않은 동작을 불러일으킵니다.</p></p>
+<pre class="prettyprint"><code class="notranslate" translate="no">genType smoothstep (genType edge0, genType edge1, genType x)
+genType smoothstep (float edge0, float edge1, genType x)</code></pre><p>
+<p>x &lt;= edge0이면 0.0을, x &gt;= edge1이면 1.0을 반환하고 edge0 &lt; x &lt; edge1이면 0과 1사이의 smooth Hermite interpolation 결과를 반환합니다.
+부드러운 값의 전환을 문턱값과 함께 사용하고 싶을 때 유용합니다.
+이는 아래 코드와 같습니다:</p>
+</p>
+<pre class="prettyprint">
+ genType t;
+ t = clamp ((x – edge0) / (edge1 – edge0), 0, 1);
+ return t * t * (3 – 2 * t);
+</pre>
+<p>edge0 >= edge1이라면 정의되지 않은 동작을 불러일으킵니다.</p>
+<pre class="prettyprint"><code class="notranslate" translate="no">mat2 inverse(mat2 m)
+mat3 inverse(mat3 m)
+mat4 inverse(mat4 m)</code></pre><p>
+<p>m의 역행렬을 반환합니다. 입력 행렬 m은 변하지 않습니다.
+m이 특이(singular)행렬이거나 조건이 나쁜경우(특이행렬에 가까운 경우) 반환값은 정의되지 않습니다.</p>
+</p>
+</div>
+
+    </div>
+    <div class="lesson-sidebar">
+        <select class="language">
+    <option value="/webgl/lessons/webgl-3d-lighting-spot.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-3d-lighting-spot.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-3d-lighting-spot.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-3d-lighting-spot.html" selected>한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-3d-lighting-spot.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-3d-lighting-spot.html" >Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-3d-lighting-spot.html" >简体中文</a>
+</select>
+
+
+        <div id="toc">
+          <ul>  <li>기초</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-getting-webgl2.html">WebGL2 사용법</a></li>
+<li><a href="/webgl/lessons/ko/webgl-fundamentals.html">기초</a></li>
+<li><a href="/webgl/lessons/ko/webgl-how-it-works.html">WebGL2 작동 원리</a></li>
+<li><a href="/webgl/lessons/ko/webgl-shaders-and-glsl.html">WebGL2 셰이더와 GLSL</a></li>
+<li><a href="/webgl/lessons/resources/webgl-state-diagram.html">WebGL2 State Diagram</a></li>
+        </ul>
+  <li>WebGL2 vs WebGL1</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl2-whats-new.html">WebGL2 새로운 기능</a></li>
+<li><a href="/webgl/lessons/ko/webgl1-to-webgl2.html">WebGL1에서 WebGL2로의 변경</a></li>
+<li><a href="/webgl/lessons/ko/webgl1-to-webgl2-fundamentals.html">WebGLFundamentals.org과 WebGL2Fundamentals.org의 차이점</a></li>
+        </ul>
+  <li>이미지 처리</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-image-processing.html">이미지 처리</a></li>
+<li><a href="/webgl/lessons/ko/webgl-image-processing-continued.html">WebGL2 이미지 처리 심화</a></li>
+        </ul>
+  <li>2D 이동, 회전, 크기 변환 행렬 계산</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-2d-translation.html">WebGL2 2D 이동</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-rotation.html">WebGL2 2D 회전</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-scale.html">WebGL2 2D 크기 변환</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-matrices.html">WebGL2 2D 행렬</a></li>
+        </ul>
+  <li>3D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-3d-orthographic.html">3D 직교 투영</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-perspective.html">3D 원근 투영</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-camera.html">3D - 카메라</a></li>
+<li><a href="/webgl/lessons/ko/webgl-matrix-naming.html">3D - 행렬의 이름</a></li>
+        </ul>
+  <li>Lighting</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-3d-lighting-directional.html">방향성 조명 효과(Directional Lighting)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-lighting-point.html">점 조명 효과(Point Lighting)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-lighting-spot.html">스팟 조명 효과(Spot Lighting)</a></li>
+        </ul>
+  <li>Structure and Organization</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-less-code-more-fun.html">더 적은 코드로 즐겁게 코딩하기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-drawing-multiple-things.html">여러 물체를 그리는 법</a></li>
+<li><a href="/webgl/lessons/ko/webgl-scene-graph.html">장면(Scene) 그래프</a></li>
+        </ul>
+  <li>Geometry</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-3d-geometry-lathe.html">3D Geometry - Lathe</a></li>
+<li><a href="/webgl/lessons/ko/webgl-load-obj.html">.obj 파일 로딩</a></li>
+<li><a href="/webgl/lessons/ko/webgl-load-obj-w-mtl.html">Loading .obj w .mtl files</a></li>
+        </ul>
+  <li>Textures</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-3d-textures.html">텍스처</a></li>
+<li><a href="/webgl/lessons/ko/webgl-data-textures.html">데이터 텍스처</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2-textures.html">두개 이상의 텍스처 사용하기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-cors-permission.html">교차 출처 이미지(Cross Origin Image)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-perspective-correct-texturemapping.html">원근 교정 텍스처 매핑</a></li>
+<li><a href="/webgl/lessons/ko/webgl-planar-projection-mapping.html">평면 및 원근 투영 매핑</a></li>
+        </ul>
+  <li>Rendering To A Texture</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-render-to-texture.html">텍스처에 렌더링하기</a></li>
+        </ul>
+  <li>Shadows</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-shadows.html">그림자</a></li>
+        </ul>
+  <li>Techniques</li>
+        <ul>
+            <li>2D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-2d-drawimage.html">2D - DrawImage</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-matrix-stack.html">2D - 행렬 스택</a></li>
+<li><a href="/webgl/lessons/ko/webgl-sprites.html">Sprite</a></li>
+        </ul>
+  <li>3D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-cube-maps.html">큐브맵</a></li>
+<li><a href="/webgl/lessons/ko/webgl-environment-maps.html">환경맵</a></li>
+<li><a href="/webgl/lessons/ko/webgl-skybox.html">Skybox</a></li>
+<li><a href="/webgl/lessons/ko/webgl-skinning.html">Skinning</a></li>
+<li><a href="/webgl/lessons/ko/webgl-fog.html">Fog</a></li>
+<li><a href="/webgl/lessons/ko/webgl-picking.html">Picking (clicking on stuff)</a></li>
+        </ul>
+  <li>Text</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-text-html.html">텍스트 - HTML</a></li>
+<li><a href="/webgl/lessons/ko/webgl-text-canvas2d.html">텍스트 - Canvas 2D</a></li>
+<li><a href="/webgl/lessons/ko/webgl-text-texture.html">텍스트 - 텍스처 사용</a></li>
+<li><a href="/webgl/lessons/ko/webgl-text-glyphs.html">Text - Using a Glyph Texture</a></li>
+        </ul>
+  <li>GPGPU</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-gpgpu.html">GPGPU</a></li>
+        </ul>
+        </ul>
+  <li>Tips</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-smallest-programs.html">Smallest Programs</a></li>
+<li><a href="/webgl/lessons/ko/webgl-drawing-without-data.html">Drawing Without Data</a></li>
+<li><a href="/webgl/lessons/ko/webgl-shadertoy.html">Shadertoy</a></li>
+<li><a href="/webgl/lessons/ko/webgl-pulling-vertices.html">Pulling Vertices</a></li>
+        </ul>
+  <li>Optimization</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-indexed-vertices.html">정점 인덱스 (gl.drawElements)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-instanced-drawing.html">인스턴스 드로잉(Instanced Drawing)</a></li>
+        </ul>
+  <li>기타</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-setup-and-installation.html">설정 및 설치</a></li>
+<li><a href="/webgl/lessons/ko/webgl-boilerplate.html">보일러플레이트(Boilerplate)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-resizing-the-canvas.html">Canvas 리사이징</a></li>
+<li><a href="/webgl/lessons/ko/webgl-animation.html">애니메이션</a></li>
+<li><a href="/webgl/lessons/ko/webgl-points-lines-triangles.html">점, 선, 삼각형</a></li>
+<li><a href="/webgl/lessons/ko/webgl-multiple-views.html">Multiple Views, Multiple Canvases</a></li>
+<li><a href="/webgl/lessons/ko/webgl-visualizing-the-camera.html">Visualizing the Camera</a></li>
+<li><a href="/webgl/lessons/ko/webgl-and-alpha.html">WebGL2 알파(Alpha)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-vs-3d-library.html">2D vs 3D 라이브러리</a></li>
+<li><a href="/webgl/lessons/ko/webgl-anti-patterns.html">안티패턴</a></li>
+<li><a href="/webgl/lessons/ko/webgl-matrix-vs-math.html">WebGL2 행렬 vs 수학에서의 행렬</a></li>
+<li><a href="/webgl/lessons/ko/webgl-precision-issues.html">정밀도 이슈</a></li>
+<li><a href="/webgl/lessons/ko/webgl-tips.html#screenshot">스크린샷 찍기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-tips.html#preservedrawingbuffer">Canvas Clear 방지</a></li>
+<li><a href="/webgl/lessons/ko/webgl-tips.html#tabindex">캔버스에서 키보드 입력 받기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-tips.html#html-background">HTML에서 WebGL2를 배경으로 사용하기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-cross-platform-issues.html">Cross Platform 문제</a></li>
+<li><a href="/webgl/lessons/ko/webgl-qna.html">질문 및 답변</a></li>
+        </ul>
+  <li>Reference</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-attributes.html">Attributes</a></li>
+<li><a href="/webgl/lessons/ko/webgl-texture-units.html">텍스처 유닛</a></li>
+<li><a href="/webgl/lessons/ko/webgl-framebuffers.html">Framebuffer</a></li>
+<li><a href="/webgl/lessons/ko/webgl-readpixels.html">readPixels</a></li>
+<li><a href="/webgl/lessons/ko/webgl-references.html">참고 자료</a></li>
+        </ul></ul>
+<ul>
+  <li><a href="/docs/">Helper API Docs</a></li>
+  <li><a href="https://twgljs.org">TWGL, A tiny WebGL helper library</a></li>
+  <li><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">github</a></li>
+</ul>
+        </div>
+    </div>
+    <div class="lesson-comments">
+        
+    <div>이슈나 버그가 있나요? <a href="https://github.com/greggman/webgl2-fundamentals/issues">깃헙에서 이슈 만들기</a>.</div>
+  
+
+        <div id="disqus_thread"></div>
+        <script>
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'webgl2fundamentals'; // required: replace example with your forum shortname
+            var disqus_identifier = 'WebGL2 3D - 스팟 조명 효과(Spot Lighting)';
+            var disqus_title = 'WebGL2 3D - 스팟 조명 효과(Spot Lighting)';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                if (window.location.hostname.indexOf("webgl2fundamentals.org") < 0) {
+                    return;
+                }
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+const settings = {
+  contribTemplate: "<a href=\"${html_url}\"><img src=\"${avatar_url}\"> ${login}</a>님, <br>당신의 <a href=\"https://github.com/${owner}/${repo}/commits?author=${login}\">${contributions} 기여</a>에 감사드립니다.",
+  owner: "gfxfundamentals",
+  repo: "webgl2-fundamentals",
+};
+</script>
+<script src="/contributors.js"></script>
+<script src="/3rdparty/jquery-1.11.2.min.js"></script>
+<script src="/webgl/lessons/resources/prettify.js"></script>
+<script src="/webgl/lessons/resources/lesson.js" type="module"></script>
+<script>
+</script>
+
+
+</html>
+
+
+

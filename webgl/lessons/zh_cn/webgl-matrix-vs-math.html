@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<!-- this file is auto-generated from webgl/lessons/zh_cn/webgl-matrix-vs-math.md. Do not edited directly -->
+<!--
+Copyright 2021, GFXFundamentals.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+*   Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+*   Redistributions in binary form must reproduce the above
+    copyright notice, this list of conditions and the following disclaimer
+    in the documentation and/or other materials provided with the
+    distribution.
+
+*   Neither the name of GFXFundamentals. nor the names of his
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="WebGL约定与数学约定之间的差异。">
+<meta name="keywords" content="webgl webgl2 graphics">
+<meta name="thumbnail" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-matrix-vs-math_zh-cn.jpg">
+
+<meta property="og:title" content="WebGL2中的矩阵vs数学中的矩阵">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-matrix-vs-math_zh-cn.jpg">
+<meta property="og:description" content="WebGL约定与数学约定之间的差异。">
+<meta property="og:url" content="https://webgl2fundamentals.org/webgl/lessons/zh_cn/webgl-matrix-vs-math.html">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@greggman">
+<meta name="twitter:creator" content="@greggman">
+<meta name="twitter:domain" content="webgl2fundamentals.org">
+<meta name="twitter:title" content="WebGL2中的矩阵vs数学中的矩阵">
+<meta name="twitter:url" content="https://webgl2fundamentals.org/webgl/lessons/zh_cn/webgl-matrix-vs-math.html">
+<meta name="twitter:description" content="WebGL约定与数学约定之间的差异。">
+<meta name="twitter:image:src" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-matrix-vs-math_zh-cn.jpg">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebSite",
+      "@id":"https://webgl2fundamentals.org/#website",
+      "url":"https://webgl2fundamentals.org/",
+      "name":"Webgl2Fundamentals"
+    },
+    {
+      "@type":"ImageObject",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/zh_cn/webgl-matrix-vs-math.html#primaryimage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-matrix-vs-math_zh-cn.jpg",
+      "width":1200,
+      "height":630
+    },
+    {
+      "@type":"WebPage",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/zh_cn/webgl-matrix-vs-math.html#webpage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/zh_cn/webgl-matrix-vs-math.html",
+      "inLanguage":"zh-cn",
+      "name":"WebGL2中的矩阵vs数学中的矩阵",
+      "keywords":"webgl webgl2 graphics programming",
+      "isPartOf":{
+        "@id":"https://webgl2fundamentals.org/#website"
+      },
+      "primaryImageOfPage":{
+        "@id":"https://webgl2fundamentals.org/webgl/lessons/zh_cn/webgl-matrix-vs-math.html#primaryimage"
+      }
+    }
+  ]
+}
+</script>
+
+
+<title>WebGL2中的矩阵vs数学中的矩阵</title>
+<link href="/webgl/lessons/resources/webgl2fundamentals-icon.png" rel="shortcut icon" type="image/png">
+<link rel="stylesheet" href="/webgl/lessons/lang.css">
+<link rel="stylesheet" href="/webgl/lessons/resources/lesson.css">
+
+  <link rel="alternate" hreflang="en" href="https://webglfundamentals.org/webgl/lessons/webgl-matrix-vs-math.html">
+  <link rel="alternate" hreflang="de" href="https://webglfundamentals.org/webgl/lessons/de/webgl-matrix-vs-math.html">
+  <link rel="alternate" hreflang="ja" href="https://webglfundamentals.org/webgl/lessons/ja/webgl-matrix-vs-math.html">
+  <link rel="alternate" hreflang="ko" href="https://webglfundamentals.org/webgl/lessons/ko/webgl-matrix-vs-math.html">
+  <link rel="alternate" hreflang="pt-br" href="https://webglfundamentals.org/webgl/lessons/pt-br/webgl-matrix-vs-math.html">
+  <link rel="alternate" hreflang="ru" href="https://webglfundamentals.org/webgl/lessons/ru/webgl-matrix-vs-math.html">
+  <link rel="alternate" hreflang="zh_cn" href="https://webglfundamentals.org/webgl/lessons/zh_cn/webgl-matrix-vs-math.html">
+
+
+
+
+</head>
+<body>
+<div class="webgl_navbar">
+  <div>
+    <select class="language">
+    <option value="/webgl/lessons/webgl-matrix-vs-math.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-matrix-vs-math.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-matrix-vs-math.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-matrix-vs-math.html" >한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-matrix-vs-math.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-matrix-vs-math.html" >Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-matrix-vs-math.html" selected>简体中文</a>
+</select>
+
+
+    <a href="#toc">目录</a>
+    <input type="search" placeholder="?" id="search">
+  </div>
+</div>
+<div class="webgl_header">
+  <h1><a href="/webgl/lessons/zh_cn/">WebGL2Fundamentals.org</a></h1>
+<style>
+#forkongithub>div {
+    background: #000;
+    color: #fff;
+    font-family: arial,sans-serif;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 40px;
+    font-size: 0.9rem;
+    line-height: 1.3rem;
+    position: relative;
+    transition: 0.5s;
+    display: block;
+    width: 400px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(200px) rotate(45deg) translate(10px,70px);
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.8);
+    pointer-events: auto;
+}
+#forkongithub a {
+  text-decoration: none;
+  color: #fff;
+}
+#forkongithub>div:hover {
+    background: #c11;
+    color: #fff;
+}
+#forkongithub .contributors {
+  font-size: 0.75rem;
+  background: rgba(255,255,255,0.2);
+  line-height: 1.2;
+  padding: 0.1em;
+}
+#forkongithub>div::before,#forkongithub>div::after {
+    content: "";
+    width: 100%;
+    display: block;
+    position: absolute;
+    top: 1px;
+    left: 0;
+    height: 1px;
+    background: #fff;
+}
+#forkongithub>div::after {
+    bottom: 1px;
+    top: auto;
+}
+
+#forkongithub{
+    z-index: 9999;
+    /* needed for firefox */
+    overflow: hidden;
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    pointer-events: none;
+}
+#forkongithub svg{
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+}
+#forkongithub img {
+  width: 1em;
+  height: 1em;
+  border-radius: 100%;
+  vertical-align: middle;
+}
+
+@media (max-width: 900px) {
+    #forkongithub>div {
+        line-height: 1.2rem;
+    }
+}
+@media (max-width: 700px) {
+  #forkongithub {
+    display: none;
+  }
+}
+@media (max-width: 410px) {
+    #forkongithub>div {
+        font-size: 0.7rem;
+        transform: translateX(150px) rotate(45deg) translate(20px,40px);
+    }
+}
+
+</style>
+<div id="forkongithub"><div><div><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">Fix, Fork, Contribute <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 136 133" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(3.92891,0,0,3.92891,67.867,129.125)">
+        <path d="M0,-31.904C-8.995,-31.904 -16.288,-24.611 -16.288,-15.614C-16.288,-8.417 -11.621,-2.312 -5.148,-0.157C-4.333,-0.008 -4.036,-0.511 -4.036,-0.943C-4.036,-1.329 -4.05,-2.354 -4.058,-3.713C-8.589,-2.729 -9.545,-5.897 -9.545,-5.897C-10.286,-7.779 -11.354,-8.28 -11.354,-8.28C-12.833,-9.29 -11.242,-9.27 -11.242,-9.27C-9.607,-9.155 -8.747,-7.591 -8.747,-7.591C-7.294,-5.102 -4.934,-5.821 -4.006,-6.238C-3.858,-7.29 -3.438,-8.008 -2.972,-8.415C-6.589,-8.826 -10.392,-10.224 -10.392,-16.466C-10.392,-18.244 -9.757,-19.698 -8.715,-20.837C-8.883,-21.249 -9.442,-22.905 -8.556,-25.148C-8.556,-25.148 -7.188,-25.586 -4.076,-23.478C-2.777,-23.84 -1.383,-24.02 0.002,-24.026C1.385,-24.02 2.779,-23.84 4.08,-23.478C7.19,-25.586 8.555,-25.148 8.555,-25.148C9.444,-22.905 8.885,-21.249 8.717,-20.837C9.761,-19.698 10.392,-18.244 10.392,-16.466C10.392,-10.208 6.583,-8.831 2.954,-8.428C3.539,-7.925 4.06,-6.931 4.06,-5.411C4.06,-3.234 4.04,-1.477 4.04,-0.943C4.04,-0.507 4.333,0 5.16,-0.159C11.628,-2.318 16.291,-8.419 16.291,-15.614C16.291,-24.611 8.997,-31.904 0,-31.904" style="fill:white;"/>
+    </g>
+</svg>
+</a></div></div></div>
+
+</div>
+
+
+<div class="container">
+  <div class="lesson-title">
+    <h1>WebGL2中的矩阵vs数学中的矩阵</h1>
+  </div>
+  <div class="lesson">
+    <div class="lesson-main">
+      <p>这篇文章是对若干讨论矩阵的文章的补充说明，尤其包括：<a href="webgl-2d-matrices.html">介绍矩阵的文章</a>，
+以及 <a href="webgl-3d-orthographic.html">介绍3D的文章</a>、<a href="webgl-3d-perspective.html">透视投影的文章</a> 和 <a href="webgl-3d-camera.html">摄像机相关的文章</a>。</p>
+<p>在编程中，通常“行”是从左到右的，“列”是从上到下的。</p>
+<blockquote>
+<h2 id="col·umn">col·umn</h2>
+<p>/ˈkäləm/</p>
+<p><em>名词</em></p>
+<ol>
+<li>
+<p>一个直立的柱子，通常是圆柱形，由石头或混凝土制成，用于支撑檐部、拱门或其他结构，或作为独立的纪念碑而存在。</p>
+<p><em>同义词</em>: 柱子、柱杆、杆、立柱、垂直物体、…</p>
+</li>
+<li>
+<p>一页或一段文字的垂直分栏。</p>
+</li>
+</ol>
+</blockquote>
+<blockquote>
+<h2 id="row">row</h2>
+<p>/rō/</p>
+<p><em>名词</em></p>
+<ul>
+<li>表格中一行水平排列的条目。</li>
+</ul>
+</blockquote>
+<p>我们可以在各种软件中看到这些术语的使用。例如，我使用的文本编辑器中显示了“行（Lines）”和“列（columns）”，
+在这种情况下，“行”就是“row”的另一种说法，因为“column”这个词已经被用于表示垂直方向了。</p>
+<div class="webgl_center"><img src="../resources/editor-lines-and-columns.gif" class="gman-border-bshadow" style="width: 372px;"></div>
+<p>请注意左下角区域，状态栏中显示了当前的行（line）和列（column）。</p>
+<p>在电子表格软件中，我们可以看到行是横向排列的。</p>
+<div class="webgl_center"><img src="../resources/spreadsheet-row.png" style="width: 808px; filter: brightness(0.9);" class="nobg"></div>
+<p>而列是纵向排列的。</p>
+<div class="webgl_center"><img src="../resources/spreadsheet-column.png" style="width: 808px; filter: brightness(0.9);" class="nobg"></div>
+<p>因此，当我们在 JavaScript 中为 WebGL 创建一个 3x3 或 4x4 的矩阵时，我们这样写：</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const m3x3 = [
+  0, 1, 2,  // row 0
+  3, 4, 5,  // row 1
+  6, 7, 8,  // row 2
+];
+
+const m4x4 = [
+   0,  1,  2,  3,  // row 0 
+   4,  5,  6,  7,  // row 1
+   8,  9, 10, 11,  // row 2
+  12, 13, 14, 15,  // row 3
+];
+</code></pre>
+<p>根据上述惯例，<code class="notranslate" translate="no">3x3</code>矩阵的第一行是 <code class="notranslate" translate="no">0, 1, 2</code>，而 <code class="notranslate" translate="no">4x4</code> 矩阵的最后一行是 <code class="notranslate" translate="no">12, 13, 14, 15</code>。</p>
+<p>正如我们在<a href="webgl-2d-matrices.html">矩阵</a>中看到的，要制作一个相当标准的 WebGL 3x3 二维平移矩阵，平移值 <code class="notranslate" translate="no">tx</code> 和 <code class="notranslate" translate="no">ty</code> 位于位置 6 和 7。</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const some3x3TranslationMatrix = [
+   1,  0,  0,
+   0,  1,  0,
+  tx, ty,  1,
+];
+</code></pre>
+<p>或者在<a href="webgl-3d-orthographic.html">3D基础</a>中介绍的 4x4 矩阵中，平移值（tx, ty, tz）位于第 12、13、14 的位置。</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const some4x4TranslationMatrix = [
+   1,  0,  0,  0,
+   0,  1,  0,  0,
+   0,  0,  1,  0,
+  tx, ty, tz,  1,
+];
+</code></pre>
+<p>但这里有一个问题：数学中的矩阵运算通常按列优先（column-major）的惯例来书写。数学家会这样表示一个 3x3 的平移矩阵：</p>
+<div class="webgl_center"><img src="../resources/3x3-math-translation-matrix.svg" style="width: 120px;"></div>
+<p>以及一个 4x4 的平移矩阵如下：</p>
+<div class="webgl_center"><img src="../resources/4x4-math-translation-matrix.svg" style="width: 150px;"></div>
+<p>这样就留下了一个问题。如果我们想让矩阵看起来像数学中的矩阵，
+我们可能尝试这样写 4x4 的矩阵：</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const some4x4TranslationMatrix = [
+   1,  0,  0,  tx,
+   0,  1,  0,  ty,
+   0,  0,  1,  tx,
+   0,  0,  0,  1,
+];
+</code></pre>
+<p>不幸的是，这样做会有问题。正如<a href="webgl-3d-camera.html">摄像机一文</a>中提到的，
+4x4 矩阵的每一列通常都有特定含义。</p>
+<p>第一、第二和第三列通常分别表示 x、y 和 z 轴，而最后一列表示位置或平移。</p>
+<p>问题是，在代码中单独获取这些部分会很麻烦。
+想要获取 Z 轴？你得这样写：</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const zAxis = [
+  some4x4Matrix[2],
+  some4x4Matrix[6],
+  some4x4Matrix[10],
+];
+</code></pre>
+<p>唉！</p>
+<p>WebGL（以及它所基于的OpenGL ES）的解决方案居然是——把‘行’硬说成‘列’。</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const some4x4TranslationMatrix = [
+   1,  0,  0,  0,   // this is column 0
+   0,  1,  0,  0,   // this is column 1
+   0,  0,  1,  0,   // this is column 2
+  tx, ty, tz,  1,   // this is column 3
+];
+</code></pre>
+<p>现在它就符合数学定义了。对比上面的例子，如果我们想要获取 Z 轴，只需要做：</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const zAxis = some4x4Matrix.slice(8, 11);
+</code></pre>
+<p>对于熟悉 C++ 的人来说，OpenGL 本身要求一个 4x4 矩阵的 16 个值在内存中是连续的，因此在 C++ 中我们可以创建一个 <code class="notranslate" translate="no">Vec4</code> 结构体或类：</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-c++">// C++
+struct Vec4 {
+  float x;
+  float y;
+  float z;
+  float w;
+};
+</code></pre>
+<p>然后我们可以用这四个 <code class="notranslate" translate="no">Vec4</code> 来创建一个 4x4 矩阵：</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-c++">// C++
+struct Mat4x4 {
+  Vec4 x_axis;
+  Vec4 y_axis;
+  Vec4 z_axis;
+  Vec4 translation;
+}
+</code></pre>
+<p>或者直接写成</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-c++">// C++
+struct Mat4x4 {
+  Vec4 column[4];
+}
+</code></pre>
+<p>看似这样就能正常工作。</p>
+<p>但遗憾的是，当你在代码中真正静态声明一个矩阵时，它的形式与数学中的矩阵表示法相去甚远。</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-C++">// C++
+Mat4x4 someTranslationMatrix = {
+  {  1,  0,  0,  0, },
+  {  0,  1,  0,  0, },
+  {  0,  0,  1,  0, },
+  { tx, ty, tz,  1, },
+};
+</code></pre>
+<p>回到 JavaScript 环境（我们通常没有类似 C++ 结构体的数据结构），情况就有所不同。</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const someTranslationMatrix = [
+   1,  0,  0,  0,
+   0,  1,  0,  0,
+   0,  0,  1,  0,
+  tx, ty, tz,  1,
+];
+</code></pre>
+<p>因此，采用将“行”称为“列”的这种约定，有些事情会变得更简单，但如果你是数学背景的人，可能会觉得更困惑。</p>
+<p>我提到这些是因为这些文章是从程序员的视角写的，而不是数学家的视角。这意味着就像其他被当作二维数组使用的一维数组一样，行是横向排列的。</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const someTranslationMatrix = [
+   1,  0,  0,  0,  // row 0
+   0,  1,  0,  0,  // row 1
+   0,  0,  1,  0,  // row 2
+  tx, ty, tz,  1,  // row 3
+];
+</code></pre>
+<p>就像</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">// happy face image
+const dataFor7x8OneChannelImage = [
+    0, 255, 255, 255, 255, 255,   0,  // row 0
+  255,   0,   0,   0,   0,   0, 255,  // row 1
+  255,   0, 255,   0, 255,   0, 255,  // row 2
+  255,   0,   0,   0,   0,   0, 255,  // row 3
+  255,   0, 255,   0, 255,   0, 255,  // row 4
+  255,   0, 255, 255, 255,   0, 255,  // row 5
+  255,   0,   0,   0,   0,   0, 255,  // row 6
+    0, 255, 255, 255, 255, 255,   0,  // row 7
+]
+</code></pre>
+<p>所以这些文章会把它们称作“行”。</p>
+<p>如果你是数学专业出身，可能会觉得有些困惑。很抱歉，我没有更好的解决方案。我本可以把明显的第3行称作“列”，但那样也会让人迷惑，因为这不符合其他编程语言的习惯。</p>
+<p>无论如何，希望这些解释能帮助你理解为什么文中的说明看起来不像数学书里的内容，而更像代码，且遵循了编程中的惯例。希望这能帮助你搞清楚其中的原理，也不会让习惯数学规范的人觉得太难理解。</p>
+
+    </div>
+    <div class="lesson-sidebar">
+        <select class="language">
+    <option value="/webgl/lessons/webgl-matrix-vs-math.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-matrix-vs-math.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-matrix-vs-math.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-matrix-vs-math.html" >한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-matrix-vs-math.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-matrix-vs-math.html" >Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-matrix-vs-math.html" selected>简体中文</a>
+</select>
+
+
+        <div id="toc">
+          <ul>  <li>基础概念</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-getting-webgl2.html">怎样使用WebGL2</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-fundamentals.html">基本原理</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-how-it-works.html">如何工作的</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-shaders-and-glsl.html">着色器和 GLSL 语言</a></li>
+<li><a href="/webgl/lessons/resources/webgl-state-diagram.html?lang=zh_cn">WebGL2 State Diagram</a></li>
+        </ul>
+  <li>WebGL2 vs WebGL1</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl2-whats-new.html">WebGL2有什么新内容</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl1-to-webgl2.html">迁移WebGL1到WebGL2</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl1-to-webgl2-fundamentals.html">WebGLFundamentals.org和WebGL2Fundamentals.org的区别</a></li>
+        </ul>
+  <li>图像处理</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-image-processing.html">图像处理</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-image-processing-continued.html">进一步处理图像</a></li>
+        </ul>
+  <li>二维平移，旋转，缩放和矩阵运算</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-2d-translation.html">二维平移</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-2d-rotation.html">二维旋转</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-2d-scale.html">二维缩放</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-2d-matrices.html">二维矩阵</a></li>
+        </ul>
+  <li>三维</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-3d-orthographic.html">三维正射投影</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-3d-perspective.html">三维透视投影</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-3d-camera.html">三维相机</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-matrix-naming.html">WebGL2 三维矩阵命名</a></li>
+        </ul>
+  <li>光照</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-3d-lighting-directional.html">三维方向光源</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-3d-lighting-point.html">点光源</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-3d-lighting-spot.html">聚光灯</a></li>
+        </ul>
+  <li>组织和重构</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-less-code-more-fun.html">码少趣多</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-drawing-multiple-things.html">绘制多个物体</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-scene-graph.html">场景图</a></li>
+        </ul>
+  <li>几何</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-3d-geometry-lathe.html">三维几何加工</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-load-obj.html">加载 .obj 文件</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-load-obj-w-mtl.html">加载带 .mtl 的 .obj 文件</a></li>
+        </ul>
+  <li>纹理</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-3d-textures.html">纹理</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-data-textures.html">数据纹理</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-2-textures.html">使用多个纹理</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-cors-permission.html">跨域图像</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-3d-perspective-correct-texturemapping.html">纹理映射的透视纠正</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-planar-projection-mapping.html">平面的和透视的投影映射</a></li>
+        </ul>
+  <li>渲染到纹理</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-render-to-texture.html">渲染到纹理</a></li>
+        </ul>
+  <li>阴影</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-shadows.html">阴影</a></li>
+        </ul>
+  <li>技术</li>
+        <ul>
+            <li>二维</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-2d-drawimage.html">二维 DrawImage</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-2d-matrix-stack.html">二维矩阵栈</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-sprites.html">精灵</a></li>
+        </ul>
+  <li>三维</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-cube-maps.html">WebGL2 立方体贴图</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-environment-maps.html">WebGL2 环境贴图</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-skybox.html">WebGL2 天空盒</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-skinning.html">WebGL2 蒙皮</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-fog.html">WebGL2 雾</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-picking.html">拾取（点击物体）</a></li>
+        </ul>
+  <li>文字</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-text-html.html">文字 - HTML</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-text-canvas2d.html">文字 - 二维 Canvas</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-text-texture.html">文字 - 使用纹理</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-text-glyphs.html">文字 - 使用字形纹理</a></li>
+        </ul>
+  <li>GPGPU</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-gpgpu.html">通用GPU计算(GPGPU)</a></li>
+        </ul>
+        </ul>
+  <li>技巧</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-smallest-programs.html">最小的程序</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-drawing-without-data.html">无数据绘制</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-shadertoy.html">Shadertoy</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-pulling-vertices.html">顶点拉取</a></li>
+        </ul>
+  <li>优化</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-indexed-vertices.html">顶点索引 (gl.drawElements)</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-instanced-drawing.html">实例化绘制</a></li>
+        </ul>
+  <li>杂项</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-setup-and-installation.html">设置和安装</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-boilerplate.html">样板</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-resizing-the-canvas.html">重置画布尺寸</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-animation.html">动画</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-points-lines-triangles.html">点、线段与三角形</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-multiple-views.html">多视图与多画布</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-visualizing-the-camera.html">可视化相机</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-and-alpha.html">WebGL2 和 Alpha</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-2d-vs-3d-library.html">2D vs 3D 库</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-anti-patterns.html">反模式</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-matrix-vs-math.html">WebGL2中的矩阵vs数学中的矩阵</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-precision-issues.html">精度问题</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-tips.html#screenshot">Taking a screenshot</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-tips.html#preservedrawingbuffer">Prevent the Canvas Being Cleared</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-tips.html#tabindex">Get Keyboard Input From a Canvas</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-tips.html#html-background">Use WebGL2 as Background in HTML</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-cross-platform-issues.html">跨平台问题</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-qna.html">Questions and Answers</a></li>
+        </ul>
+  <li>参考</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-attributes.html">属性（Attributes）</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-texture-units.html">纹理单元（Texture Units）</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-framebuffers.html">帧缓冲区（Framebuffers）</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-readpixels.html">readPixels</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-references.html">参考资料</a></li>
+        </ul></ul>
+<ul>
+  <li><a href="/docs/">API帮助文档</a></li>
+  <li><a href="https://twgljs.org">TWGL，一个轻量级WebGL辅助库</a></li>
+  <li><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">GitHub</a></li>
+</ul>
+        </div>
+    </div>
+    <div class="lesson-comments">
+        
+<div>有意见或建议? <a href="https://github.com/gfxfundamentals/webgl2-fundamentals/issues">在GitHub上提issue</a>.</div>
+  
+
+        <div id="disqus_thread"></div>
+        <script>
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'webgl2fundamentals'; // required: replace example with your forum shortname
+            var disqus_identifier = 'WebGL2中的矩阵vs数学中的矩阵';
+            var disqus_title = 'WebGL2中的矩阵vs数学中的矩阵';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                if (window.location.hostname.indexOf("webgl2fundamentals.org") < 0) {
+                    return;
+                }
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+const settings = {
+  contribTemplate: "感谢 <a href=\"${html_url}\"><img src=\"${avatar_url}\"> ${login}</a><br>的 <a href=\"https://github.com/${owner}/${repo}/commits?author=${login}\">${contributions} 个贡献</a>",
+  owner: "gfxfundamentals",
+  repo: "webgl2-fundamentals",
+};
+</script>
+<script src="/contributors.js"></script>
+<script src="/3rdparty/jquery-1.11.2.min.js"></script>
+<script src="/webgl/lessons/resources/prettify.js"></script>
+<script src="/webgl/lessons/resources/lesson.js" type="module"></script>
+<script>
+</script>
+
+
+</html>
+
+
+

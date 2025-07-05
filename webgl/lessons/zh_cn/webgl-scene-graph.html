@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<!-- this file is auto-generated from webgl/lessons/zh_cn/webgl-scene-graph.md. Do not edited directly -->
+<!--
+Copyright 2021, GFXFundamentals.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+*   Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+*   Redistributions in binary form must reproduce the above
+    copyright notice, this list of conditions and the following disclaimer
+    in the documentation and/or other materials provided with the
+    distribution.
+
+*   Neither the name of GFXFundamentals. nor the names of his
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="场景图是的目的是什么，有什么用处。">
+<meta name="keywords" content="webgl webgl2 graphics">
+<meta name="thumbnail" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-scene-graph_zh-cn.jpg">
+
+<meta property="og:title" content="WebGL2 - 场景图">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-scene-graph_zh-cn.jpg">
+<meta property="og:description" content="场景图是的目的是什么，有什么用处。">
+<meta property="og:url" content="https://webgl2fundamentals.org/webgl/lessons/zh_cn/webgl-scene-graph.html">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@greggman">
+<meta name="twitter:creator" content="@greggman">
+<meta name="twitter:domain" content="webgl2fundamentals.org">
+<meta name="twitter:title" content="WebGL2 - 场景图">
+<meta name="twitter:url" content="https://webgl2fundamentals.org/webgl/lessons/zh_cn/webgl-scene-graph.html">
+<meta name="twitter:description" content="场景图是的目的是什么，有什么用处。">
+<meta name="twitter:image:src" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-scene-graph_zh-cn.jpg">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebSite",
+      "@id":"https://webgl2fundamentals.org/#website",
+      "url":"https://webgl2fundamentals.org/",
+      "name":"Webgl2Fundamentals"
+    },
+    {
+      "@type":"ImageObject",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/zh_cn/webgl-scene-graph.html#primaryimage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-scene-graph_zh-cn.jpg",
+      "width":1200,
+      "height":630
+    },
+    {
+      "@type":"WebPage",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/zh_cn/webgl-scene-graph.html#webpage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/zh_cn/webgl-scene-graph.html",
+      "inLanguage":"zh-cn",
+      "name":"WebGL2 - 场景图",
+      "keywords":"webgl webgl2 graphics programming",
+      "isPartOf":{
+        "@id":"https://webgl2fundamentals.org/#website"
+      },
+      "primaryImageOfPage":{
+        "@id":"https://webgl2fundamentals.org/webgl/lessons/zh_cn/webgl-scene-graph.html#primaryimage"
+      }
+    }
+  ]
+}
+</script>
+
+
+<title>WebGL2 - 场景图</title>
+<link href="/webgl/lessons/resources/webgl2fundamentals-icon.png" rel="shortcut icon" type="image/png">
+<link rel="stylesheet" href="/webgl/lessons/lang.css">
+<link rel="stylesheet" href="/webgl/lessons/resources/lesson.css">
+
+  <link rel="alternate" hreflang="en" href="https://webglfundamentals.org/webgl/lessons/webgl-scene-graph.html">
+  <link rel="alternate" hreflang="de" href="https://webglfundamentals.org/webgl/lessons/de/webgl-scene-graph.html">
+  <link rel="alternate" hreflang="ja" href="https://webglfundamentals.org/webgl/lessons/ja/webgl-scene-graph.html">
+  <link rel="alternate" hreflang="ko" href="https://webglfundamentals.org/webgl/lessons/ko/webgl-scene-graph.html">
+  <link rel="alternate" hreflang="pt-br" href="https://webglfundamentals.org/webgl/lessons/pt-br/webgl-scene-graph.html">
+  <link rel="alternate" hreflang="ru" href="https://webglfundamentals.org/webgl/lessons/ru/webgl-scene-graph.html">
+  <link rel="alternate" hreflang="zh_cn" href="https://webglfundamentals.org/webgl/lessons/zh_cn/webgl-scene-graph.html">
+
+
+
+
+</head>
+<body>
+<div class="webgl_navbar">
+  <div>
+    <select class="language">
+    <option value="/webgl/lessons/webgl-scene-graph.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-scene-graph.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-scene-graph.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-scene-graph.html" >한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-scene-graph.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-scene-graph.html" >Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-scene-graph.html" selected>简体中文</a>
+</select>
+
+
+    <a href="#toc">目录</a>
+    <input type="search" placeholder="?" id="search">
+  </div>
+</div>
+<div class="webgl_header">
+  <h1><a href="/webgl/lessons/zh_cn/">WebGL2Fundamentals.org</a></h1>
+<style>
+#forkongithub>div {
+    background: #000;
+    color: #fff;
+    font-family: arial,sans-serif;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 40px;
+    font-size: 0.9rem;
+    line-height: 1.3rem;
+    position: relative;
+    transition: 0.5s;
+    display: block;
+    width: 400px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(200px) rotate(45deg) translate(10px,70px);
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.8);
+    pointer-events: auto;
+}
+#forkongithub a {
+  text-decoration: none;
+  color: #fff;
+}
+#forkongithub>div:hover {
+    background: #c11;
+    color: #fff;
+}
+#forkongithub .contributors {
+  font-size: 0.75rem;
+  background: rgba(255,255,255,0.2);
+  line-height: 1.2;
+  padding: 0.1em;
+}
+#forkongithub>div::before,#forkongithub>div::after {
+    content: "";
+    width: 100%;
+    display: block;
+    position: absolute;
+    top: 1px;
+    left: 0;
+    height: 1px;
+    background: #fff;
+}
+#forkongithub>div::after {
+    bottom: 1px;
+    top: auto;
+}
+
+#forkongithub{
+    z-index: 9999;
+    /* needed for firefox */
+    overflow: hidden;
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    pointer-events: none;
+}
+#forkongithub svg{
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+}
+#forkongithub img {
+  width: 1em;
+  height: 1em;
+  border-radius: 100%;
+  vertical-align: middle;
+}
+
+@media (max-width: 900px) {
+    #forkongithub>div {
+        line-height: 1.2rem;
+    }
+}
+@media (max-width: 700px) {
+  #forkongithub {
+    display: none;
+  }
+}
+@media (max-width: 410px) {
+    #forkongithub>div {
+        font-size: 0.7rem;
+        transform: translateX(150px) rotate(45deg) translate(20px,40px);
+    }
+}
+
+</style>
+<div id="forkongithub"><div><div><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">Fix, Fork, Contribute <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 136 133" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(3.92891,0,0,3.92891,67.867,129.125)">
+        <path d="M0,-31.904C-8.995,-31.904 -16.288,-24.611 -16.288,-15.614C-16.288,-8.417 -11.621,-2.312 -5.148,-0.157C-4.333,-0.008 -4.036,-0.511 -4.036,-0.943C-4.036,-1.329 -4.05,-2.354 -4.058,-3.713C-8.589,-2.729 -9.545,-5.897 -9.545,-5.897C-10.286,-7.779 -11.354,-8.28 -11.354,-8.28C-12.833,-9.29 -11.242,-9.27 -11.242,-9.27C-9.607,-9.155 -8.747,-7.591 -8.747,-7.591C-7.294,-5.102 -4.934,-5.821 -4.006,-6.238C-3.858,-7.29 -3.438,-8.008 -2.972,-8.415C-6.589,-8.826 -10.392,-10.224 -10.392,-16.466C-10.392,-18.244 -9.757,-19.698 -8.715,-20.837C-8.883,-21.249 -9.442,-22.905 -8.556,-25.148C-8.556,-25.148 -7.188,-25.586 -4.076,-23.478C-2.777,-23.84 -1.383,-24.02 0.002,-24.026C1.385,-24.02 2.779,-23.84 4.08,-23.478C7.19,-25.586 8.555,-25.148 8.555,-25.148C9.444,-22.905 8.885,-21.249 8.717,-20.837C9.761,-19.698 10.392,-18.244 10.392,-16.466C10.392,-10.208 6.583,-8.831 2.954,-8.428C3.539,-7.925 4.06,-6.931 4.06,-5.411C4.06,-3.234 4.04,-1.477 4.04,-0.943C4.04,-0.507 4.333,0 5.16,-0.159C11.628,-2.318 16.291,-8.419 16.291,-15.614C16.291,-24.611 8.997,-31.904 0,-31.904" style="fill:white;"/>
+    </g>
+</svg>
+</a></div></div></div>
+
+</div>
+
+
+<div class="container">
+  <div class="lesson-title">
+    <h1>WebGL2 - 场景图</h1>
+  </div>
+  <div class="lesson">
+    <div class="lesson-main">
+      <p>此文上接<a href="webgl-fundamentals.html">WebGL 系类文章</a>，
+上一篇是<a href="webgl-drawing-multiple-things.html">绘制多个物体</a>，
+如果没读请从那里开始。</p>
+<p>我觉得一些 CS 或图形学大师会打我脸，但是我还是得说。
+场景图通常是一个树结构，每一个节点都会创建一个矩阵，
+这可能并不是一个很有意义的定义，也许看几个例子会更清楚。</p>
+<p>大多数三维引擎使用场景图，将需要显示的东西放在场景图中，
+引擎会遍历场景图找出需要绘制的东西。场景图具有层级结构，
+如果你想模拟宇宙运动，可能需要这样一个图。</p>
+<p><div class="webgl_diagram_container">
+  <iframe class="webgl_example " style="width: 400px; height: 500px;" src="/webgl/lessons/resources/planet-diagram.html"></iframe>
+</div>
+
+</p>
+<p>场景图的意义是什么？它的首要作用就是为矩阵提供了父子关系，就像
+<a href="webgl-2d-matrices.html">我们讲过的二维矩阵运算</a>一样。
+例如在一个模拟宇宙的例子中（并不是真实的），星星（孩子）在它们所在的星系（父母）运用，
+同样的月亮（孩子）绕着地球（父母）运动，如果地球移动，月亮也会跟着移动。
+拖动上图中的名字然后观察他们的关系。</p>
+<p>如果你回想<a href="webgl-2d-matrices.html">二维矩阵运算</a>可能会想起，
+多个矩阵相乘后实现物体的平移，旋转和缩放。场景图提供了一个结构，
+为矩阵作用在哪个物体上提供了帮助。</p>
+<p>理论上场景图中的每个 <code class="notranslate" translate="no">Node</code> 都代表一个<strong>逻辑空间</strong>。为那个<strong>逻辑空间</strong>
+提供合适的矩阵不必考虑在它之上的物体。另一种表达的方式是月亮只关心绕地球转动的轨道，
+它不需要考虑绕太阳转动的轨道，如果没有场景图结构就需要做很多复杂的数学运算其计算月亮相对于太阳的轨道，
+因为它相对于太阳的轨道是类似于这样的</p>
+<p><div class="webgl_diagram_container">
+  <iframe class="webgl_example " style="width: 400px; height: 300px;" src="/webgl/lessons/resources/moon-orbit.html"></iframe>
+</div>
+
+</p>
+<p>有了场景图就只需要让月亮成为地球的子节点然后绕地球运转。
+地球绕太阳运转的部分场景图会处理，它通过遍历节点并把矩阵相乘，就像这样</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">worldMatrix = greatGrandParent * grandParent * parent * self(localMatrix)
+</code></pre>
+<p>按照术语我们的宇宙关系应该是这样的</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">worldMatrixForMoon = galaxyMatrix * starMatrix * planetMatrix * moonMatrix;
+</code></pre>
+<p>我们可以用一个简单的递归函数来实现这个运算</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">function computeWorldMatrix(currentNode, parentWorldMatrix) {
+    // 通过把我们的父节点的世界矩阵和当前结点的局部矩阵相乘，
+    // 计算出当前节点的世界矩阵
+    var worldMatrix = m4.multiply(parentWorldMatrix, currentNode.localMatrix);
+
+    // 让子节点做同样的事
+    currentNode.children.forEach(function(child) {
+        computeWorldMatrix(child, worldMatrix);
+    });
+}
+</code></pre>
+<p>这里使用了三维场景图中常用的术语。</p>
+<ul>
+<li>
+<p><code class="notranslate" translate="no">localMatrix</code>: 当前节点的局部矩阵。它会在局部空间的原点对自己和子节点进行转换操作。</p>
+</li>
+<li>
+<p><code class="notranslate" translate="no">worldMatrix</code>: 将当前结点的局部空间的变换转换到场景图根节点所在的空间。
+换句话说它将节点放在了世界空间中，如果我们计算月球的世界矩阵，就会得到之前看到的有趣的轨道。</p>
+</li>
+</ul>
+<p>场景图很容易实现，让我们来定义一个简单的 <code class="notranslate" translate="no">Node</code> 对象。
+组织场景图的方式有很多种，我不知道哪种是最好的，常用的方式是有一个可选的绘制物体字段。</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var node = {
+   localMatrix: ...,  // 当前节点的局部矩阵
+   worldMatrix: ...,  // 当前结点的世界矩阵
+   children: [],      // 子节点序列
+   thingToDraw: ??,   // 当前节点需要绘制的物体
+};
+</code></pre>
+<p>我们来做一个太阳系的场景图，为了保持简洁我不会使用纹理。
+先来创建几个方法来帮助我们管理节点，首先定义一个节点类</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var Node = function() {
+  this.children = [];
+  this.localMatrix = m4.identity();
+  this.worldMatrix = m4.identity();
+};
+</code></pre>
+<p>提供一个设定节点父节点的方式。</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">Node.prototype.setParent = function(parent) {
+  // 从父节点中移除
+  if (this.parent) {
+    var ndx = this.parent.children.indexOf(this);
+    if (ndx &gt;= 0) {
+      this.parent.children.splice(ndx, 1);
+    }
+  }
+
+  // 添加到新的父节点上
+  if (parent) {
+    parent.children.push(this);
+  }
+  this.parent = parent;
+};
+</code></pre>
+<p>这段代码根据父子节点关系和局部矩阵计算世界矩阵。如果我们从父节点调用，
+它将会递归的计算出子节点的世界矩阵。如果你对矩阵运算不太了解
+<a href="webgl-2d-matrices.html">可以看看这个文章</a>。</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">Node.prototype.updateWorldMatrix = function(parentWorldMatrix) {
+  if (parentWorldMatrix) {
+    // 传入一个矩阵计算出世界矩阵并存入 `this.worldMatrix`。
+    m4.multiply(parentWorldMatrix, this.localMatrix, this.worldMatrix);
+  } else {
+    // 没有矩阵传入，直接将局部矩阵拷贝到世界矩阵
+    m4.copy(this.localMatrix, this.worldMatrix);
+  }
+
+  // 计算所有的子节点
+  var worldMatrix = this.worldMatrix;
+  this.children.forEach(function(child) {
+    child.updateWorldMatrix(worldMatrix);
+  });
+};
+</code></pre>
+<p>为了简单我们只包含太阳，月亮和地球，也会使用假的距离使内容便于呈现在屏幕上。
+我们会用黄色的球体代表太阳，蓝绿色的球体代表地球，灰色的代表月亮。
+如果你对 <code class="notranslate" translate="no">drawInfo</code>, <code class="notranslate" translate="no">bufferInfo</code>, 和 <code class="notranslate" translate="no">programInfo</code> 感到陌生可以
+<a href="webgl-drawing-multiple-things.html">看看前一篇文章</a>。</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">// 定义所有的节点
+var sunNode = new Node();
+sunNode.localMatrix = m4.translation(0, 0, 0);  // 太阳在中心
+sunNode.drawInfo = {
+  uniforms: {
+    u_colorOffset: [0.6, 0.6, 0, 1], // 黄色
+    u_colorMult:   [0.4, 0.4, 0, 1],
+  },
+  programInfo: programInfo,
+  bufferInfo: sphereBufferInfo,
+  vertexArray: sphereVAO,
+};
+
+var earthNode = new Node();
+earthNode.localMatrix = m4.translation(100, 0, 0);  // 地球离太阳 100 个单位距离
+earthNode.drawInfo = {
+  uniforms: {
+    u_colorOffset: [0.2, 0.5, 0.8, 1],  // 蓝绿色
+    u_colorMult:   [0.8, 0.5, 0.2, 1],
+  },
+  programInfo: programInfo,
+  bufferInfo: sphereBufferInfo,
+  vertexArray: sphereVAO,
+};
+
+var moonNode = new Node();
+moonNode.localMatrix = m4.translation(20, 0, 0);  // 月亮离地球 20 个单位距离
+moonNode.drawInfo = {
+  uniforms: {
+    u_colorOffset: [0.6, 0.6, 0.6, 1],  // 灰色
+    u_colorMult:   [0.1, 0.1, 0.1, 1],
+  },
+  programInfo: programInfo,
+  bufferInfo: sphereBufferInfo,
+  vertexArray: sphereVAO,
+};
+</code></pre>
+<p>现在将它们关联起来</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">// connect the celestial objects
+moonNode.setParent(earthNode);
+earthNode.setParent(sunNode);
+</code></pre>
+<p>同样创建一个物体列表和一个将要绘制的物体列表</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var objects = [
+  sunNode,
+  earthNode,
+  moonNode,
+];
+
+var objectsToDraw = [
+  sunNode.drawInfo,
+  earthNode.drawInfo,
+  moonNode.drawInfo,
+];
+</code></pre>
+<p>渲染时更新每个物体的局部矩阵来旋转每个物体</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">// 更新每个物体的局部矩阵
+m4.multiply(m4.yRotation(0.01), sunNode.localMatrix  , sunNode.localMatrix);
+m4.multiply(m4.yRotation(0.01), earthNode.localMatrix, earthNode.localMatrix);
+m4.multiply(m4.yRotation(0.01), moonNode.localMatrix , moonNode.localMatrix);
+</code></pre>
+<p>局部矩阵更新了就可以更新世界矩阵</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">sunNode.updateWorldMatrix();
+</code></pre>
+<p>最后将世界矩阵和投影视图矩阵相乘得到每个物体的<a href="webgl-3d-perspective.html">世界视图投影矩阵</a>。</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">// 计算每个物体的矩阵
+objects.forEach(function(object) {
+  object.drawInfo.uniforms.u_matrix = m4.multiply(viewProjectionMatrix, object.worldMatrix);
+});
+</code></pre>
+<p>渲染过程使<a href="webgl-drawing-multiple-things.html">上节中相似的循环</a>。</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-scene-graph-solar-system.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-scene-graph-solar-system.html" target="_blank">点此在新窗口中浏览</a>
+</div>
+
+</p>
+<p>你可能注意到所有的星体的大小是一样的，让地球变大一点吧</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">// 地球离太阳 100 个单位距离
+earthNode.localMatrix = m4.translation(100, 0, 0));
+
+// 让地球变为两倍大小
+earthNode.localMatrix = m4.scale(earthNode.localMatrix, 2, 2, 2);
+</code></pre>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-scene-graph-solar-system-larger-earth.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-scene-graph-solar-system-larger-earth.html" target="_blank">点此在新窗口中浏览</a>
+</div>
+
+</p>
+<p>呃，月亮也变大了。想要修复这个问题的话就需要手动缩小月亮。
+一个更好的方法就是为场景图添加更多节点。而不是只是</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">  sun
+   |
+  earth
+   |
+  moon
+</code></pre>
+<p>我们将它变成</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no"> solarSystem
+   |    |
+   |   sun
+   |
+ earthOrbit
+   |    |
+   |  earth
+   |
+  moonOrbit
+      |
+     moon
+</code></pre>
+<p>这样就让地球绕 solarSystem 转动，我们就可以单独旋转和缩放太阳并且不会影响到地球，
+同样的地球可以独立于月球转动。让我们给 <code class="notranslate" translate="no">solarSystem</code>, <code class="notranslate" translate="no">earthOrbit</code> 和 <code class="notranslate" translate="no">moonOrbit</code>
+定义节点。</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var solarSystemNode = new Node();
+var earthOrbitNode = new Node();
+
+// 地球轨道离太阳 100 个单位距离
+earthOrbitNode.localMatrix = m4.translation(100, 0, 0);
+var moonOrbitNode = new Node();
+
+ // 月球离太阳 20 个单位距离
+moonOrbitNode.localMatrix = m4.translation(20, 0, 0);
+</code></pre>
+<p>轨道距离将从原始节点中移除</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var earthNode = new Node();
+-// 地球离太阳 100 个单位距离
+-earthNode.localMatrix = m4.translation(100, 0, 0));
+
+-// 让地球变为两倍大小
+-earthNode.localMatrix = m4.scale(earthNode.localMatrix, 2, 2, 2);
++earthNode.localMatrix = m4.scaling(2, 2, 2);
+
+var moonNode = new Node();
+-moonNode.localMatrix = m4.translation(20, 0, 0);  // 月亮离地球 20 个单位距离
+</code></pre>
+<p>像这样连接它们</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">// 关联物体
+sunNode.setParent(solarSystemNode);
+earthOrbitNode.setParent(solarSystemNode);
+earthNode.setParent(earthOrbitNode);
+moonOrbitNode.setParent(earthOrbitNode);
+moonNode.setParent(moonOrbitNode);
+</code></pre>
+<p>只需要更新轨道</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">// 更新每个物体的局部矩阵
+-m4.multiply(m4.yRotation(0.01), sunNode.localMatrix  , sunNode.localMatrix);
+-m4.multiply(m4.yRotation(0.01), earthNode.localMatrix, earthNode.localMatrix);
+-m4.multiply(m4.yRotation(0.01), moonNode.localMatrix , moonNode.localMatrix);
++m4.multiply(m4.yRotation(0.01), earthOrbitNode.localMatrix, earthOrbitNode.localMatrix);
++m4.multiply(m4.yRotation(0.01), moonOrbitNode.localMatrix, moonOrbitNode.localMatrix);
+
+// 更新场景图中所有节点的世界矩阵
+-sunNode.updateWorldMatrix();
++solarSystemNode.updateWorldMatrix();
+</code></pre>
+<p>你会看到地球是两倍大小，月球不是。</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-scene-graph-solar-system-larger-earth-fixed.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-scene-graph-solar-system-larger-earth-fixed.html" target="_blank">点此在新窗口中浏览</a>
+</div>
+
+</p>
+<p>你可能注意到太阳和地球不会同步转动了，现在它们是独立的。</p>
+<p>让我们调整一下。</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">-sunNode.localMatrix = m4.translation(0, 0, 0);  // 太阳在中心
++sunNode.localMatrix = m4.scaling(5, 5, 5);
+
+...
+
+*moonOrbitNode.localMatrix = m4.translation(30, 0, 0);
+
+...
+
++moonNode.localMatrix = m4.scaling(0.4, 0.4, 0.4);
+
+...
+// 更新每个物体的局部矩阵
+m4.multiply(m4.yRotation(0.01), earthOrbitNode.localMatrix, earthOrbitNode.localMatrix);
+m4.multiply(m4.yRotation(0.01), moonOrbitNode.localMatrix, moonOrbitNode.localMatrix);
++// 旋转太阳
++m4.multiply(m4.yRotation(0.005), sunNode.localMatrix, sunNode.localMatrix);
++// 旋转地球
++m4.multiply(m4.yRotation(0.05), earthNode.localMatrix, earthNode.localMatrix);
++// 旋转月亮
++m4.multiply(m4.yRotation(-0.01), moonNode.localMatrix, moonNode.localMatrix);
+</code></pre>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-scene-graph-solar-system-adjusted.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-scene-graph-solar-system-adjusted.html" target="_blank">点此在新窗口中浏览</a>
+</div>
+
+</p>
+<p>现在我们有一个 <code class="notranslate" translate="no">localMatrix</code> 并且每一帧都会修改，这样会在运算过程中不断累积错误。
+有一个解决方法叫做<strong>正交归一化矩阵</strong>，就算这样也不是绝对没问题。例如我们缩放到 0 再恢复，
+只对一个 <code class="notranslate" translate="no">x</code> 值施加变换</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">x = 246;       // frame #0, x = 246
+
+scale = 1;
+x = x * scale  // frame #1, x = 246
+
+scale = 0.5;
+x = x * scale  // frame #2, x = 123
+
+scale = 0;
+x = x * scale  // frame #3, x = 0
+
+scale = 0.5;
+x = x * scale  // frame #4, x = 0  OOPS!
+
+scale = 1;
+x = x * scale  // frame #5, x = 0  OOPS!
+</code></pre>
+<p>最后会丢失值，我们可以添加其他的类从外部更新矩阵。让我们给 <code class="notranslate" translate="no">Node</code> 的定义中添加一个 <code class="notranslate" translate="no">source</code>。
+如果 <code class="notranslate" translate="no">source</code> 存在就从它那里获取局部矩阵。</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">*var Node = function(source) {
+  this.children = [];
+  this.localMatrix = makeIdentity();
+  this.worldMatrix = makeIdentity();
++  this.source = source;
+};
+
+Node.prototype.updateWorldMatrix = function(matrix) {
+
++  var source = this.source;
++  if (source) {
++    source.getMatrix(this.localMatrix);
++  }
+
+  ...
+</code></pre>
+<p>现在我们可以创建一个源。通常一个源会提供平移，旋转和缩放变换，就像这样</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var TRS = function() {
+  this.translation = [0, 0, 0];
+  this.rotation = [0, 0, 0];
+  this.scale = [1, 1, 1];
+};
+
+TRS.prototype.getMatrix = function(dst) {
+  dst = dst || new Float32Array(16);
+  var t = this.translation;
+  var r = this.rotation;
+  var s = this.scale;
+
+  // 通过平移，旋转和缩放计算矩阵
+  m4.translation(t[0], t[1], t[2], dst);
+  m4.xRotate(dst, r[0], dst);
+  m4.yRotate(dst, r[1], dst);
+  m4.zRotate(dst, r[2], dst);
+  m4.scale(dst, s[0], s[1], s[2]), dst);
+  return dst;
+};
+</code></pre>
+<p>然后这样使用它</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">// 在初始化阶段用源初始化节点
+var someTRS  = new TRS();
+var someNode = new Node(someTRS);
+
+// 渲染阶段
+someTRS.rotation[2] += elapsedTime;
+</code></pre>
+<p>现在就不会有问题了，因为每次都会创建一个新的矩阵。</p>
+<p>你可能回想我又不做太阳系，场景图有什么意义呢？
+如果你想动画一个人物就可能需要这样一个场景图</p>
+<p><div class="webgl_diagram_container">
+  <iframe class="webgl_example " style="width: 400px; height: 400px;" src="/webgl/lessons/resources/person-diagram.html"></iframe>
+</div>
+
+</p>
+<p>你想给手指和脚趾使用几个关节可以自己决定，关节越多动画的灵活性越强，所需要的运动数据也越多。
+老一点的游戏例如 Virtua Fighter 有大约 15 个关节。二十世纪中叶的游戏有 30 到 70
+个关节。如果把手的每个关节都做的话一个手就有至少 20 个关节，两个手就有 40 个，
+大多数游戏大拇指使用一个关节，其他四个手指使用一个关节，以便节约时间（GPU/CPU 和 美工的时间）和内存。</p>
+<p>这里有我做的一个方块人的例子，它的每个节点都用到了上方的 <code class="notranslate" translate="no">TRS</code>，程序员的美术和动画能力简直了！ FTW! 😂</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-scene-graph-block-guy.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-scene-graph-block-guy.html" target="_blank">点此在新窗口中浏览</a>
+</div>
+
+</p>
+<p>你会在很多三维库中找到类似这样的场景图。
+至于构建层次结构，它们通常是通过某种建模包或关卡布局包创建的。</p>
+<div class="webgl_bottombar">
+<h3>SetParent vs AddChild / RemoveChild</h3>
+<p>大多数场景图有一个 <code class="notranslate" translate="no">node.addChild</code> 方法和一个
+ <code class="notranslate" translate="no">node.removeChild</code>
+方法，而我在上方定义了一个 <code class="notranslate" translate="no">node.setParent</code> 方法。
+哪种方式更好？理论上只是风格不同，但是我有一个客观的理由证明
+<code class="notranslate" translate="no">setParent</code> 比 <code class="notranslate" translate="no">addChild</code> 要好一些，因为它可以让代码这样写。</p>
+<pre class="prettyprint">
+    someParent.addChild(someNode);
+    ...
+    someOtherParent.addChild(someNode);
+</pre>
+<p>什么意思呢？ <code class="notranslate" translate="no">someNode</code> 是否同时存在于 <code class="notranslate" translate="no">someParent</code> 和 <code class="notranslate" translate="no">someOtherParent</code> 之中呢?
+大多数场景图中这是不合理的，那第二次调用的时候会产生错误么？
+<code class="notranslate" translate="no">ERROR: Already have parent</code>。在 <code class="notranslate" translate="no">someNode</code> 
+添加到 <code class="notranslate" translate="no">someOtherParent</code> 之前它自动从 <code class="notranslate" translate="no">someParent</code> 移除了么？
+如果移除了那么 <code class="notranslate" translate="no">addChild</code> 就不是一个清晰的方法名。
+</p>
+<p><code class="notranslate" translate="no">setParent</code> 就没有这样的问题</p>
+<pre class="prettyprint">
+    someNode.setParent(someParent);
+    ...
+    someNode.setParent(someOtherParent);
+</pre>
+<p>
+在这个情况下它是 100% 明确的，没有歧义。
+</div>
+
+    </div>
+    <div class="lesson-sidebar">
+        <select class="language">
+    <option value="/webgl/lessons/webgl-scene-graph.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-scene-graph.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-scene-graph.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-scene-graph.html" >한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-scene-graph.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-scene-graph.html" >Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-scene-graph.html" selected>简体中文</a>
+</select>
+
+
+        <div id="toc">
+          <ul>  <li>基础概念</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-getting-webgl2.html">怎样使用WebGL2</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-fundamentals.html">基本原理</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-how-it-works.html">如何工作的</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-shaders-and-glsl.html">着色器和 GLSL 语言</a></li>
+<li><a href="/webgl/lessons/resources/webgl-state-diagram.html?lang=zh_cn">WebGL2 State Diagram</a></li>
+        </ul>
+  <li>WebGL2 vs WebGL1</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl2-whats-new.html">WebGL2有什么新内容</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl1-to-webgl2.html">迁移WebGL1到WebGL2</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl1-to-webgl2-fundamentals.html">WebGLFundamentals.org和WebGL2Fundamentals.org的区别</a></li>
+        </ul>
+  <li>图像处理</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-image-processing.html">图像处理</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-image-processing-continued.html">进一步处理图像</a></li>
+        </ul>
+  <li>二维平移，旋转，缩放和矩阵运算</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-2d-translation.html">二维平移</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-2d-rotation.html">二维旋转</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-2d-scale.html">二维缩放</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-2d-matrices.html">二维矩阵</a></li>
+        </ul>
+  <li>三维</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-3d-orthographic.html">三维正射投影</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-3d-perspective.html">三维透视投影</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-3d-camera.html">三维相机</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-matrix-naming.html">WebGL2 三维矩阵命名</a></li>
+        </ul>
+  <li>光照</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-3d-lighting-directional.html">三维方向光源</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-3d-lighting-point.html">点光源</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-3d-lighting-spot.html">聚光灯</a></li>
+        </ul>
+  <li>组织和重构</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-less-code-more-fun.html">码少趣多</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-drawing-multiple-things.html">绘制多个物体</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-scene-graph.html">场景图</a></li>
+        </ul>
+  <li>几何</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-3d-geometry-lathe.html">三维几何加工</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-load-obj.html">加载 .obj 文件</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-load-obj-w-mtl.html">加载带 .mtl 的 .obj 文件</a></li>
+        </ul>
+  <li>纹理</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-3d-textures.html">纹理</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-data-textures.html">数据纹理</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-2-textures.html">使用多个纹理</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-cors-permission.html">跨域图像</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-3d-perspective-correct-texturemapping.html">纹理映射的透视纠正</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-planar-projection-mapping.html">平面的和透视的投影映射</a></li>
+        </ul>
+  <li>渲染到纹理</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-render-to-texture.html">渲染到纹理</a></li>
+        </ul>
+  <li>阴影</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-shadows.html">阴影</a></li>
+        </ul>
+  <li>技术</li>
+        <ul>
+            <li>二维</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-2d-drawimage.html">二维 DrawImage</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-2d-matrix-stack.html">二维矩阵栈</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-sprites.html">精灵</a></li>
+        </ul>
+  <li>三维</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-cube-maps.html">WebGL2 立方体贴图</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-environment-maps.html">WebGL2 环境贴图</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-skybox.html">WebGL2 天空盒</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-skinning.html">WebGL2 蒙皮</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-fog.html">WebGL2 雾</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-picking.html">拾取（点击物体）</a></li>
+        </ul>
+  <li>文字</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-text-html.html">文字 - HTML</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-text-canvas2d.html">文字 - 二维 Canvas</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-text-texture.html">文字 - 使用纹理</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-text-glyphs.html">文字 - 使用字形纹理</a></li>
+        </ul>
+  <li>GPGPU</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-gpgpu.html">通用GPU计算(GPGPU)</a></li>
+        </ul>
+        </ul>
+  <li>技巧</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-smallest-programs.html">最小的程序</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-drawing-without-data.html">无数据绘制</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-shadertoy.html">Shadertoy</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-pulling-vertices.html">顶点拉取</a></li>
+        </ul>
+  <li>优化</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-indexed-vertices.html">顶点索引 (gl.drawElements)</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-instanced-drawing.html">实例化绘制</a></li>
+        </ul>
+  <li>杂项</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-setup-and-installation.html">设置和安装</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-boilerplate.html">样板</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-resizing-the-canvas.html">重置画布尺寸</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-animation.html">动画</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-points-lines-triangles.html">点、线段与三角形</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-multiple-views.html">多视图与多画布</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-visualizing-the-camera.html">可视化相机</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-and-alpha.html">WebGL2 和 Alpha</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-2d-vs-3d-library.html">2D vs 3D 库</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-anti-patterns.html">反模式</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-matrix-vs-math.html">WebGL2中的矩阵vs数学中的矩阵</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-precision-issues.html">精度问题</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-tips.html#screenshot">Taking a screenshot</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-tips.html#preservedrawingbuffer">Prevent the Canvas Being Cleared</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-tips.html#tabindex">Get Keyboard Input From a Canvas</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-tips.html#html-background">Use WebGL2 as Background in HTML</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-cross-platform-issues.html">跨平台问题</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-qna.html">Questions and Answers</a></li>
+        </ul>
+  <li>参考</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-attributes.html">属性（Attributes）</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-texture-units.html">纹理单元（Texture Units）</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-framebuffers.html">帧缓冲区（Framebuffers）</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-readpixels.html">readPixels</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-references.html">参考资料</a></li>
+        </ul></ul>
+<ul>
+  <li><a href="/docs/">API帮助文档</a></li>
+  <li><a href="https://twgljs.org">TWGL，一个轻量级WebGL辅助库</a></li>
+  <li><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">GitHub</a></li>
+</ul>
+        </div>
+    </div>
+    <div class="lesson-comments">
+        
+<div>有意见或建议? <a href="https://github.com/gfxfundamentals/webgl2-fundamentals/issues">在GitHub上提issue</a>.</div>
+  
+
+        <div id="disqus_thread"></div>
+        <script>
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'webgl2fundamentals'; // required: replace example with your forum shortname
+            var disqus_identifier = 'WebGL2 - 场景图';
+            var disqus_title = 'WebGL2 - 场景图';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                if (window.location.hostname.indexOf("webgl2fundamentals.org") < 0) {
+                    return;
+                }
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+const settings = {
+  contribTemplate: "感谢 <a href=\"${html_url}\"><img src=\"${avatar_url}\"> ${login}</a><br>的 <a href=\"https://github.com/${owner}/${repo}/commits?author=${login}\">${contributions} 个贡献</a>",
+  owner: "gfxfundamentals",
+  repo: "webgl2-fundamentals",
+};
+</script>
+<script src="/contributors.js"></script>
+<script src="/3rdparty/jquery-1.11.2.min.js"></script>
+<script src="/webgl/lessons/resources/prettify.js"></script>
+<script src="/webgl/lessons/resources/lesson.js" type="module"></script>
+<script>
+</script>
+
+
+</html>
+
+
+

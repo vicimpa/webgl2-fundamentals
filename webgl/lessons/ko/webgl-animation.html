@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<!-- this file is auto-generated from webgl/lessons/ko/webgl-animation.md. Do not edited directly -->
+<!--
+Copyright 2021, GFXFundamentals.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+*   Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+*   Redistributions in binary form must reproduce the above
+    copyright notice, this list of conditions and the following disclaimer
+    in the documentation and/or other materials provided with the
+    distribution.
+
+*   Neither the name of GFXFundamentals. nor the names of his
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="WebGL에서 애니메이션을 구현하는 법">
+<meta name="keywords" content="webgl webgl2 graphics">
+<meta name="thumbnail" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-animation_ko.jpg">
+
+<meta property="og:title" content="WebGL2 - 애니메이션">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-animation_ko.jpg">
+<meta property="og:description" content="WebGL에서 애니메이션을 구현하는 법">
+<meta property="og:url" content="https://webgl2fundamentals.org/webgl/lessons/ko/webgl-animation.html">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@greggman">
+<meta name="twitter:creator" content="@greggman">
+<meta name="twitter:domain" content="webgl2fundamentals.org">
+<meta name="twitter:title" content="WebGL2 - 애니메이션">
+<meta name="twitter:url" content="https://webgl2fundamentals.org/webgl/lessons/ko/webgl-animation.html">
+<meta name="twitter:description" content="WebGL에서 애니메이션을 구현하는 법">
+<meta name="twitter:image:src" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-animation_ko.jpg">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebSite",
+      "@id":"https://webgl2fundamentals.org/#website",
+      "url":"https://webgl2fundamentals.org/",
+      "name":"Webgl2Fundamentals"
+    },
+    {
+      "@type":"ImageObject",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/ko/webgl-animation.html#primaryimage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-animation_ko.jpg",
+      "width":1200,
+      "height":630
+    },
+    {
+      "@type":"WebPage",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/ko/webgl-animation.html#webpage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/ko/webgl-animation.html",
+      "inLanguage":"ko",
+      "name":"WebGL2 - 애니메이션",
+      "keywords":"webgl webgl2 graphics programming",
+      "isPartOf":{
+        "@id":"https://webgl2fundamentals.org/#website"
+      },
+      "primaryImageOfPage":{
+        "@id":"https://webgl2fundamentals.org/webgl/lessons/ko/webgl-animation.html#primaryimage"
+      }
+    }
+  ]
+}
+</script>
+
+
+<title>WebGL2 - 애니메이션</title>
+<link href="/webgl/lessons/resources/webgl2fundamentals-icon.png" rel="shortcut icon" type="image/png">
+<link rel="stylesheet" href="/webgl/lessons/lang.css">
+<link rel="stylesheet" href="/webgl/lessons/ko/lang.css">
+<link rel="stylesheet" href="/webgl/lessons/resources/lesson.css">
+
+  <link rel="alternate" hreflang="en" href="https://webglfundamentals.org/webgl/lessons/webgl-animation.html">
+  <link rel="alternate" hreflang="de" href="https://webglfundamentals.org/webgl/lessons/de/webgl-animation.html">
+  <link rel="alternate" hreflang="ja" href="https://webglfundamentals.org/webgl/lessons/ja/webgl-animation.html">
+  <link rel="alternate" hreflang="ko" href="https://webglfundamentals.org/webgl/lessons/ko/webgl-animation.html">
+  <link rel="alternate" hreflang="pt-br" href="https://webglfundamentals.org/webgl/lessons/pt-br/webgl-animation.html">
+  <link rel="alternate" hreflang="ru" href="https://webglfundamentals.org/webgl/lessons/ru/webgl-animation.html">
+  <link rel="alternate" hreflang="zh_cn" href="https://webglfundamentals.org/webgl/lessons/zh_cn/webgl-animation.html">
+
+
+
+
+</head>
+<body>
+<div class="webgl_navbar">
+  <div>
+    <select class="language">
+    <option value="/webgl/lessons/webgl-animation.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-animation.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-animation.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-animation.html" selected>한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-animation.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-animation.html" >Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-animation.html" >简体中文</a>
+</select>
+
+
+    <a href="#toc">목차</a>
+    <input type="search" placeholder="?" id="search">
+  </div>
+</div>
+<div class="webgl_header">
+  <h1><a href="/webgl/lessons/ko/">WebGL2Fundamentals.org</a></h1>
+<style>
+#forkongithub>div {
+    background: #000;
+    color: #fff;
+    font-family: arial,sans-serif;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 40px;
+    font-size: 0.9rem;
+    line-height: 1.3rem;
+    position: relative;
+    transition: 0.5s;
+    display: block;
+    width: 400px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(200px) rotate(45deg) translate(10px,70px);
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.8);
+    pointer-events: auto;
+}
+#forkongithub a {
+  text-decoration: none;
+  color: #fff;
+}
+#forkongithub>div:hover {
+    background: #c11;
+    color: #fff;
+}
+#forkongithub .contributors {
+  font-size: 0.75rem;
+  background: rgba(255,255,255,0.2);
+  line-height: 1.2;
+  padding: 0.1em;
+}
+#forkongithub>div::before,#forkongithub>div::after {
+    content: "";
+    width: 100%;
+    display: block;
+    position: absolute;
+    top: 1px;
+    left: 0;
+    height: 1px;
+    background: #fff;
+}
+#forkongithub>div::after {
+    bottom: 1px;
+    top: auto;
+}
+
+#forkongithub{
+    z-index: 9999;
+    /* needed for firefox */
+    overflow: hidden;
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    pointer-events: none;
+}
+#forkongithub svg{
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+}
+#forkongithub img {
+  width: 1em;
+  height: 1em;
+  border-radius: 100%;
+  vertical-align: middle;
+}
+
+@media (max-width: 900px) {
+    #forkongithub>div {
+        line-height: 1.2rem;
+    }
+}
+@media (max-width: 700px) {
+  #forkongithub {
+    display: none;
+  }
+}
+@media (max-width: 410px) {
+    #forkongithub>div {
+        font-size: 0.7rem;
+        transform: translateX(150px) rotate(45deg) translate(20px,40px);
+    }
+}
+
+</style>
+<div id="forkongithub"><div><div><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">Fix, Fork, Contribute <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 136 133" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(3.92891,0,0,3.92891,67.867,129.125)">
+        <path d="M0,-31.904C-8.995,-31.904 -16.288,-24.611 -16.288,-15.614C-16.288,-8.417 -11.621,-2.312 -5.148,-0.157C-4.333,-0.008 -4.036,-0.511 -4.036,-0.943C-4.036,-1.329 -4.05,-2.354 -4.058,-3.713C-8.589,-2.729 -9.545,-5.897 -9.545,-5.897C-10.286,-7.779 -11.354,-8.28 -11.354,-8.28C-12.833,-9.29 -11.242,-9.27 -11.242,-9.27C-9.607,-9.155 -8.747,-7.591 -8.747,-7.591C-7.294,-5.102 -4.934,-5.821 -4.006,-6.238C-3.858,-7.29 -3.438,-8.008 -2.972,-8.415C-6.589,-8.826 -10.392,-10.224 -10.392,-16.466C-10.392,-18.244 -9.757,-19.698 -8.715,-20.837C-8.883,-21.249 -9.442,-22.905 -8.556,-25.148C-8.556,-25.148 -7.188,-25.586 -4.076,-23.478C-2.777,-23.84 -1.383,-24.02 0.002,-24.026C1.385,-24.02 2.779,-23.84 4.08,-23.478C7.19,-25.586 8.555,-25.148 8.555,-25.148C9.444,-22.905 8.885,-21.249 8.717,-20.837C9.761,-19.698 10.392,-18.244 10.392,-16.466C10.392,-10.208 6.583,-8.831 2.954,-8.428C3.539,-7.925 4.06,-6.931 4.06,-5.411C4.06,-3.234 4.04,-1.477 4.04,-0.943C4.04,-0.507 4.333,0 5.16,-0.159C11.628,-2.318 16.291,-8.419 16.291,-15.614C16.291,-24.611 8.997,-31.904 0,-31.904" style="fill:white;"/>
+    </g>
+</svg>
+</a></div></div></div>
+
+</div>
+
+
+<div class="container">
+  <div class="lesson-title">
+    <h1>WebGL2 - 애니메이션</h1>
+  </div>
+  <div class="lesson">
+    <div class="lesson-main">
+      <p>이 글은 WebGL 시리즈에서 이어지는 글입니다.
+첫 글은 <a href="webgl-fundamentals.html">WebGL2 기초</a>이며 이 전 글은 <a href="webgl-3d-camera.html">3D 카메라</a> 입니다.
+아직 위 글들을 읽지 않았다면 먼저 읽어 보시기 바랍니다.</p>
+<p>WebGL에서 애니메이션은 어떻게 구현할까요?</p>
+<p>사실 WebGL에만 국한된 것은 아니고, 일반적으로 자바스크립트에서 무언가를 애니메이션하고 싶을때는
+시간의 흐름에 따라 무언가를 변화시킨 뒤에 다시 그리도록 해야 합니다.</p>
+<p>이전 예제들 중에 하나를 골라서 아래와 같이 애니메이션을 해 보겠습니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">*var fieldOfViewRadians = degToRad(60);
+*var rotationSpeed = 1.2;
+
+*requestAnimationFrame(drawScene);
+
+// 장면을 그립니다.
+function drawScene() {
+*  // 매 프레임마다 회전값을 약간씩 늘립니다.
+*  rotation[1] += rotationSpeed / 60.0;
+
+  ...
+*  // 다음 프레임의 drawScene을 다시 호출합니다.
+*  requestAnimationFrame(drawScene);
+}
+</code></pre>
+<p>결과는 아래와 같습니다.</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-animation-not-frame-rate-independent.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-animation-not-frame-rate-independent.html" target="_blank">새 창으로 열기</a>
+</div>
+
+</p>
+<p>그런데 약간의 문제가 있습니다. 위 코드에는 <code class="notranslate" translate="no">rotationSpeed / 60.0</code>가 포함되어 있습니다.
+60.0으로 나눈 이유는 브라우저가 1초마다 requestAnimationFrame에 60번 응답한다고 가정하였는데, 일반적으로 그렇긴 합니다.</p>
+<p>하지만 이 가정은 유효하지 않습니다.
+사용자는 오래된 스마트폰처럼 낮은 성능의 장비를 사용하고 있을수도 있습니다.
+아니면 백그라운드에 무거운 프로그램을 실행하고 있을수도 있죠.
+브라우저가 1초에 60번 화면을 새로 그리지 못하게 만드는 여러가지 이유가 있을 수 있습니다.
+지금은 2020년이니, 모든 장비가 1초에 240프레임으로 동작할 수도 있습니다.
+어쩌면 사용자가 게이머라서 초당 90프레임의 CRT 모니터를 사용하고 있을수도 있습니다.</p>
+<p>아래 예제에서 문제를 눈으로 확인할 수 있습니다.</p>
+<p><div class="webgl_diagram_container">
+  <iframe class="webgl_example " style="width: 400px; height: 300px;" src="/webgl/lessons/../webgl-animation-frame-rate-issues.html"></iframe>
+</div>
+
+</p>
+<p>이 예제에서는 모든 'F’를 동일한 속도로 회전하도록 하고 싶습니다.
+가운데 'F’는 최대 속도로 동작하지만 프레임 갱신 속도에 독립적으로 동작합니다.
+왼쪽과 오른쪽은 브라우저가 1/8속도로 동작하는 상황을 시뮬레이션 한것입니다.
+왼쪽은 프레임 속도에 독립적이지 <strong>않습니다</strong>. 오른쪽은 프레임 속도에 <strong>독립적입니다</strong>.</p>
+<p>왼쪽의 경우에는 프레임 갱신 속도가 느린 상황을 가정하고 있지 않기 때문에 같은 속도를 유지하지 못합니다.
+하지만 오른쪽의 경우 1/8 프레임 갱신 속도에도 불구하고 가운데의 최대 속도와 동일한 속도를 유지하고 있습니다.</p>
+<p>애니메이션을 프레임 갱신 속도에 독립적으로 만드는 방법은 프레임간 소요된 시간을 계산하고
+이를 현재 프레임에서 애니메이션을 얼마나 진행해야 하는지를 계산하는 데 사용하는 것입니다.</p>
+<p>먼저 시간을 얻어와야 합니다. 다행히 <code class="notranslate" translate="no">requestAnimationFrame</code>는 페이지가 로드된 시점으로부터의 시간을 전달해 줍니다.</p>
+<p><code class="notranslate" translate="no">requestAnimationFrame</code>는 시간을 밀리세컨드(1/1000초) 단위로 전달해주지만</p>
+<p>그러면 아래와 같이 소요 시간(delta time)을 계산할 수 있게 됩니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">*var then = 0;
+
+requestAnimationFrame(drawScene);
+
+// 장면을 그립니다.
+*function drawScene(now) {
+*  // 시간을 초 단위로 변환합니다.
+*  now *= 0.001;
+*  // 현재 시간에서 이전 시간을 빼 줍니다.
+*  var deltaTime = now - then;
+*  // 다음 프레임의 현재 시간을 저장해 둡니다.
+*  then = now;
+
+   ...
+</code></pre>
+<p>초 단위의 <code class="notranslate" translate="no">deltaTime</code>을 얻게 되면 이제 모든 계산은 1초당 얼마나 많은 변화가 일어나야 하는지를 기준으로 계산됩니다.
+<code class="notranslate" translate="no">rotationSpeed</code>의 경우 값이 1.2였는데 그 말은 초당 1.2 라디안만큼 회전하겠다는 뜻이 됩니다.
+1.2 라디안은 1/5회전쯤 되고, 그 말은 프레임 속도와 상관없이 대략 5초가 지나면 한 바퀴를 회전하게 된다는 뜻입니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">*    rotation[1] += rotationSpeed * deltaTime;
+</code></pre>
+<p>동작 결과는 아래와 같습니다.</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-animation.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-animation.html" target="_blank">새 창으로 열기</a>
+</div>
+
+</p>
+<p>여러분이 아주 속도가 느린 장치를 사용하고 있지 않으시다면 이 페이지 맨 위의 예제와 다른 점을 눈치채시기 어려울겁니다.
+하지만 여러분이 애니메이션을 프레임 갱신 속도에 독립적으로 만들지 않으면 여러분이 계획한 것과는 매우 다른 경험을 하는 사용자가 생길겁니다.</p>
+<p>다음은 <a href="webgl-3d-textures.html">텍스처 적용 방법</a> 입니다.</p>
+<div class="webgl_bottombar">
+<h3>setInterval이나 setTimeout은 사용하지 마세요!</h3>
+<p>여러분이 자바스트립트에서 애니메이션 프로그래밍을 해 보신 적이 있다면 
+<code class="notranslate" translate="no">setInterval</code>이나 <code class="notranslate" translate="no">setTimeout</code>을 사용해 드로잉 함수를 호출한 적이 있으실겁니다.
+</p><p>
+애니메이션을 위해 <code class="notranslate" translate="no">setInterval</code>이나 <code class="notranslate" translate="no">setTimeout</code>를 사용할 때의 문제점은 두 가지입니다.
+먼저 <code class="notranslate" translate="no">setInterval</code>과 <code class="notranslate" translate="no">setTimeout</code> 둘 다 브라우저가 화면을 표시하는 것과는 무관하다는 것입니다.
+이 함수들은 브라우저가 새 프레임을 그리는 것과 동기화되어있지 않아서 사용자의 환경에서는 동기화가 틀어질 수 있습니다.
+<code class="notranslate" translate="no">setInterval</code>이나 <code class="notranslate" translate="no">setTimeout</code>을 사용하면서 초당 60프레임을 가정했는데 
+실제 사용자의 환경은 다른 프레임 갱신 속도로 동작한다면 장치와의 동기화가 틀어질 겁니다.
+</p><p>
+또다른 문제는 브라우저는 여러분이 언제 <code class="notranslate" translate="no">setInterval</code>이나
+<code class="notranslate" translate="no">setTimeout</code>를 사용하는지 모른다는 것입니다.
+예를 들어 페이지가 다른 탭에 있어서 여러분의 페이지가 화면에 보이지 않는 상태여도 브라우저는 여전히 코드를 실행할 겁니다.
+<code class="notranslate" translate="no">setTimeout</code>이나 <code class="notranslate" translate="no">setInterval</code>를 새 메일이나 트윗을 체크하기 위해 사용하고 있을 수 있습니다.
+브라우저는 여러분이 어떤 목적으로 그 함수들을 사용하는지 알 수 없습니다.
+몇 초에 한번씩 새 메시지를 확인하는 것이라면 문제가 없지만 WebGL을 사용해 1000개의 물체를 그리려고 하는 것이라면 문제가 발생합니다.
+그렇게 되면 여러분은 보고 있지도 않은 화면을 위해 사용자의 장치에 부하를 주고 있는 겁니다.
+</p><p>
+<code class="notranslate" translate="no">requestAnimationFrame</code>은 이 두가지 문제를 모두 해결해줍니다.
+스크린과 애니메이션이 동기화되도록 적절한 시간에 여러분의 함수를 호출해주고 또한 탭이 화면에 표시되고 있을때만 호출합니다.
+</p>
+</div>
+
+    </div>
+    <div class="lesson-sidebar">
+        <select class="language">
+    <option value="/webgl/lessons/webgl-animation.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-animation.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-animation.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-animation.html" selected>한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-animation.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-animation.html" >Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-animation.html" >简体中文</a>
+</select>
+
+
+        <div id="toc">
+          <ul>  <li>기초</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-getting-webgl2.html">WebGL2 사용법</a></li>
+<li><a href="/webgl/lessons/ko/webgl-fundamentals.html">기초</a></li>
+<li><a href="/webgl/lessons/ko/webgl-how-it-works.html">WebGL2 작동 원리</a></li>
+<li><a href="/webgl/lessons/ko/webgl-shaders-and-glsl.html">WebGL2 셰이더와 GLSL</a></li>
+<li><a href="/webgl/lessons/resources/webgl-state-diagram.html">WebGL2 State Diagram</a></li>
+        </ul>
+  <li>WebGL2 vs WebGL1</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl2-whats-new.html">WebGL2 새로운 기능</a></li>
+<li><a href="/webgl/lessons/ko/webgl1-to-webgl2.html">WebGL1에서 WebGL2로의 변경</a></li>
+<li><a href="/webgl/lessons/ko/webgl1-to-webgl2-fundamentals.html">WebGLFundamentals.org과 WebGL2Fundamentals.org의 차이점</a></li>
+        </ul>
+  <li>이미지 처리</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-image-processing.html">이미지 처리</a></li>
+<li><a href="/webgl/lessons/ko/webgl-image-processing-continued.html">WebGL2 이미지 처리 심화</a></li>
+        </ul>
+  <li>2D 이동, 회전, 크기 변환 행렬 계산</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-2d-translation.html">WebGL2 2D 이동</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-rotation.html">WebGL2 2D 회전</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-scale.html">WebGL2 2D 크기 변환</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-matrices.html">WebGL2 2D 행렬</a></li>
+        </ul>
+  <li>3D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-3d-orthographic.html">3D 직교 투영</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-perspective.html">3D 원근 투영</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-camera.html">3D - 카메라</a></li>
+<li><a href="/webgl/lessons/ko/webgl-matrix-naming.html">3D - 행렬의 이름</a></li>
+        </ul>
+  <li>Lighting</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-3d-lighting-directional.html">방향성 조명 효과(Directional Lighting)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-lighting-point.html">점 조명 효과(Point Lighting)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-lighting-spot.html">스팟 조명 효과(Spot Lighting)</a></li>
+        </ul>
+  <li>Structure and Organization</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-less-code-more-fun.html">더 적은 코드로 즐겁게 코딩하기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-drawing-multiple-things.html">여러 물체를 그리는 법</a></li>
+<li><a href="/webgl/lessons/ko/webgl-scene-graph.html">장면(Scene) 그래프</a></li>
+        </ul>
+  <li>Geometry</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-3d-geometry-lathe.html">3D Geometry - Lathe</a></li>
+<li><a href="/webgl/lessons/ko/webgl-load-obj.html">.obj 파일 로딩</a></li>
+<li><a href="/webgl/lessons/ko/webgl-load-obj-w-mtl.html">Loading .obj w .mtl files</a></li>
+        </ul>
+  <li>Textures</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-3d-textures.html">텍스처</a></li>
+<li><a href="/webgl/lessons/ko/webgl-data-textures.html">데이터 텍스처</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2-textures.html">두개 이상의 텍스처 사용하기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-cors-permission.html">교차 출처 이미지(Cross Origin Image)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-perspective-correct-texturemapping.html">원근 교정 텍스처 매핑</a></li>
+<li><a href="/webgl/lessons/ko/webgl-planar-projection-mapping.html">평면 및 원근 투영 매핑</a></li>
+        </ul>
+  <li>Rendering To A Texture</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-render-to-texture.html">텍스처에 렌더링하기</a></li>
+        </ul>
+  <li>Shadows</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-shadows.html">그림자</a></li>
+        </ul>
+  <li>Techniques</li>
+        <ul>
+            <li>2D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-2d-drawimage.html">2D - DrawImage</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-matrix-stack.html">2D - 행렬 스택</a></li>
+<li><a href="/webgl/lessons/ko/webgl-sprites.html">Sprite</a></li>
+        </ul>
+  <li>3D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-cube-maps.html">큐브맵</a></li>
+<li><a href="/webgl/lessons/ko/webgl-environment-maps.html">환경맵</a></li>
+<li><a href="/webgl/lessons/ko/webgl-skybox.html">Skybox</a></li>
+<li><a href="/webgl/lessons/ko/webgl-skinning.html">Skinning</a></li>
+<li><a href="/webgl/lessons/ko/webgl-fog.html">Fog</a></li>
+<li><a href="/webgl/lessons/ko/webgl-picking.html">Picking (clicking on stuff)</a></li>
+        </ul>
+  <li>Text</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-text-html.html">텍스트 - HTML</a></li>
+<li><a href="/webgl/lessons/ko/webgl-text-canvas2d.html">텍스트 - Canvas 2D</a></li>
+<li><a href="/webgl/lessons/ko/webgl-text-texture.html">텍스트 - 텍스처 사용</a></li>
+<li><a href="/webgl/lessons/ko/webgl-text-glyphs.html">Text - Using a Glyph Texture</a></li>
+        </ul>
+  <li>GPGPU</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-gpgpu.html">GPGPU</a></li>
+        </ul>
+        </ul>
+  <li>Tips</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-smallest-programs.html">Smallest Programs</a></li>
+<li><a href="/webgl/lessons/ko/webgl-drawing-without-data.html">Drawing Without Data</a></li>
+<li><a href="/webgl/lessons/ko/webgl-shadertoy.html">Shadertoy</a></li>
+<li><a href="/webgl/lessons/ko/webgl-pulling-vertices.html">Pulling Vertices</a></li>
+        </ul>
+  <li>Optimization</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-indexed-vertices.html">정점 인덱스 (gl.drawElements)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-instanced-drawing.html">인스턴스 드로잉(Instanced Drawing)</a></li>
+        </ul>
+  <li>기타</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-setup-and-installation.html">설정 및 설치</a></li>
+<li><a href="/webgl/lessons/ko/webgl-boilerplate.html">보일러플레이트(Boilerplate)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-resizing-the-canvas.html">Canvas 리사이징</a></li>
+<li><a href="/webgl/lessons/ko/webgl-animation.html">애니메이션</a></li>
+<li><a href="/webgl/lessons/ko/webgl-points-lines-triangles.html">점, 선, 삼각형</a></li>
+<li><a href="/webgl/lessons/ko/webgl-multiple-views.html">Multiple Views, Multiple Canvases</a></li>
+<li><a href="/webgl/lessons/ko/webgl-visualizing-the-camera.html">Visualizing the Camera</a></li>
+<li><a href="/webgl/lessons/ko/webgl-and-alpha.html">WebGL2 알파(Alpha)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-vs-3d-library.html">2D vs 3D 라이브러리</a></li>
+<li><a href="/webgl/lessons/ko/webgl-anti-patterns.html">안티패턴</a></li>
+<li><a href="/webgl/lessons/ko/webgl-matrix-vs-math.html">WebGL2 행렬 vs 수학에서의 행렬</a></li>
+<li><a href="/webgl/lessons/ko/webgl-precision-issues.html">정밀도 이슈</a></li>
+<li><a href="/webgl/lessons/ko/webgl-tips.html#screenshot">스크린샷 찍기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-tips.html#preservedrawingbuffer">Canvas Clear 방지</a></li>
+<li><a href="/webgl/lessons/ko/webgl-tips.html#tabindex">캔버스에서 키보드 입력 받기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-tips.html#html-background">HTML에서 WebGL2를 배경으로 사용하기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-cross-platform-issues.html">Cross Platform 문제</a></li>
+<li><a href="/webgl/lessons/ko/webgl-qna.html">질문 및 답변</a></li>
+        </ul>
+  <li>Reference</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-attributes.html">Attributes</a></li>
+<li><a href="/webgl/lessons/ko/webgl-texture-units.html">텍스처 유닛</a></li>
+<li><a href="/webgl/lessons/ko/webgl-framebuffers.html">Framebuffer</a></li>
+<li><a href="/webgl/lessons/ko/webgl-readpixels.html">readPixels</a></li>
+<li><a href="/webgl/lessons/ko/webgl-references.html">참고 자료</a></li>
+        </ul></ul>
+<ul>
+  <li><a href="/docs/">Helper API Docs</a></li>
+  <li><a href="https://twgljs.org">TWGL, A tiny WebGL helper library</a></li>
+  <li><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">github</a></li>
+</ul>
+        </div>
+    </div>
+    <div class="lesson-comments">
+        
+    <div>이슈나 버그가 있나요? <a href="https://github.com/greggman/webgl2-fundamentals/issues">깃헙에서 이슈 만들기</a>.</div>
+  
+
+        <div id="disqus_thread"></div>
+        <script>
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'webgl2fundamentals'; // required: replace example with your forum shortname
+            var disqus_identifier = 'WebGL2 - 애니메이션';
+            var disqus_title = 'WebGL2 - 애니메이션';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                if (window.location.hostname.indexOf("webgl2fundamentals.org") < 0) {
+                    return;
+                }
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+const settings = {
+  contribTemplate: "<a href=\"${html_url}\"><img src=\"${avatar_url}\"> ${login}</a>님, <br>당신의 <a href=\"https://github.com/${owner}/${repo}/commits?author=${login}\">${contributions} 기여</a>에 감사드립니다.",
+  owner: "gfxfundamentals",
+  repo: "webgl2-fundamentals",
+};
+</script>
+<script src="/contributors.js"></script>
+<script src="/3rdparty/jquery-1.11.2.min.js"></script>
+<script src="/webgl/lessons/resources/prettify.js"></script>
+<script src="/webgl/lessons/resources/lesson.js" type="module"></script>
+<script>
+</script>
+
+
+</html>
+
+
+

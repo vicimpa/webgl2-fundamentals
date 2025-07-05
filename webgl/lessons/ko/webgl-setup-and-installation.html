@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<!-- this file is auto-generated from webgl/lessons/ko/webgl-setup-and-installation.md. Do not edited directly -->
+<!--
+Copyright 2021, GFXFundamentals.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+*   Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+*   Redistributions in binary form must reproduce the above
+    copyright notice, this list of conditions and the following disclaimer
+    in the documentation and/or other materials provided with the
+    distribution.
+
+*   Neither the name of GFXFundamentals. nor the names of his
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="WebGL 개발 방법">
+<meta name="keywords" content="webgl webgl2 graphics">
+<meta name="thumbnail" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-setup-and-installation_ko.jpg">
+
+<meta property="og:title" content="WebGL2 설정 및 설치">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-setup-and-installation_ko.jpg">
+<meta property="og:description" content="WebGL 개발 방법">
+<meta property="og:url" content="https://webgl2fundamentals.org/webgl/lessons/ko/webgl-setup-and-installation.html">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@greggman">
+<meta name="twitter:creator" content="@greggman">
+<meta name="twitter:domain" content="webgl2fundamentals.org">
+<meta name="twitter:title" content="WebGL2 설정 및 설치">
+<meta name="twitter:url" content="https://webgl2fundamentals.org/webgl/lessons/ko/webgl-setup-and-installation.html">
+<meta name="twitter:description" content="WebGL 개발 방법">
+<meta name="twitter:image:src" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-setup-and-installation_ko.jpg">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebSite",
+      "@id":"https://webgl2fundamentals.org/#website",
+      "url":"https://webgl2fundamentals.org/",
+      "name":"Webgl2Fundamentals"
+    },
+    {
+      "@type":"ImageObject",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/ko/webgl-setup-and-installation.html#primaryimage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-setup-and-installation_ko.jpg",
+      "width":1200,
+      "height":630
+    },
+    {
+      "@type":"WebPage",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/ko/webgl-setup-and-installation.html#webpage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/ko/webgl-setup-and-installation.html",
+      "inLanguage":"ko",
+      "name":"WebGL2 설정 및 설치",
+      "keywords":"webgl webgl2 graphics programming",
+      "isPartOf":{
+        "@id":"https://webgl2fundamentals.org/#website"
+      },
+      "primaryImageOfPage":{
+        "@id":"https://webgl2fundamentals.org/webgl/lessons/ko/webgl-setup-and-installation.html#primaryimage"
+      }
+    }
+  ]
+}
+</script>
+
+
+<title>WebGL2 설정 및 설치</title>
+<link href="/webgl/lessons/resources/webgl2fundamentals-icon.png" rel="shortcut icon" type="image/png">
+<link rel="stylesheet" href="/webgl/lessons/lang.css">
+<link rel="stylesheet" href="/webgl/lessons/ko/lang.css">
+<link rel="stylesheet" href="/webgl/lessons/resources/lesson.css">
+
+  <link rel="alternate" hreflang="en" href="https://webglfundamentals.org/webgl/lessons/webgl-setup-and-installation.html">
+  <link rel="alternate" hreflang="de" href="https://webglfundamentals.org/webgl/lessons/de/webgl-setup-and-installation.html">
+  <link rel="alternate" hreflang="ja" href="https://webglfundamentals.org/webgl/lessons/ja/webgl-setup-and-installation.html">
+  <link rel="alternate" hreflang="ko" href="https://webglfundamentals.org/webgl/lessons/ko/webgl-setup-and-installation.html">
+  <link rel="alternate" hreflang="pt-br" href="https://webglfundamentals.org/webgl/lessons/pt-br/webgl-setup-and-installation.html">
+  <link rel="alternate" hreflang="ru" href="https://webglfundamentals.org/webgl/lessons/ru/webgl-setup-and-installation.html">
+  <link rel="alternate" hreflang="zh_cn" href="https://webglfundamentals.org/webgl/lessons/zh_cn/webgl-setup-and-installation.html">
+
+
+
+
+</head>
+<body>
+<div class="webgl_navbar">
+  <div>
+    <select class="language">
+    <option value="/webgl/lessons/webgl-setup-and-installation.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-setup-and-installation.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-setup-and-installation.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-setup-and-installation.html" selected>한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-setup-and-installation.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-setup-and-installation.html" >Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-setup-and-installation.html" >简体中文</a>
+</select>
+
+
+    <a href="#toc">목차</a>
+    <input type="search" placeholder="?" id="search">
+  </div>
+</div>
+<div class="webgl_header">
+  <h1><a href="/webgl/lessons/ko/">WebGL2Fundamentals.org</a></h1>
+<style>
+#forkongithub>div {
+    background: #000;
+    color: #fff;
+    font-family: arial,sans-serif;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 40px;
+    font-size: 0.9rem;
+    line-height: 1.3rem;
+    position: relative;
+    transition: 0.5s;
+    display: block;
+    width: 400px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(200px) rotate(45deg) translate(10px,70px);
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.8);
+    pointer-events: auto;
+}
+#forkongithub a {
+  text-decoration: none;
+  color: #fff;
+}
+#forkongithub>div:hover {
+    background: #c11;
+    color: #fff;
+}
+#forkongithub .contributors {
+  font-size: 0.75rem;
+  background: rgba(255,255,255,0.2);
+  line-height: 1.2;
+  padding: 0.1em;
+}
+#forkongithub>div::before,#forkongithub>div::after {
+    content: "";
+    width: 100%;
+    display: block;
+    position: absolute;
+    top: 1px;
+    left: 0;
+    height: 1px;
+    background: #fff;
+}
+#forkongithub>div::after {
+    bottom: 1px;
+    top: auto;
+}
+
+#forkongithub{
+    z-index: 9999;
+    /* needed for firefox */
+    overflow: hidden;
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    pointer-events: none;
+}
+#forkongithub svg{
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+}
+#forkongithub img {
+  width: 1em;
+  height: 1em;
+  border-radius: 100%;
+  vertical-align: middle;
+}
+
+@media (max-width: 900px) {
+    #forkongithub>div {
+        line-height: 1.2rem;
+    }
+}
+@media (max-width: 700px) {
+  #forkongithub {
+    display: none;
+  }
+}
+@media (max-width: 410px) {
+    #forkongithub>div {
+        font-size: 0.7rem;
+        transform: translateX(150px) rotate(45deg) translate(20px,40px);
+    }
+}
+
+</style>
+<div id="forkongithub"><div><div><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">Fix, Fork, Contribute <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 136 133" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(3.92891,0,0,3.92891,67.867,129.125)">
+        <path d="M0,-31.904C-8.995,-31.904 -16.288,-24.611 -16.288,-15.614C-16.288,-8.417 -11.621,-2.312 -5.148,-0.157C-4.333,-0.008 -4.036,-0.511 -4.036,-0.943C-4.036,-1.329 -4.05,-2.354 -4.058,-3.713C-8.589,-2.729 -9.545,-5.897 -9.545,-5.897C-10.286,-7.779 -11.354,-8.28 -11.354,-8.28C-12.833,-9.29 -11.242,-9.27 -11.242,-9.27C-9.607,-9.155 -8.747,-7.591 -8.747,-7.591C-7.294,-5.102 -4.934,-5.821 -4.006,-6.238C-3.858,-7.29 -3.438,-8.008 -2.972,-8.415C-6.589,-8.826 -10.392,-10.224 -10.392,-16.466C-10.392,-18.244 -9.757,-19.698 -8.715,-20.837C-8.883,-21.249 -9.442,-22.905 -8.556,-25.148C-8.556,-25.148 -7.188,-25.586 -4.076,-23.478C-2.777,-23.84 -1.383,-24.02 0.002,-24.026C1.385,-24.02 2.779,-23.84 4.08,-23.478C7.19,-25.586 8.555,-25.148 8.555,-25.148C9.444,-22.905 8.885,-21.249 8.717,-20.837C9.761,-19.698 10.392,-18.244 10.392,-16.466C10.392,-10.208 6.583,-8.831 2.954,-8.428C3.539,-7.925 4.06,-6.931 4.06,-5.411C4.06,-3.234 4.04,-1.477 4.04,-0.943C4.04,-0.507 4.333,0 5.16,-0.159C11.628,-2.318 16.291,-8.419 16.291,-15.614C16.291,-24.611 8.997,-31.904 0,-31.904" style="fill:white;"/>
+    </g>
+</svg>
+</a></div></div></div>
+
+</div>
+
+
+<div class="container">
+  <div class="lesson-title">
+    <h1>WebGL2 설정 및 설치</h1>
+  </div>
+  <div class="lesson">
+    <div class="lesson-main">
+      <p>사실, WebGL개발을 위해서는 웹 브라우저 말고 다른 것은 필요 없습니다.
+<a href="https://jsfiddle.net/greggman/8djzyjL3/">jsfiddle.net</a> 또는 <a href="https://jsbin.com">jsbin.com</a>
+또는 <a href="https://codepen.io/greggman/pen/YGQjVV">codepen.io</a> 에 방문하여 여기서 배운 내용을 적용해 보십시오,</p>
+<p>모든 사이트에서 <code class="notranslate" translate="no">&lt;script src=&quot;...&quot;&gt;&lt;/script&gt;</code> 태그를 사용해서, 필요한 경우 외부 스크립트를 참조할 수 있습니다.</p>
+<p>하지만, 제약 사항도 있습니다. WebGL은 Canvas2D보다 이미지를 로딩하는 데 있어서 강한 제약이 있으므로
+당신이 만든 WebGL에 웹에 존재하는 아무 이미지를 사용할 수는 없습니다.
+또한 로컬에서 모든 작업을 수행하는 것이 더 빠르다는 장점도 있습니다.</p>
+<p>당신이 이 사이트에 있는 샘플들을 실행해 보거나 수정해 보고 싶다고하면,
+우선 이 사이트를 다운로드 해야 합니다. <a href="https://github.com/gfxfundamentals/webgl2-fundamentals/tree/gh-pages">여기에서 다운로드 할 수 있습니다</a>.</p>
+<p><div class="webgl_image ">
+  <img class="" src="/webgl/lessons/resources/download-webglfundamentals.gif">
+</div>
+
+</p>
+<p>파일의 압축을 푸십시오.</p>
+<h2 id="작고-간단한-웹-서버-사용하기">작고 간단한 웹 서버 사용하기</h2>
+<p>다음으로, 작은 웹 서버를 설치해야 합니다. &quot;웹 서버&quot;라는 말이 조금 무섭게 들릴수도 있지만 사실 <a href="https://games.greggman.com/game/saving-and-loading-files-in-a-web-page/">웹서버는 굉장히 간단합니다.</a>.</p>
+<p>인터페이스를 제공하는 간단한 웹 서버가 있습니다. <a href="https://greggman.github.io/servez">Servez</a>.</p>
+<p><div class="webgl_image ">
+  <img class="" src="/webgl/lessons/resources/servez.gif">
+</div>
+
+</p>
+<p>압축을 푼 파일들이 있는 경로를 지정하고, &quot;Start&quot;를 클릭하십시오. 그리고 브라우저를 통해
+<a href="../"><code class="notranslate" translate="no">http://localhost:8080/webgl/</code></a>`http://localhost:8080/webgl/)에 접속해 샘플을 선택하세요.</p>
+<p>명령줄을 사용하는 것을 선호한다면 <a href="https://nodejs.org">node.js</a>를 사용하셔도 됩니다.
+다운로드하고 설치한 뒤 명령 프롬프트/콘솔/터미널 창을 여십시오.
+윈도우즈를 사용 중이라면 인스톨러가 &quot;Node Command Prompt&quot;를 추가로 설치할 테니 그것을 사용하시면 됩니다.</p>
+<p>그리고 아래와 같이 입력하여 <a href="https://github.com/greggman/servez-cli"><code class="notranslate" translate="no">servez</code></a>를 설치하십시오.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">npm -g install servez
+</code></pre>
+<p>OSX라면 아래 명령어를 사용하세요.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">sudo npm -g install servez
+</code></pre>
+<p>다 되었다면 아래와 같이 입력하세요.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">servez path/to/folder/where/you/unzipped/files
+</code></pre>
+<p>그러면 아래와 같이 출력될겁니다.</p>
+<p><div class="webgl_image ">
+  <img class="" src="/webgl/lessons/resources/servez-response.png">
+</div>
+
+</p>
+<p>그리고 브라우저를 통해<a href="http://localhost:8080/webgl/"><code class="notranslate" translate="no">http://localhost:8080/webgl/</code></a>에 접속하세요.</p>
+<p>경로를 입력하지 않는다면 servez에서 현재 폴더를 server로 지정할겁니다.</p>
+<h2 id="브라우저-개발자-도구-사용하기">브라우저 개발자 도구 사용하기</h2>
+<p>대부분의 브라우저는 많은 개발자 도구가 포함되어 있습니다.</p>
+<p><div class="webgl_image ">
+  <img class="" src="/webgl/lessons/resources/chrome-devtools.png">
+</div>
+
+</p>
+<p><a href="https://developers.google.com/web/tools/chrome-devtools/">크롬 개발자 도구 문서</a>,
+<a href="https://developer.mozilla.org/en-US/docs/Tools">파이어폭스 개발자 도구 문서</a>.</p>
+<p>사용하는 방법을 배워 보세요. 특별한 경우가 아니면 자바스크립트 콘솔만 확인하시면 됩니다.
+문제가 있다면 대개 오류 메시지가 있을겁니다.
+오류 메시지를 자세히 읽어보시면 어디가 문제인지 알아챌 수 있을겁니다.</p>
+<p><div class="webgl_image ">
+  <img class="" src="/webgl/lessons/resources/javascript-console.gif">
+</div>
+
+</p>
+<h2 id="webgl-lint">WebGL Lint</h2>
+<p><a href="https://greggman.github.io/webgl-lint/">여기</a>에 WebGL 오류를 확인할 수 있는 스크립트가 있습니다.
+다른 스크립트 전에 이 스크립트를 페이지에 추가하세요.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">&lt;script src=&quot;https://greggman.github.io/webgl-lint/webgl-lint.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>그러면 프로그램에서 WebGL 오류가 발생할 때 예외를 발생기키고 운이 좋으면 많은 정보들이 출력 될겁니다.</p>
+<p><a href="https://github.com/greggman/webgl-lint#naming-your-webgl-objects-buffers-textures-programs-etc">또한 WebGL 리소스들에 이름을 추가할 수 있는데</a>
+(buffer, textures, shaders, programs, …), 그러면 오류 메시지와 관련된 리소스의 이름을 에러 메시지에 포함하여 출력할 수 있습니다.</p>
+<h2 id="확장">확장</h2>
+<p>다양한 WebGL Inspector가 있습니다.
+<a href="https://spector.babylonjs.com/">크롬과 파이어폭스 용은 여기 있습니다.</a>.</p>
+<p><div class="webgl_image ">
+  <img class="" src="https://camo.githubusercontent.com/5bbc9caf2fc0ecc2eebf615fa8348146b37b08fe/68747470733a2f2f73706563746f72646f632e626162796c6f6e6a732e636f6d2f70696374757265732f7469746c652e706e67">
+</div>
+
+</p>
+<p>주의: <a href="https://github.com/BabylonJS/Spector.js/blob/master/readme.md">문서를 읽어 보세요!</a>!</p>
+<p>spector.js의 확장 버전은 프레임을 캡처합니다.
+그 말은 당신의 WebGL 앱이 성공적으로 초기화되고 <code class="notranslate" translate="no">requestAnimationFrame</code>에서 렌더링 될때에만 제대로 동작한다는 이야기입니다.
+“record” 버튼을 누르면 한 &quot;프레임&quot;에 호출된 모든 WebGL API들을 캡처합니다.</p>
+<p>다시말해, 초기화 시점에 발생하는 문제 해결에는 다른 방법이 필요합니다.</p>
+<p>방법은 두가지가 있습니다.</p>
+<ol>
+<li>
+<p>확장이 아닌 라이브러리로서 사용하기.</p>
+<p><a href="https://github.com/BabylonJS/Spector.js/blob/master/readme.md">문서</a>를 보세요.
+이렇게 하면 &quot;지금 시점의 WebGL API 명령어를 캡처해!&quot;라고 할 수 있습니다.</p>
+</li>
+<li>
+<p>앱을 수정하여 버튼을 클릭하면 시작하도록 수정하기.</p>
+<p>이렇게 하면 확장으로 가서 &quot;record&quot;를 하고 난 뒤에 앱을 시작할 수 있습니다.
+앱이 작동하지 않으면 몇 개의 가짜 프레임을 집어넣으세요. 예를 들어:</p>
+</li>
+</ol>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-html">&lt;button type=&quot;button&quot;&gt;start&lt;/button&gt;
+&lt;canvas id=&quot;canvas&quot;&gt;&lt;/canvas&gt;
+</code></pre>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">function main() {
+  // WebGL context 가져오기
+  /** @type {HTMLCanvasElement} */
+  const canvas = document.querySelector(&quot;#canvas&quot;);
+  const gl = canvas.getContext(&quot;webgl&quot;);
+  if (!gl) {
+    return;
+  }
+
+  const startElem = document.querySelector('button');
+  startElem.addEventListener('click', start, {once: true});
+
+  function start() {
+    // spector는 rAF 이벤트 내의 동작만 캡처하므로, 초기화를 rAF안에서 실행    
+    requestAnimationFrame(() =&gt; {
+      // 초기화 실행
+      init(gl);
+    });
+    // spector가 살펴볼 수 있도록 몇 개의 프레임 생성
+    requestAnimationFrame(() =&gt; {});
+    requestAnimationFrame(() =&gt; {});
+    requestAnimationFrame(() =&gt; {});
+  }
+}
+
+main();
+</code></pre>
+<p>이제 spector.js 확장에서 &quot;record&quot;를 누르고 페이지 내의 &quot;start&quot;를 클릭하면 spector가 초기화 과정을 기록할 수 있습니다.</p>
+<p>사파리 또한 <a href="https://stackoverflow.com/questions/62446483/debugging-in-webgl">비슷한 문제와 해결 방법이 있습니다.</a>.</p>
+<p>제가 이런 헬퍼 기능을 사용할 때는 draw call에 클릭하고 uniform을 살펴봅니다.
+<code class="notranslate" translate="no">NaN</code>(NaN = Not a Number)이 많이 보인다면 uniform을 설정하는 부분으로 가서 버그를 찾습니다.</p>
+<h2 id="코드-확인하기">코드 확인하기</h2>
+<p>코드를 확인할 수 있다는 사실을 항상 기억하십시오. 일반적으로는 그냥 소스를 보시면 됩니다.</p>
+<p><div class="webgl_image ">
+  <img class="" src="/webgl/lessons/resources/view-source.gif">
+</div>
+
+</p>
+<p>페이지를 우클릭 할 수 없는 경우나 소스가 별도에 파일에 있는 경우에도 개발자 도구에서는 소스를 볼 수 있습니다.</p>
+<p><div class="webgl_image ">
+  <img class="" src="/webgl/lessons/resources/devtools-source.gif">
+</div>
+
+</p>
+<h2 id="시작하기">시작하기</h2>
+<p>위 내용들이 시작하는데 도움이 되었기를 바랍니다. <a href="index.html">강의로 다시 돌아갑시다.</a>.</p>
+
+    </div>
+    <div class="lesson-sidebar">
+        <select class="language">
+    <option value="/webgl/lessons/webgl-setup-and-installation.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-setup-and-installation.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-setup-and-installation.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-setup-and-installation.html" selected>한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-setup-and-installation.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-setup-and-installation.html" >Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-setup-and-installation.html" >简体中文</a>
+</select>
+
+
+        <div id="toc">
+          <ul>  <li>기초</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-getting-webgl2.html">WebGL2 사용법</a></li>
+<li><a href="/webgl/lessons/ko/webgl-fundamentals.html">기초</a></li>
+<li><a href="/webgl/lessons/ko/webgl-how-it-works.html">WebGL2 작동 원리</a></li>
+<li><a href="/webgl/lessons/ko/webgl-shaders-and-glsl.html">WebGL2 셰이더와 GLSL</a></li>
+<li><a href="/webgl/lessons/resources/webgl-state-diagram.html">WebGL2 State Diagram</a></li>
+        </ul>
+  <li>WebGL2 vs WebGL1</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl2-whats-new.html">WebGL2 새로운 기능</a></li>
+<li><a href="/webgl/lessons/ko/webgl1-to-webgl2.html">WebGL1에서 WebGL2로의 변경</a></li>
+<li><a href="/webgl/lessons/ko/webgl1-to-webgl2-fundamentals.html">WebGLFundamentals.org과 WebGL2Fundamentals.org의 차이점</a></li>
+        </ul>
+  <li>이미지 처리</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-image-processing.html">이미지 처리</a></li>
+<li><a href="/webgl/lessons/ko/webgl-image-processing-continued.html">WebGL2 이미지 처리 심화</a></li>
+        </ul>
+  <li>2D 이동, 회전, 크기 변환 행렬 계산</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-2d-translation.html">WebGL2 2D 이동</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-rotation.html">WebGL2 2D 회전</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-scale.html">WebGL2 2D 크기 변환</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-matrices.html">WebGL2 2D 행렬</a></li>
+        </ul>
+  <li>3D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-3d-orthographic.html">3D 직교 투영</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-perspective.html">3D 원근 투영</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-camera.html">3D - 카메라</a></li>
+<li><a href="/webgl/lessons/ko/webgl-matrix-naming.html">3D - 행렬의 이름</a></li>
+        </ul>
+  <li>Lighting</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-3d-lighting-directional.html">방향성 조명 효과(Directional Lighting)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-lighting-point.html">점 조명 효과(Point Lighting)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-lighting-spot.html">스팟 조명 효과(Spot Lighting)</a></li>
+        </ul>
+  <li>Structure and Organization</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-less-code-more-fun.html">더 적은 코드로 즐겁게 코딩하기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-drawing-multiple-things.html">여러 물체를 그리는 법</a></li>
+<li><a href="/webgl/lessons/ko/webgl-scene-graph.html">장면(Scene) 그래프</a></li>
+        </ul>
+  <li>Geometry</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-3d-geometry-lathe.html">3D Geometry - Lathe</a></li>
+<li><a href="/webgl/lessons/ko/webgl-load-obj.html">.obj 파일 로딩</a></li>
+<li><a href="/webgl/lessons/ko/webgl-load-obj-w-mtl.html">Loading .obj w .mtl files</a></li>
+        </ul>
+  <li>Textures</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-3d-textures.html">텍스처</a></li>
+<li><a href="/webgl/lessons/ko/webgl-data-textures.html">데이터 텍스처</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2-textures.html">두개 이상의 텍스처 사용하기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-cors-permission.html">교차 출처 이미지(Cross Origin Image)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-perspective-correct-texturemapping.html">원근 교정 텍스처 매핑</a></li>
+<li><a href="/webgl/lessons/ko/webgl-planar-projection-mapping.html">평면 및 원근 투영 매핑</a></li>
+        </ul>
+  <li>Rendering To A Texture</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-render-to-texture.html">텍스처에 렌더링하기</a></li>
+        </ul>
+  <li>Shadows</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-shadows.html">그림자</a></li>
+        </ul>
+  <li>Techniques</li>
+        <ul>
+            <li>2D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-2d-drawimage.html">2D - DrawImage</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-matrix-stack.html">2D - 행렬 스택</a></li>
+<li><a href="/webgl/lessons/ko/webgl-sprites.html">Sprite</a></li>
+        </ul>
+  <li>3D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-cube-maps.html">큐브맵</a></li>
+<li><a href="/webgl/lessons/ko/webgl-environment-maps.html">환경맵</a></li>
+<li><a href="/webgl/lessons/ko/webgl-skybox.html">Skybox</a></li>
+<li><a href="/webgl/lessons/ko/webgl-skinning.html">Skinning</a></li>
+<li><a href="/webgl/lessons/ko/webgl-fog.html">Fog</a></li>
+<li><a href="/webgl/lessons/ko/webgl-picking.html">Picking (clicking on stuff)</a></li>
+        </ul>
+  <li>Text</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-text-html.html">텍스트 - HTML</a></li>
+<li><a href="/webgl/lessons/ko/webgl-text-canvas2d.html">텍스트 - Canvas 2D</a></li>
+<li><a href="/webgl/lessons/ko/webgl-text-texture.html">텍스트 - 텍스처 사용</a></li>
+<li><a href="/webgl/lessons/ko/webgl-text-glyphs.html">Text - Using a Glyph Texture</a></li>
+        </ul>
+  <li>GPGPU</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-gpgpu.html">GPGPU</a></li>
+        </ul>
+        </ul>
+  <li>Tips</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-smallest-programs.html">Smallest Programs</a></li>
+<li><a href="/webgl/lessons/ko/webgl-drawing-without-data.html">Drawing Without Data</a></li>
+<li><a href="/webgl/lessons/ko/webgl-shadertoy.html">Shadertoy</a></li>
+<li><a href="/webgl/lessons/ko/webgl-pulling-vertices.html">Pulling Vertices</a></li>
+        </ul>
+  <li>Optimization</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-indexed-vertices.html">정점 인덱스 (gl.drawElements)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-instanced-drawing.html">인스턴스 드로잉(Instanced Drawing)</a></li>
+        </ul>
+  <li>기타</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-setup-and-installation.html">설정 및 설치</a></li>
+<li><a href="/webgl/lessons/ko/webgl-boilerplate.html">보일러플레이트(Boilerplate)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-resizing-the-canvas.html">Canvas 리사이징</a></li>
+<li><a href="/webgl/lessons/ko/webgl-animation.html">애니메이션</a></li>
+<li><a href="/webgl/lessons/ko/webgl-points-lines-triangles.html">점, 선, 삼각형</a></li>
+<li><a href="/webgl/lessons/ko/webgl-multiple-views.html">Multiple Views, Multiple Canvases</a></li>
+<li><a href="/webgl/lessons/ko/webgl-visualizing-the-camera.html">Visualizing the Camera</a></li>
+<li><a href="/webgl/lessons/ko/webgl-and-alpha.html">WebGL2 알파(Alpha)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-vs-3d-library.html">2D vs 3D 라이브러리</a></li>
+<li><a href="/webgl/lessons/ko/webgl-anti-patterns.html">안티패턴</a></li>
+<li><a href="/webgl/lessons/ko/webgl-matrix-vs-math.html">WebGL2 행렬 vs 수학에서의 행렬</a></li>
+<li><a href="/webgl/lessons/ko/webgl-precision-issues.html">정밀도 이슈</a></li>
+<li><a href="/webgl/lessons/ko/webgl-tips.html#screenshot">스크린샷 찍기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-tips.html#preservedrawingbuffer">Canvas Clear 방지</a></li>
+<li><a href="/webgl/lessons/ko/webgl-tips.html#tabindex">캔버스에서 키보드 입력 받기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-tips.html#html-background">HTML에서 WebGL2를 배경으로 사용하기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-cross-platform-issues.html">Cross Platform 문제</a></li>
+<li><a href="/webgl/lessons/ko/webgl-qna.html">질문 및 답변</a></li>
+        </ul>
+  <li>Reference</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-attributes.html">Attributes</a></li>
+<li><a href="/webgl/lessons/ko/webgl-texture-units.html">텍스처 유닛</a></li>
+<li><a href="/webgl/lessons/ko/webgl-framebuffers.html">Framebuffer</a></li>
+<li><a href="/webgl/lessons/ko/webgl-readpixels.html">readPixels</a></li>
+<li><a href="/webgl/lessons/ko/webgl-references.html">참고 자료</a></li>
+        </ul></ul>
+<ul>
+  <li><a href="/docs/">Helper API Docs</a></li>
+  <li><a href="https://twgljs.org">TWGL, A tiny WebGL helper library</a></li>
+  <li><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">github</a></li>
+</ul>
+        </div>
+    </div>
+    <div class="lesson-comments">
+        
+    <div>이슈나 버그가 있나요? <a href="https://github.com/greggman/webgl2-fundamentals/issues">깃헙에서 이슈 만들기</a>.</div>
+  
+
+        <div id="disqus_thread"></div>
+        <script>
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'webgl2fundamentals'; // required: replace example with your forum shortname
+            var disqus_identifier = 'WebGL2 설정 및 설치';
+            var disqus_title = 'WebGL2 설정 및 설치';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                if (window.location.hostname.indexOf("webgl2fundamentals.org") < 0) {
+                    return;
+                }
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+const settings = {
+  contribTemplate: "<a href=\"${html_url}\"><img src=\"${avatar_url}\"> ${login}</a>님, <br>당신의 <a href=\"https://github.com/${owner}/${repo}/commits?author=${login}\">${contributions} 기여</a>에 감사드립니다.",
+  owner: "gfxfundamentals",
+  repo: "webgl2-fundamentals",
+};
+</script>
+<script src="/contributors.js"></script>
+<script src="/3rdparty/jquery-1.11.2.min.js"></script>
+<script src="/webgl/lessons/resources/prettify.js"></script>
+<script src="/webgl/lessons/resources/lesson.js" type="module"></script>
+<script>
+</script>
+
+
+</html>
+
+
+

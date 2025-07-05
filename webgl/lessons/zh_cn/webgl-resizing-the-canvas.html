@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<!-- this file is auto-generated from webgl/lessons/zh_cn/webgl-resizing-the-canvas.md. Do not edited directly -->
+<!--
+Copyright 2021, GFXFundamentals.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+*   Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+*   Redistributions in binary form must reproduce the above
+    copyright notice, this list of conditions and the following disclaimer
+    in the documentation and/or other materials provided with the
+    distribution.
+
+*   Neither the name of GFXFundamentals. nor the names of his
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="如何重置一个 WebGL 画布以及设计的问题">
+<meta name="keywords" content="webgl webgl2 graphics">
+<meta name="thumbnail" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-resizing-the-canvas_zh-cn.jpg">
+
+<meta property="og:title" content="WebGL2 重置画布尺寸">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-resizing-the-canvas_zh-cn.jpg">
+<meta property="og:description" content="如何重置一个 WebGL 画布以及设计的问题">
+<meta property="og:url" content="https://webgl2fundamentals.org/webgl/lessons/zh_cn/webgl-resizing-the-canvas.html">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@greggman">
+<meta name="twitter:creator" content="@greggman">
+<meta name="twitter:domain" content="webgl2fundamentals.org">
+<meta name="twitter:title" content="WebGL2 重置画布尺寸">
+<meta name="twitter:url" content="https://webgl2fundamentals.org/webgl/lessons/zh_cn/webgl-resizing-the-canvas.html">
+<meta name="twitter:description" content="如何重置一个 WebGL 画布以及设计的问题">
+<meta name="twitter:image:src" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-resizing-the-canvas_zh-cn.jpg">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebSite",
+      "@id":"https://webgl2fundamentals.org/#website",
+      "url":"https://webgl2fundamentals.org/",
+      "name":"Webgl2Fundamentals"
+    },
+    {
+      "@type":"ImageObject",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/zh_cn/webgl-resizing-the-canvas.html#primaryimage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-resizing-the-canvas_zh-cn.jpg",
+      "width":1200,
+      "height":630
+    },
+    {
+      "@type":"WebPage",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/zh_cn/webgl-resizing-the-canvas.html#webpage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/zh_cn/webgl-resizing-the-canvas.html",
+      "inLanguage":"zh-cn",
+      "name":"WebGL2 重置画布尺寸",
+      "keywords":"webgl webgl2 graphics programming",
+      "isPartOf":{
+        "@id":"https://webgl2fundamentals.org/#website"
+      },
+      "primaryImageOfPage":{
+        "@id":"https://webgl2fundamentals.org/webgl/lessons/zh_cn/webgl-resizing-the-canvas.html#primaryimage"
+      }
+    }
+  ]
+}
+</script>
+
+
+<title>WebGL2 重置画布尺寸</title>
+<link href="/webgl/lessons/resources/webgl2fundamentals-icon.png" rel="shortcut icon" type="image/png">
+<link rel="stylesheet" href="/webgl/lessons/lang.css">
+<link rel="stylesheet" href="/webgl/lessons/resources/lesson.css">
+
+  <link rel="alternate" hreflang="en" href="https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html">
+  <link rel="alternate" hreflang="de" href="https://webglfundamentals.org/webgl/lessons/de/webgl-resizing-the-canvas.html">
+  <link rel="alternate" hreflang="ja" href="https://webglfundamentals.org/webgl/lessons/ja/webgl-resizing-the-canvas.html">
+  <link rel="alternate" hreflang="ko" href="https://webglfundamentals.org/webgl/lessons/ko/webgl-resizing-the-canvas.html">
+  <link rel="alternate" hreflang="pt-br" href="https://webglfundamentals.org/webgl/lessons/pt-br/webgl-resizing-the-canvas.html">
+  <link rel="alternate" hreflang="ru" href="https://webglfundamentals.org/webgl/lessons/ru/webgl-resizing-the-canvas.html">
+  <link rel="alternate" hreflang="zh_cn" href="https://webglfundamentals.org/webgl/lessons/zh_cn/webgl-resizing-the-canvas.html">
+
+
+
+
+</head>
+<body>
+<div class="webgl_navbar">
+  <div>
+    <select class="language">
+    <option value="/webgl/lessons/webgl-resizing-the-canvas.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-resizing-the-canvas.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-resizing-the-canvas.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-resizing-the-canvas.html" >한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-resizing-the-canvas.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-resizing-the-canvas.html" >Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-resizing-the-canvas.html" selected>简体中文</a>
+</select>
+
+
+    <a href="#toc">目录</a>
+    <input type="search" placeholder="?" id="search">
+  </div>
+</div>
+<div class="webgl_header">
+  <h1><a href="/webgl/lessons/zh_cn/">WebGL2Fundamentals.org</a></h1>
+<style>
+#forkongithub>div {
+    background: #000;
+    color: #fff;
+    font-family: arial,sans-serif;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 40px;
+    font-size: 0.9rem;
+    line-height: 1.3rem;
+    position: relative;
+    transition: 0.5s;
+    display: block;
+    width: 400px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(200px) rotate(45deg) translate(10px,70px);
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.8);
+    pointer-events: auto;
+}
+#forkongithub a {
+  text-decoration: none;
+  color: #fff;
+}
+#forkongithub>div:hover {
+    background: #c11;
+    color: #fff;
+}
+#forkongithub .contributors {
+  font-size: 0.75rem;
+  background: rgba(255,255,255,0.2);
+  line-height: 1.2;
+  padding: 0.1em;
+}
+#forkongithub>div::before,#forkongithub>div::after {
+    content: "";
+    width: 100%;
+    display: block;
+    position: absolute;
+    top: 1px;
+    left: 0;
+    height: 1px;
+    background: #fff;
+}
+#forkongithub>div::after {
+    bottom: 1px;
+    top: auto;
+}
+
+#forkongithub{
+    z-index: 9999;
+    /* needed for firefox */
+    overflow: hidden;
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    pointer-events: none;
+}
+#forkongithub svg{
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+}
+#forkongithub img {
+  width: 1em;
+  height: 1em;
+  border-radius: 100%;
+  vertical-align: middle;
+}
+
+@media (max-width: 900px) {
+    #forkongithub>div {
+        line-height: 1.2rem;
+    }
+}
+@media (max-width: 700px) {
+  #forkongithub {
+    display: none;
+  }
+}
+@media (max-width: 410px) {
+    #forkongithub>div {
+        font-size: 0.7rem;
+        transform: translateX(150px) rotate(45deg) translate(20px,40px);
+    }
+}
+
+</style>
+<div id="forkongithub"><div><div><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">Fix, Fork, Contribute <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 136 133" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(3.92891,0,0,3.92891,67.867,129.125)">
+        <path d="M0,-31.904C-8.995,-31.904 -16.288,-24.611 -16.288,-15.614C-16.288,-8.417 -11.621,-2.312 -5.148,-0.157C-4.333,-0.008 -4.036,-0.511 -4.036,-0.943C-4.036,-1.329 -4.05,-2.354 -4.058,-3.713C-8.589,-2.729 -9.545,-5.897 -9.545,-5.897C-10.286,-7.779 -11.354,-8.28 -11.354,-8.28C-12.833,-9.29 -11.242,-9.27 -11.242,-9.27C-9.607,-9.155 -8.747,-7.591 -8.747,-7.591C-7.294,-5.102 -4.934,-5.821 -4.006,-6.238C-3.858,-7.29 -3.438,-8.008 -2.972,-8.415C-6.589,-8.826 -10.392,-10.224 -10.392,-16.466C-10.392,-18.244 -9.757,-19.698 -8.715,-20.837C-8.883,-21.249 -9.442,-22.905 -8.556,-25.148C-8.556,-25.148 -7.188,-25.586 -4.076,-23.478C-2.777,-23.84 -1.383,-24.02 0.002,-24.026C1.385,-24.02 2.779,-23.84 4.08,-23.478C7.19,-25.586 8.555,-25.148 8.555,-25.148C9.444,-22.905 8.885,-21.249 8.717,-20.837C9.761,-19.698 10.392,-18.244 10.392,-16.466C10.392,-10.208 6.583,-8.831 2.954,-8.428C3.539,-7.925 4.06,-6.931 4.06,-5.411C4.06,-3.234 4.04,-1.477 4.04,-0.943C4.04,-0.507 4.333,0 5.16,-0.159C11.628,-2.318 16.291,-8.419 16.291,-15.614C16.291,-24.611 8.997,-31.904 0,-31.904" style="fill:white;"/>
+    </g>
+</svg>
+</a></div></div></div>
+
+</div>
+
+
+<div class="container">
+  <div class="lesson-title">
+    <h1>WebGL2 重置画布尺寸</h1>
+  </div>
+  <div class="lesson">
+    <div class="lesson-main">
+      <p>这是重置画布尺寸时应该知道的知识。</p>
+<p>每个画布都有两个尺寸，一个是 drawingbuffer 的尺寸，
+这个表示画布中有多少个像素。另一是画布显示的尺寸，
+CSS 决定画布显示的尺寸。</p>
+<p>你可以通过两种方式设置画布的 drawingbuffer 尺寸。一种是使用 HTML</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-html">&lt;canvas id=&quot;c&quot; width=&quot;400&quot; height=&quot;300&quot;&gt;&lt;/canvas&gt;
+</code></pre>
+<p>另一种是使用 JavaScript</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-html">&lt;canvas id=&quot;c&quot;&gt;&lt;/canvas&gt;
+</code></pre>
+<p>JavaScript</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const canvas = document.querySelector('#c')
+canvas.width = 400
+canvas.height = 300
+</code></pre>
+<p>如果你没有使用 CSS 影响到画布的显示尺寸，画布的显示尺寸则和 drawingbuffer 尺寸相同。
+所以在上述两个例子中画布的 drawingbuffer 尺寸和显示尺寸都是 400x300。</p>
+<p>在下方的例子中画布的显示尺寸是 400x300，drawingbuffer 是 10x15</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-html">&lt;canvas
+    id=&quot;c&quot;
+    width=&quot;10&quot;
+    height=&quot;15&quot;
+    style=&quot;width: 400px; height: 300px;&quot;
+&gt;&lt;/canvas&gt;
+</code></pre>
+<p>或者像这样</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-html">&lt;style&gt;
+    #c {
+        width: 400px;
+        height: 300px;
+    }
+&lt;/style&gt;
+&lt;canvas id=&quot;c&quot; width=&quot;10&quot; height=&quot;15&quot;&gt;&lt;/canvas&gt;
+</code></pre>
+<p>如果我们在画布上绘制以一个单像素宽度的线，就会得到这样的结果</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-10x15-canvas-400x300-css.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-10x15-canvas-400x300-css.html" target="_blank">点此在新窗口中浏览</a>
+</div>
+
+</p>
+<p>为什么它被模糊了？因为浏览器得到 10x15 像素的画布，将它拉伸到 400x300 像素，
+然后在拉伸的过程中进行了插值。</p>
+<p>假设我们想让画布填充满窗口该怎么做？首先使用 CSS 让浏览器将画布铺满窗口，例如</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">&lt;html&gt;
+  &lt;head&gt;
+    &lt;style&gt;
+      /*  */
+      html, body {
+        height: 100%;
+        margin: 0;
+      }
+      /* 设置画布大小为视域大小 */
+      #c {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;canvas id=&quot;c&quot;&gt;&lt;/canvas&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>现在只需要将 drawingbuffer 的尺寸设置为为浏览器拉伸后的画布尺寸。
+这是一个复杂的话题。让我们来看看一些不同的方法</p>
+<h2 id="使用-clientwidth-和-clientheight">使用 <code class="notranslate" translate="no">clientWidth</code> 和 <code class="notranslate" translate="no">clientHeight</code></h2>
+<p>这是最简单的方法。
+<code class="notranslate" translate="no">clientWidth</code> 和 <code class="notranslate" translate="no">clientHeight</code> 属性是所有 HTML 元素都有的属性，可以告诉我们元素的大小（CSS 像素）。</p>
+<blockquote>
+<p>注意： client rect 包含任何 CSS 内边距，所以如果你使用 <code class="notranslate" translate="no">clientWidth</code> 和/或 <code class="notranslate" translate="no">clientHeight</code> 最好不要给 canvas 设置任何的内边距。</p>
+</blockquote>
+<p>使用 JavaScript 我们可以检查该元素正在显示的大小，然后调整绘图缓冲区大小以匹配。</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">function resizeCanvasToDisplaySize(canvas) {
+    // 获取浏览器显示的画布的CSS像素值
+    const displayWidth = canvas.clientWidth
+    const displayHeight = canvas.clientHeight
+
+    // 检查画布大小是否相同。
+    const needResize =
+        canvas.width !== displayWidth || canvas.height !== displayHeight
+
+    if (needResize) {
+        // 使画布大小相同
+        canvas.width = displayWidth
+        canvas.height = displayHeight
+    }
+
+    return needResize
+}
+</code></pre>
+<p>让我们在渲染之前调用这个函数，这样它总是会在绘制之前将画布调整到我们想要的大小。</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">function drawScene() {
+   resizeCanvasToDisplaySize(gl.canvas);
+
+   ...
+</code></pre>
+<p>就是这样</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-resize-canvas.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-resize-canvas.html" target="_blank">点此在新窗口中浏览</a>
+</div>
+
+</p>
+<p>哪里出问题了？为什么这条线没有覆盖整个区域？</p>
+<p>原因是当我们重置画布尺寸的时候还需要调用<code class="notranslate" translate="no">gl.viewport</code>设置视域，
+<code class="notranslate" translate="no">gl.viewport</code>告诉 WebGL 如何将裁剪空间（-1 到 +1）中的点转换到像素空间，
+也就是画布内。当你第一次创建 WebGL 上下文的时候 WebGL 会设置视域大小和画布大小匹配，
+但是在那之后就需要你自己设置。当你改变画布大小就需要告诉 WebGL 新的视域设置。</p>
+<p>让我们来修改代码处理这个问题。由于 WebGL 上下文引用了画布，所以直接传递它的尺寸。</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">function drawScene() {
+   resizeCanvasToDisplaySize(gl.canvas);
+
++   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+   ...
+</code></pre>
+<p>现在没问题了。</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-resize-canvas-viewport.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-resize-canvas-viewport.html" target="_blank">点此在新窗口中浏览</a>
+</div>
+
+</p>
+<p>在新窗口中打开，改变窗口大小，发现它总是填满窗口。</p>
+<p>我知道你会问，为什么 WebGL 不在画布尺寸改变的时候自动帮我们修改视域？
+原因是它不知道你如何以及为什么使用视域，你可以 <a href="webgl-render-to-texture.html">渲染到一个帧缓冲</a>
+或者做其他的事情需要不同的视域尺寸。
+WebGL 没办法知道你的意图所以就不能自动帮你设置视域。</p>
+<hr>
+<h2 id="处理-devicepixelratio-和缩放">处理 <code class="notranslate" translate="no">devicePixelRatio</code> 和缩放</h2>
+<p>为什么这还没有结束？嗯，这就是事情变得复杂的地方。</p>
+<p>首先要了解的是，浏览器中的大多数尺寸都是以 CSS 像素为单位的。这是一个使不同设备有不同尺寸的尝试。例如，在本文的顶部，我们将画布的显示大小设置为 400x300 CSS 像素。根据用户是否拥有 HD-DPI 显示器，或者进行了放大或缩小，或者设置了操作系统缩放级别，显示器上的实际像素数量会有所不同。</p>
+<p><code class="notranslate" translate="no">window.devicePixelRatio</code> 一般会告诉我们实际像素与显示器上 CSS 像素的比率。例如，这是您浏览器的当前设置</p>
+<blockquote>
+<div>devicePixelRatio = <span data-diagram="dpr"></span></div>
+</blockquote>
+<p>如果您使用的是台式机或笔记本电脑， 请尝试按 <kbd>ctrl</kbd>+<kbd>+</kbd> 和 <kbd>ctrl</kbd>+<kbd>-</kbd> 进行放大和缩小 (在 Mac 上为<kbd>⌘</kbd>+<kbd>+</kbd> and <kbd>⌘</kbd>+<kbd>-</kbd> )。您应该会看到数字发生变化。</p>
+<p>因此，如果我们希望画布中的像素数与实际用于显示它的像素数相匹配
+显而易见的解决方案是将 <code class="notranslate" translate="no">clientWidth</code> 和 <code class="notranslate" translate="no">clientHeight</code> 乘于 <code class="notranslate" translate="no">devicePixelRatio</code> 像这样:</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">function resizeCanvasToDisplaySize(canvas) {
+  // 获取浏览器显示的画布的CSS像素值
+-  const displayWidth  = canvas.clientWidth;
+-  const displayHeight = canvas.clientHeight;
++  const dpr = window.devicePixelRatio;
++  const displayWidth  = Math.round(canvas.clientWidth * dpr);
++  const displayHeight = Math.round(canvas.clientHeight * dpr);
+
+  // 检查画布尺寸是否相同
+  const needResize = canvas.width  != displayWidth ||
+                     canvas.height != displayHeight;
+
+  if (needResize) {
+    // 设置为相同的尺寸
+    canvas.width  = displayWidth;
+    canvas.height = displayHeight;
+  }
+
+  return needResize;
+}
+</code></pre>
+<p>我们需要调用 <code class="notranslate" translate="no">Math.round</code> (或者 <code class="notranslate" translate="no">Math.ceil</code>, 或者 <code class="notranslate" translate="no">Math.floor</code> 或者 <code class="notranslate" translate="no">| 0</code>) 来得到一个整数，
+因为 <code class="notranslate" translate="no">canvas.width</code> 和 <code class="notranslate" translate="no">canvas.height</code> 总是整数，所以如果
+<code class="notranslate" translate="no">devicePixelRatio</code> 不是一个常见的整数，我们的比较可能会失败，
+特别是如果用户进行了缩放。</p>
+<blockquote>
+<p>注意：是否使用 <code class="notranslate" translate="no">Math.floor</code> 或 <code class="notranslate" translate="no">Math.ceil</code> 或 <code class="notranslate" translate="no">Math.round</code> 不是由 HTML 定义的
+这取决于浏览器。 🙄</p>
+</blockquote>
+<p>在任何情况下，这 <strong>不会</strong> 实际工作。 新问题是，给定一个不是 1.0 的 <code class="notranslate" translate="no">devicePixelRatio</code>
+画布填充给定区域所需的 CSS 大小可能不是整数值
+但是 <code class="notranslate" translate="no">clientWidth</code> 和 <code class="notranslate" translate="no">clientHeight</code> 被定义为整数。 假设窗口的实际设备像素宽是
+999 您的 devicePixelRatio = 2.0 并且您要求 100% 大小的画布。没有一个整数的值符合 * 2.0 = 999.</p>
+<p>下一个解决方案是使用
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect"><code class="notranslate" translate="no">getBoundingClientRect()</code></a>.
+它返回一个 <a href="https://developer.mozilla.org/en-US/docs/Web/API/DOMRect"><code class="notranslate" translate="no">DOMRect</code></a>
+包含 <code class="notranslate" translate="no">width</code> 和 <code class="notranslate" translate="no">height</code>。 它与由 <code class="notranslate" translate="no">clientWidth</code> 和 <code class="notranslate" translate="no">clientHeight</code> 表示的客户端矩形相同，但它不需要是整数。</p>
+<p>下面是一个紫色的 <code class="notranslate" translate="no">&lt;canvas&gt;</code>，设置为容器的 <code class="notranslate" translate="no">width: 100%</code>。 缩小几次到 75% 或 60%，你可能会看到它的 <code class="notranslate" translate="no">clientWidth</code> 和它的 <code class="notranslate" translate="no">getBoundingClientRect().width</code> 不一样。</p>
+<blockquote>
+<div data-diagram="getBoundingClientRect"></div>
+</blockquote>
+<p>在我的机器上我得到这些数值</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">Windows 10, zoom level 75%, Chrome
+clientWidth: 700
+getBoundingClientRect().width = 700.0000610351562
+
+MacOS, zoom level 90%, Chrome
+clientWidth: 700
+getBoundingClientRect().width = 700.0000610351562
+
+MacOS, zoom level -1, Safari (safari does not show the zoom level)
+clientWidth: 700
+getBoundingClientRect().width = 699.9999389648438
+
+Firefox, both Windows and MacOS all zoom levels
+clientWidth: 700
+getBoundingClientRect().width = 700
+</code></pre>
+<p>注意：Firefox 在此特定设置中显示 700，但通过足够多的各种测试，我看到它从<code class="notranslate" translate="no">getBoundingClientRect</code> 给出非整数结果，例如使窗口变小，以便 100% 画布小于 700，你可能会得到一个 Firefox 上的非整数结果。</p>
+<p>因此，鉴于此我们可以尝试使用 <code class="notranslate" translate="no">getBoundingClientRect</code>。</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">function resizeCanvasToDisplaySize(canvas) {
+  // 查找浏览器在 CSS 像素中显示画布的大小。
+  const dpr = window.devicePixelRatio;
+-  const displayWidth  = Math.round(canvas.clientWidth * dpr);
+-  const displayHeight = Math.round(canvas.clientHeight * dpr);
++  const {width, height} = canvas.getBoundingClientRect();
++  const displayWidth  = Math.round(width * dpr);
++  const displayHeight = Math.round(height * dpr);
+
+  // 检查画布大小是否相同。
+  const needResize = canvas.width  != displayWidth ||
+                     canvas.height != displayHeight;
+
+  if (needResize) {
+    // 使画布大小相同
+    canvas.width  = displayWidth;
+    canvas.height = displayHeight;
+  }
+
+  return needResize;
+}
+</code></pre>
+<p>那么我们完成了吗？ 抱歉不行。 事实证明，<code class="notranslate" translate="no">canvas.getBoundingClientRect()</code> 不能总是返回准确的大小。 原因很复杂，但这与浏览器决定绘制事物的方式有关。 有些部分是在 HTML 级别决定的，有些部分是稍后在“合成器”级别（实际绘制的部分）决定的。
+<code class="notranslate" translate="no">getBoundingClientRect()</code> 发生在 HTML 级别，但之后发生的某些事情可能会影响画布实际绘制的大小。</p>
+<p>我认为一个例子是 HTML 部分在抽象中工作，而合成器在具体中工作。 因此，假设您有一个设备像素宽是 999 和 devicePixelRatio 是 2.0 的窗口。将两个元素并排设置为
+<code class="notranslate" translate="no">width: 50%</code>。所以 HTML 计算出每一个应该是 499.5 个设备像素。 但是当真正需要绘制时，合成器无法绘制 499.5 像素，因此一个元素获得 499，另一个获得 500。任何规范都未定义哪个获得或丢失像素。</p>
+<p>浏览器供应商提出的解决方案是使用
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver"><code class="notranslate" translate="no">ResizeObserver</code> API</a>
+并通过它提供的 <code class="notranslate" translate="no">devicePixelContextBoxSize</code> 属性获取到实际大小。它返回实际使用的设备像素数。 请注意，它被称为 <code class="notranslate" translate="no">ContentBox</code> 而不是 <code class="notranslate" translate="no">ClientBox</code> 这意味着它是画布元素的 <em>content</em> 部分，因此不像<code class="notranslate" translate="no">clientWidth</code>, <code class="notranslate" translate="no">clientHeight</code> 和 <code class="notranslate" translate="no">getBoundingClientRect</code> 包含画布的内间距</p>
+<p>它以异步方式返回结果。 上面提到的“合成器”在页面中以异步的方式运行。 它可以计算出实际要使用的尺寸，然后将该尺寸发送给您。</p>
+<p>不幸的是，虽然所有现代浏览器都可以使用 <code class="notranslate" translate="no">ResizeObserver</code>，但<code class="notranslate" translate="no">devicePixelContentBoxSize</code>目前仅适用于 Chrome/Edge。 这是如何使用它。</p>
+<p>我们创建了一个 <code class="notranslate" translate="no">ResizeObserver</code> 并传递给它一个函数，以便在观察到的任何元素大小改变时调用它。 在我们的例子中，是我们的画布。</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const resizeObserver = new ResizeObserver(onResize)
+resizeObserver.observe(canvas, { box: 'content-box' })
+</code></pre>
+<p>上面的代码创建了一个 <code class="notranslate" translate="no">ResizeObserver</code>，当观察到的元素改变大小时，它将调用函数 <code class="notranslate" translate="no">onResize</code>（如下）。我们让它<code class="notranslate" translate="no">观察</code>画布的<code class="notranslate" translate="no">content-box</code>何时改变大小。这很重要，但有点令人困惑。 我们可以要求它告诉我们
+<code class="notranslate" translate="no">device-pixel-content-box</code> 何时改变大小， 但让我们想象一下我们有一个画布，它是窗口的某个百分比大小，就像上面常见的 100% 的行示例一样。在这种情况下，无论缩放级别如何，我们的画布都将始终具有相同数量的设备像素。 当我们缩放时窗口没有改变大小，所以仍然有相同数量的设备像素。 另一方面，<code class="notranslate" translate="no">content-box</code> 会随着我们的缩放而改变，因为它是用 CSS 像素来衡量的，所以当我们缩放时，或多或少的 CSS 像素适合设备像素的数量。</p>
+<p>如果我们不关心缩放级别，那么我们可以只观察 <code class="notranslate" translate="no">device-pixel-content-box</code>.
+如果不支持它会抛出一个错误所以我们会这样做</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const resizeObserver = new ResizeObserver(onResize)
+try {
+    // 只告诉我们改变的设备像素数
+    resizeObserver.observe(canvas, { box: 'device-pixel-content-box' })
+} catch (ex) {
+    // 不支持 device-pixel-content-box 时回退到这个
+    resizeObserver.observe(canvas, { box: 'content-box' })
+}
+</code></pre>
+<p><code class="notranslate" translate="no">onResize</code> 函数将使用 <a href="https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserverEntry"><code class="notranslate" translate="no">ResizeObserverEntry</code>s</a>数组调用。 每当大小改变时我们将把尺寸记录到 map 对象中以便我们处理多个元素。</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">// 使用默认画布大小进行初始化
+const canvasToDisplaySizeMap = new Map([[canvas, [300, 150]]])
+
+function onResize(entries) {
+    for (const entry of entries) {
+        let width
+        let height
+        let dpr = window.devicePixelRatio
+        if (entry.devicePixelContentBoxSize) {
+            // 注意：只有这个方式给出了正确的尺寸
+            // 其他方式用于不支持的浏览器
+            width = entry.devicePixelContentBoxSize[0].inlineSize
+            height = entry.devicePixelContentBoxSize[0].blockSize
+            dpr = 1
+        } else if (entry.contentBoxSize) {
+            if (entry.contentBoxSize[0]) {
+                width = entry.contentBoxSize[0].inlineSize
+                height = entry.contentBoxSize[0].blockSize
+            } else {
+                width = entry.contentBoxSize.inlineSize
+                height = entry.contentBoxSize.blockSize
+            }
+        } else {
+            width = entry.contentRect.width
+            height = entry.contentRect.height
+        }
+        const displayWidth = Math.round(width * dpr)
+        const displayHeight = Math.round(height * dpr)
+        canvasToDisplaySizeMap.set(entry.target, [displayWidth, displayHeight])
+    }
+}
+</code></pre>
+<p>这有点乱。 在支持 <code class="notranslate" translate="no">devicePixelContentBoxSize</code> 之前，您可以看到该 API 至少提供了 3 个不同的版本 😂
+现在我们修改调整大小的函数以使用此数据</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">function resizeCanvasToDisplaySize(canvas) {
+-  // 查找浏览器在 CSS 像素中显示画布的大小。
+-  const dpr = window.devicePixelRatio;
+-  const {width, height} = canvas.getBoundingClientRect();
+-  const displayWidth  = Math.round(width * dpr);
+-  const displayHeight = Math.round(height * dpr);
++  // 获取浏览器在设备像素中显示画布的大小。
++ const [displayWidth, displayHeight] = canvasToDisplaySizeMap.get(canvas);
+
+  // 检查画布大小是否相同。
+  const needResize = canvas.width  != displayWidth ||
+                     canvas.height != displayHeight;
+
+  if (needResize) {
+    // 使画布大小相同
+    canvas.width  = displayWidth;
+    canvas.height = displayHeight;
+  }
+
+  return needResize;
+}
+</code></pre>
+<p>这是使用此代码的示例</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-resize-canvas-hd-dpi.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-resize-canvas-hd-dpi.html" target="_blank">点此在新窗口中浏览</a>
+</div>
+
+</p>
+<p>可能很难看出任何差异。 如果您有 HD-DPI 显示器
+就像您的智能手机或自 2019 年以来的所有 Mac 或 4k 显示器一样，那么这条线应该比上一个示例的线更细。</p>
+<p>否则，如果您放大（我建议您在新窗口中打开示例），当您放大线条时，应保持相同的分辨率，而如果放大前一个示例，线条将变得更粗且分辨率更低，因为它没有适配 <code class="notranslate" translate="no">devicePixelRatio</code>。</p>
+<p>就像这里的测试一样，上面的所有 3 种方法都使用简单的 2d 画布。 为了简单起见，不使用 WebGL。 相反，它使用 Canvas 2D 并制作 2 个图案，一个 2x2 像素垂直黑白图案和一个 2x2 像素水平黑白图案。 它在左侧绘制水平图案 ▤，在右侧绘制垂直图案 ▥。</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-resize-the-canvas-comparison.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-resize-the-canvas-comparison.html" target="_blank">点此在新窗口中浏览</a>
+</div>
+
+</p>
+<p>调整此窗口的大小，或者更好的是，在新窗口中打开它并使用快捷键放大。 在不同的缩放级别调整窗口大小，并注意只有底部的那个适用于所有情况（在 Chrome/Edge 中）。 请注意，您设备的<code class="notranslate" translate="no">devicePixelRatio</code>越高，就越难发现问题。 您应该看到的是左侧和右侧是不变的。 如果您看到粗糙的图案或看到不同的黑暗（如渐变），则它不起作用。 因为它只能在 Chrome/Edge 中工作，所以你需要在那里尝试看看它是否工作。</p>
+<p>另请注意，某些操作系统 (MacOS) 提供了一个操作系统级别的缩放选项，该选项通常对应用程序隐藏。 在这种情况下，您会在底部示例中看到轻微的图案（假设您在 Chrome/Edge 中），但它将是常规图案。</p>
+<p>这带来了在其他浏览器上没有好的解决方案的问题，但是，您需要真正的解决方案吗？ 大多数 WebGL 应用程序会做一些事情，比如在 3D 中绘制一些带有纹理和/或光照的东西。 因此，通常我们忽略<code class="notranslate" translate="no">devicePixelRatio</code>或者使用 <code class="notranslate" translate="no">clientWidth</code>, <code class="notranslate" translate="no">clientHeight</code> 或 <code class="notranslate" translate="no">getBoundingClientRect()</code> * <code class="notranslate" translate="no">devicePixelRatio</code></p>
+<p>此外，盲目使用<code class="notranslate" translate="no">devicePixelRatio</code>会降低性能。
+在 iPhoneX 或 iPhone11 <code class="notranslate" translate="no">window.devicePixelRatio</code> 是 <code class="notranslate" translate="no">3</code> 这意味着将绘制 9 倍的像素。 在 Samsung Galaxy S8 这个值是 <code class="notranslate" translate="no">4</code> 这意味着将绘制 16 倍的像素。 这会使程序变慢。
+事实上，实际渲染的像素少于显示的像素，并让 GPU 放大它们,这是游戏中的一种常见优化。 这取决于您的需求。 如果您正在绘制用于打印的图形，您可能希望支持 HD-DPI。 如果您正在制作游戏，您可能不会，或者如果用户的系统速度不够快，无法绘制如此多的像素。您可能希望让用户选择打开或关闭支持 HD-DPI。</p>
+<p>另一个警告是，至少到 2021 年 1 月为止， <code class="notranslate" translate="no">round(getBoundingClientRect * devicePixelRatio)</code> 适用于所有现代浏览器 <strong>当和仅当</strong> 画布大小铺满窗口大小时，就像上面的线的示例,这是使用这种模式的示例</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-resize-the-canvas-comparison-fullwindow.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-resize-the-canvas-comparison-fullwindow.html" target="_blank">点此在新窗口中浏览</a>
+</div>
+
+</p>
+<p>您会注意到，如果您缩放和调整 <em>当前页面</em> 的大小，使用 <code class="notranslate" translate="no">getBoundingClientRect</code> 会获取不到正确大小。
+这是因为画布不是在完整的窗口，它在 iframe 中。 在单独的窗口中打开示例，它将起作用。</p>
+<p>您使用哪种解决方案取决于您。 对我来说，99% 的时间我不使用<code class="notranslate" translate="no">devicePixelRatio</code>。 它使我的页面变慢，除了少数图形专家外，大多数人不会注意到差异。 在这个站点上有一些图表使用它，但大多数示例没有。</p>
+<p>如果您查看许多 WebGL 程序，它们会以许多不同的方式处理调整大小或设置画布的大小。
+我认为最好的方法是让浏览器选择大小以使用 CSS 显示画布，然后查找它选择的大小并调整画布中的像素数作为响应。
+如果你很好奇 <a href="webgl-anti-patterns.html">以下是一些原因</a> 我认为上述方式是更可取的方式。</p>
+<!-- just to shut up the build that this link used to exist
+     and still exists in older translations -->
+<p><a href="webgl-animation.html"></a></p>
+<script type="module" src="../resources/webgl-resizing-the-canvas.module.js"></script>
+
+    </div>
+    <div class="lesson-sidebar">
+        <select class="language">
+    <option value="/webgl/lessons/webgl-resizing-the-canvas.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-resizing-the-canvas.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-resizing-the-canvas.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-resizing-the-canvas.html" >한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-resizing-the-canvas.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-resizing-the-canvas.html" >Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-resizing-the-canvas.html" selected>简体中文</a>
+</select>
+
+
+        <div id="toc">
+          <ul>  <li>基础概念</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-getting-webgl2.html">怎样使用WebGL2</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-fundamentals.html">基本原理</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-how-it-works.html">如何工作的</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-shaders-and-glsl.html">着色器和 GLSL 语言</a></li>
+<li><a href="/webgl/lessons/resources/webgl-state-diagram.html?lang=zh_cn">WebGL2 State Diagram</a></li>
+        </ul>
+  <li>WebGL2 vs WebGL1</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl2-whats-new.html">WebGL2有什么新内容</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl1-to-webgl2.html">迁移WebGL1到WebGL2</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl1-to-webgl2-fundamentals.html">WebGLFundamentals.org和WebGL2Fundamentals.org的区别</a></li>
+        </ul>
+  <li>图像处理</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-image-processing.html">图像处理</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-image-processing-continued.html">进一步处理图像</a></li>
+        </ul>
+  <li>二维平移，旋转，缩放和矩阵运算</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-2d-translation.html">二维平移</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-2d-rotation.html">二维旋转</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-2d-scale.html">二维缩放</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-2d-matrices.html">二维矩阵</a></li>
+        </ul>
+  <li>三维</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-3d-orthographic.html">三维正射投影</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-3d-perspective.html">三维透视投影</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-3d-camera.html">三维相机</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-matrix-naming.html">WebGL2 三维矩阵命名</a></li>
+        </ul>
+  <li>光照</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-3d-lighting-directional.html">三维方向光源</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-3d-lighting-point.html">点光源</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-3d-lighting-spot.html">聚光灯</a></li>
+        </ul>
+  <li>组织和重构</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-less-code-more-fun.html">码少趣多</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-drawing-multiple-things.html">绘制多个物体</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-scene-graph.html">场景图</a></li>
+        </ul>
+  <li>几何</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-3d-geometry-lathe.html">三维几何加工</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-load-obj.html">加载 .obj 文件</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-load-obj-w-mtl.html">加载带 .mtl 的 .obj 文件</a></li>
+        </ul>
+  <li>纹理</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-3d-textures.html">纹理</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-data-textures.html">数据纹理</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-2-textures.html">使用多个纹理</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-cors-permission.html">跨域图像</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-3d-perspective-correct-texturemapping.html">纹理映射的透视纠正</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-planar-projection-mapping.html">平面的和透视的投影映射</a></li>
+        </ul>
+  <li>渲染到纹理</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-render-to-texture.html">渲染到纹理</a></li>
+        </ul>
+  <li>阴影</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-shadows.html">阴影</a></li>
+        </ul>
+  <li>技术</li>
+        <ul>
+            <li>二维</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-2d-drawimage.html">二维 DrawImage</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-2d-matrix-stack.html">二维矩阵栈</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-sprites.html">精灵</a></li>
+        </ul>
+  <li>三维</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-cube-maps.html">WebGL2 立方体贴图</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-environment-maps.html">WebGL2 环境贴图</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-skybox.html">WebGL2 天空盒</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-skinning.html">WebGL2 蒙皮</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-fog.html">WebGL2 雾</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-picking.html">拾取（点击物体）</a></li>
+        </ul>
+  <li>文字</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-text-html.html">文字 - HTML</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-text-canvas2d.html">文字 - 二维 Canvas</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-text-texture.html">文字 - 使用纹理</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-text-glyphs.html">文字 - 使用字形纹理</a></li>
+        </ul>
+  <li>GPGPU</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-gpgpu.html">通用GPU计算(GPGPU)</a></li>
+        </ul>
+        </ul>
+  <li>技巧</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-smallest-programs.html">最小的程序</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-drawing-without-data.html">无数据绘制</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-shadertoy.html">Shadertoy</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-pulling-vertices.html">顶点拉取</a></li>
+        </ul>
+  <li>优化</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-indexed-vertices.html">顶点索引 (gl.drawElements)</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-instanced-drawing.html">实例化绘制</a></li>
+        </ul>
+  <li>杂项</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-setup-and-installation.html">设置和安装</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-boilerplate.html">样板</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-resizing-the-canvas.html">重置画布尺寸</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-animation.html">动画</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-points-lines-triangles.html">点、线段与三角形</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-multiple-views.html">多视图与多画布</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-visualizing-the-camera.html">可视化相机</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-and-alpha.html">WebGL2 和 Alpha</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-2d-vs-3d-library.html">2D vs 3D 库</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-anti-patterns.html">反模式</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-matrix-vs-math.html">WebGL2中的矩阵vs数学中的矩阵</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-precision-issues.html">精度问题</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-tips.html#screenshot">Taking a screenshot</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-tips.html#preservedrawingbuffer">Prevent the Canvas Being Cleared</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-tips.html#tabindex">Get Keyboard Input From a Canvas</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-tips.html#html-background">Use WebGL2 as Background in HTML</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-cross-platform-issues.html">跨平台问题</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-qna.html">Questions and Answers</a></li>
+        </ul>
+  <li>参考</li>
+        <ul>
+          <li><a href="/webgl/lessons/zh_cn/webgl-attributes.html">属性（Attributes）</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-texture-units.html">纹理单元（Texture Units）</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-framebuffers.html">帧缓冲区（Framebuffers）</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-readpixels.html">readPixels</a></li>
+<li><a href="/webgl/lessons/zh_cn/webgl-references.html">参考资料</a></li>
+        </ul></ul>
+<ul>
+  <li><a href="/docs/">API帮助文档</a></li>
+  <li><a href="https://twgljs.org">TWGL，一个轻量级WebGL辅助库</a></li>
+  <li><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">GitHub</a></li>
+</ul>
+        </div>
+    </div>
+    <div class="lesson-comments">
+        
+<div>有意见或建议? <a href="https://github.com/gfxfundamentals/webgl2-fundamentals/issues">在GitHub上提issue</a>.</div>
+  
+
+        <div id="disqus_thread"></div>
+        <script>
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'webgl2fundamentals'; // required: replace example with your forum shortname
+            var disqus_identifier = 'WebGL2 重置画布尺寸';
+            var disqus_title = 'WebGL2 重置画布尺寸';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                if (window.location.hostname.indexOf("webgl2fundamentals.org") < 0) {
+                    return;
+                }
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+const settings = {
+  contribTemplate: "感谢 <a href=\"${html_url}\"><img src=\"${avatar_url}\"> ${login}</a><br>的 <a href=\"https://github.com/${owner}/${repo}/commits?author=${login}\">${contributions} 个贡献</a>",
+  owner: "gfxfundamentals",
+  repo: "webgl2-fundamentals",
+};
+</script>
+<script src="/contributors.js"></script>
+<script src="/3rdparty/jquery-1.11.2.min.js"></script>
+<script src="/webgl/lessons/resources/prettify.js"></script>
+<script src="/webgl/lessons/resources/lesson.js" type="module"></script>
+<script>
+</script>
+
+
+</html>
+
+
+

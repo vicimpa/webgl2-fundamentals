@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<!-- this file is auto-generated from webgl/lessons/ko/webgl-anti-patterns.md. Do not edited directly -->
+<!--
+Copyright 2021, GFXFundamentals.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+*   Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+*   Redistributions in binary form must reproduce the above
+    copyright notice, this list of conditions and the following disclaimer
+    in the documentation and/or other materials provided with the
+    distribution.
+
+*   Neither the name of GFXFundamentals. nor the names of his
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="WebGL에서 하지 말아야 할 것과, 하지 말아야 하는 이유, 그리고 그 대신에 해야 할 것">
+<meta name="keywords" content="webgl webgl2 graphics">
+<meta name="thumbnail" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-anti-patterns_ko.jpg">
+
+<meta property="og:title" content="WebGL2 안티패턴">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-anti-patterns_ko.jpg">
+<meta property="og:description" content="WebGL에서 하지 말아야 할 것과, 하지 말아야 하는 이유, 그리고 그 대신에 해야 할 것">
+<meta property="og:url" content="https://webgl2fundamentals.org/webgl/lessons/ko/webgl-anti-patterns.html">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@greggman">
+<meta name="twitter:creator" content="@greggman">
+<meta name="twitter:domain" content="webgl2fundamentals.org">
+<meta name="twitter:title" content="WebGL2 안티패턴">
+<meta name="twitter:url" content="https://webgl2fundamentals.org/webgl/lessons/ko/webgl-anti-patterns.html">
+<meta name="twitter:description" content="WebGL에서 하지 말아야 할 것과, 하지 말아야 하는 이유, 그리고 그 대신에 해야 할 것">
+<meta name="twitter:image:src" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-anti-patterns_ko.jpg">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebSite",
+      "@id":"https://webgl2fundamentals.org/#website",
+      "url":"https://webgl2fundamentals.org/",
+      "name":"Webgl2Fundamentals"
+    },
+    {
+      "@type":"ImageObject",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/ko/webgl-anti-patterns.html#primaryimage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-anti-patterns_ko.jpg",
+      "width":1200,
+      "height":630
+    },
+    {
+      "@type":"WebPage",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/ko/webgl-anti-patterns.html#webpage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/ko/webgl-anti-patterns.html",
+      "inLanguage":"ko",
+      "name":"WebGL2 안티패턴",
+      "keywords":"webgl webgl2 graphics programming",
+      "isPartOf":{
+        "@id":"https://webgl2fundamentals.org/#website"
+      },
+      "primaryImageOfPage":{
+        "@id":"https://webgl2fundamentals.org/webgl/lessons/ko/webgl-anti-patterns.html#primaryimage"
+      }
+    }
+  ]
+}
+</script>
+
+
+<title>WebGL2 안티패턴</title>
+<link href="/webgl/lessons/resources/webgl2fundamentals-icon.png" rel="shortcut icon" type="image/png">
+<link rel="stylesheet" href="/webgl/lessons/lang.css">
+<link rel="stylesheet" href="/webgl/lessons/ko/lang.css">
+<link rel="stylesheet" href="/webgl/lessons/resources/lesson.css">
+
+  <link rel="alternate" hreflang="en" href="https://webglfundamentals.org/webgl/lessons/webgl-anti-patterns.html">
+  <link rel="alternate" hreflang="de" href="https://webglfundamentals.org/webgl/lessons/de/webgl-anti-patterns.html">
+  <link rel="alternate" hreflang="ja" href="https://webglfundamentals.org/webgl/lessons/ja/webgl-anti-patterns.html">
+  <link rel="alternate" hreflang="ko" href="https://webglfundamentals.org/webgl/lessons/ko/webgl-anti-patterns.html">
+  <link rel="alternate" hreflang="pt-br" href="https://webglfundamentals.org/webgl/lessons/pt-br/webgl-anti-patterns.html">
+  <link rel="alternate" hreflang="ru" href="https://webglfundamentals.org/webgl/lessons/ru/webgl-anti-patterns.html">
+  <link rel="alternate" hreflang="zh_cn" href="https://webglfundamentals.org/webgl/lessons/zh_cn/webgl-anti-patterns.html">
+
+
+
+
+</head>
+<body>
+<div class="webgl_navbar">
+  <div>
+    <select class="language">
+    <option value="/webgl/lessons/webgl-anti-patterns.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-anti-patterns.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-anti-patterns.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-anti-patterns.html" selected>한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-anti-patterns.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-anti-patterns.html" >Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-anti-patterns.html" >简体中文</a>
+</select>
+
+
+    <a href="#toc">목차</a>
+    <input type="search" placeholder="?" id="search">
+  </div>
+</div>
+<div class="webgl_header">
+  <h1><a href="/webgl/lessons/ko/">WebGL2Fundamentals.org</a></h1>
+<style>
+#forkongithub>div {
+    background: #000;
+    color: #fff;
+    font-family: arial,sans-serif;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 40px;
+    font-size: 0.9rem;
+    line-height: 1.3rem;
+    position: relative;
+    transition: 0.5s;
+    display: block;
+    width: 400px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(200px) rotate(45deg) translate(10px,70px);
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.8);
+    pointer-events: auto;
+}
+#forkongithub a {
+  text-decoration: none;
+  color: #fff;
+}
+#forkongithub>div:hover {
+    background: #c11;
+    color: #fff;
+}
+#forkongithub .contributors {
+  font-size: 0.75rem;
+  background: rgba(255,255,255,0.2);
+  line-height: 1.2;
+  padding: 0.1em;
+}
+#forkongithub>div::before,#forkongithub>div::after {
+    content: "";
+    width: 100%;
+    display: block;
+    position: absolute;
+    top: 1px;
+    left: 0;
+    height: 1px;
+    background: #fff;
+}
+#forkongithub>div::after {
+    bottom: 1px;
+    top: auto;
+}
+
+#forkongithub{
+    z-index: 9999;
+    /* needed for firefox */
+    overflow: hidden;
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    pointer-events: none;
+}
+#forkongithub svg{
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+}
+#forkongithub img {
+  width: 1em;
+  height: 1em;
+  border-radius: 100%;
+  vertical-align: middle;
+}
+
+@media (max-width: 900px) {
+    #forkongithub>div {
+        line-height: 1.2rem;
+    }
+}
+@media (max-width: 700px) {
+  #forkongithub {
+    display: none;
+  }
+}
+@media (max-width: 410px) {
+    #forkongithub>div {
+        font-size: 0.7rem;
+        transform: translateX(150px) rotate(45deg) translate(20px,40px);
+    }
+}
+
+</style>
+<div id="forkongithub"><div><div><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">Fix, Fork, Contribute <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 136 133" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(3.92891,0,0,3.92891,67.867,129.125)">
+        <path d="M0,-31.904C-8.995,-31.904 -16.288,-24.611 -16.288,-15.614C-16.288,-8.417 -11.621,-2.312 -5.148,-0.157C-4.333,-0.008 -4.036,-0.511 -4.036,-0.943C-4.036,-1.329 -4.05,-2.354 -4.058,-3.713C-8.589,-2.729 -9.545,-5.897 -9.545,-5.897C-10.286,-7.779 -11.354,-8.28 -11.354,-8.28C-12.833,-9.29 -11.242,-9.27 -11.242,-9.27C-9.607,-9.155 -8.747,-7.591 -8.747,-7.591C-7.294,-5.102 -4.934,-5.821 -4.006,-6.238C-3.858,-7.29 -3.438,-8.008 -2.972,-8.415C-6.589,-8.826 -10.392,-10.224 -10.392,-16.466C-10.392,-18.244 -9.757,-19.698 -8.715,-20.837C-8.883,-21.249 -9.442,-22.905 -8.556,-25.148C-8.556,-25.148 -7.188,-25.586 -4.076,-23.478C-2.777,-23.84 -1.383,-24.02 0.002,-24.026C1.385,-24.02 2.779,-23.84 4.08,-23.478C7.19,-25.586 8.555,-25.148 8.555,-25.148C9.444,-22.905 8.885,-21.249 8.717,-20.837C9.761,-19.698 10.392,-18.244 10.392,-16.466C10.392,-10.208 6.583,-8.831 2.954,-8.428C3.539,-7.925 4.06,-6.931 4.06,-5.411C4.06,-3.234 4.04,-1.477 4.04,-0.943C4.04,-0.507 4.333,0 5.16,-0.159C11.628,-2.318 16.291,-8.419 16.291,-15.614C16.291,-24.611 8.997,-31.904 0,-31.904" style="fill:white;"/>
+    </g>
+</svg>
+</a></div></div></div>
+
+</div>
+
+
+<div class="container">
+  <div class="lesson-title">
+    <h1>WebGL2 안티패턴</h1>
+  </div>
+  <div class="lesson">
+    <div class="lesson-main">
+      <p>이건 WebGL의 안티패턴 목록입니다.
+안티패턴은 하지 말아야 할 것들입니다.</p>
+<ol>
+<li>
+<p><a id="viewportwidth"></a><code class="notranslate" translate="no">WebGLRenderingContext</code>에 <code class="notranslate" translate="no">viewportWidth</code> 및 <code class="notranslate" translate="no">viewportHeight</code> 값 설정</p>
+<p>일부 코드는 뷰포트 너비와 높이에 대한 속성을 추가하고 이를 <code class="notranslate" translate="no">WebGLRenderingContext</code>에 다음과 같이 추가합니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">gl = canvas.getContext(&quot;webgl2&quot;);
+gl.viewportWidth = canvas.width;    // 나쁨!!!
+gl.viewportHeight = canvas.height;  // 나쁨!!!
+</code></pre>
+<p>그리고 아래와 같이 호출하는 경우가 있습니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+</code></pre>
+<p><strong>나쁜 이유:</strong></p>
+<p>이제 캔버스의 크기를 바꿀 때마다 2개의 속성을 갱신해줘야 하기 때문에 객관적으로 좋지 않습니다.
+예를 들어 사용자가 창의 크기를 조정할 때 캔버스의 크기를 바꾼다면 <code class="notranslate" translate="no">gl.viewportWidth</code>와 <code class="notranslate" translate="no">gl.viewportHeight</code>는 값을 다시 설정해주기 전까지는 잘못된 값을 갖고있게 됩니다.</p>
+<p>어느 새로운 프로그래머가 코드를 훑어보고 <code class="notranslate" translate="no">gl.viewportWidth</code>와 <code class="notranslate" translate="no">gl.viewportHeight</code>를 WebGL 명세서의 일부라고
+몇개월동안 오해할 수도 있기 때문에 주관적으로도 나쁘다고 생각합니다.</p>
+<p><strong>대신 할 일:</strong></p>
+<p>왜 괜히 일을 복잡하게 만들어야 할까요?
+WebGL 컨텍스트는 해당 컨텍스트가 적용될 캔버스의 참조를 가지고 있으며 그 캔버스는 크기를 갖고 있습니다.</p>
+<pre class="prettyprint">
+gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+</pre>
+<p>컨텍스트 자체도 너비와 높이를 가지고 있습니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">// 뷰포트를 캔버스 drawingBuffer의 크기와 일치하도록 해야 할 때는
+// 아래 코드가 항상 올바른 결과를 냅니다.
+gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+</code></pre>
+<p>위 코드가 극단적인 경우도 처리할 수 있는 반면 <code class="notranslate" translate="no">gl.canvas.width</code>와 <code class="notranslate" translate="no">gl.canvas.height</code>를 사용하는 코드는 그렇지 않습니다.
+그 이유는 <a href="#drawingbuffer">여기</a>를 보시면 됩니다.</p>
+</li>
+<li>
+<p><a id="canvaswidth"></a>종횡비에 <code class="notranslate" translate="no">canvas.width</code> 및 <code class="notranslate" translate="no">canvas.height</code> 사용</p>
+<p>종종 코드에 이런식으로 종횡비에 대해 <code class="notranslate" translate="no">canvas.width</code>와 <code class="notranslate" translate="no">canvas.height</code>를 사용하는 경우가 있습니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var aspect = canvas.width / canvas.height;
+perspective(fieldOfView, aspect, zNear, zFar);
+</code></pre>
+<p><strong>나쁜 이유:</strong></p>
+<p>캔버스의 너비와 높이는 캔버스가 표시되는 크기와 관련이 없습니다.
+CSS가 캔버스의 표시되는 크기를 결정합니다.</p>
+<p><strong>대신 할 일:</strong></p>
+<p><code class="notranslate" translate="no">canvas.clientWidth</code>와 <code class="notranslate" translate="no">canvas.clientHeight</code>를 사용하십시오.
+이 값들이 캔버스가 실제로 화면에 표시되는 크기를 알려줍니다.
+이 값들을 사용하면 CSS 설정에 관계없이 항상 올바른 종횡비를 얻을 수 있습니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var aspect = canvas.clientWidth / canvas.clientHeight;
+perspective(projectionMatrix, fieldOfView, aspect, zNear, zFar);
+</code></pre>
+<p>다음 예제들은 drawingbuffer 크기(<code class="notranslate" translate="no">width=&quot;400&quot; height=&quot;300&quot;</code>)를 모두 동일하지만
+CSS를 사용하여 브라우저에는 다른 크기로 캔버스를 표시하도록 만든 예제입니다.
+두 예제 모두 올바른 종횡비로 'F’를 표시한다는 점에 주목하세요.</p>
+<p><div class="webgl_diagram_container">
+  <iframe class="webgl_example " style="width: 150px; height: 200px;" src="/webgl/lessons/../webgl-canvas-clientwidth-clientheight.html"></iframe>
+</div>
+
+</p>
+<p></p>
+<div class="webgl_diagram_container">
+  <iframe class="webgl_example " style="width: 400px; height: 150px;" src="/webgl/lessons/../webgl-canvas-clientwidth-clientheight.html"></iframe>
+</div>
+
+
+<p><code class="notranslate" translate="no">canvas.width</code>와 <code class="notranslate" translate="no">canvas.height</code>를 사용했다면 그렇지 않을 겁니다.</p>
+<p><div class="webgl_diagram_container">
+  <iframe class="webgl_example " style="width: 150px; height: 200px;" src="/webgl/lessons/../webgl-canvas-width-height.html"></iframe>
+</div>
+
+</p>
+<p></p>
+<div class="webgl_diagram_container">
+  <iframe class="webgl_example " style="width: 400px; height: 150px;" src="/webgl/lessons/../webgl-canvas-width-height.html"></iframe>
+</div>
+
+
+</li>
+<li>
+<p><a id="innerwidth"></a><code class="notranslate" translate="no">window.innerWidth</code>와 <code class="notranslate" translate="no">window.innerHeight</code>를 무언가를 계산하는 데 사용</p>
+<p>많은 WebGL 프로그램 여러 곳에서 <code class="notranslate" translate="no">window.innerWidth</code>와 <code class="notranslate" translate="no">window.innerHeight</code>를 사용하곤 합니다.
+예를 들어:</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">canvas.width = window.innerWidth;                    // 나쁨!!
+canvas.height = window.innerHeight;                  // 나쁨!!
+</code></pre>
+<p><strong>나쁜 이유:</strong></p>
+<p>포터블하지 않습니다.
+캔버스가 화면 전체를 채우는 WebGL 페이지에서는 문제가 없을 수 있습니다.
+그렇지 않은 경우엔 문제가 발생합니다.
+이 튜토리얼과 같은 글을 만들기로 한 경우라면 캔버스는 큰 페이지 안에 있는 작은 다이어그램일 뿐입니다.
+또는 옆에 속성 편집기나 게임을 위한 점수판이 필수할 수도 있습니다.
+물론 이런 경우를 처리하도록 코드를 수정할 수도 있지만 처음부터 이러한 경우에 대해서도 제대로 동작하도록 작성하는게 더 좋지 않을까요?
+그러면 새로운 프로젝트에 코드를 복사하거나 기존 프로젝트를 다시 작성할 때 코드를 변경하지 않아도 될 겁니다.</p>
+<p><strong>대신 할 일:</strong></p>
+<p>웹 플랫폼과 싸우는 대신, 설계된 대로 웹 플랫폼을 사용하세요.
+CSS와 <code class="notranslate" translate="no">clientWidth</code>, <code class="notranslate" translate="no">clientHeight</code>를 사용하세요.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var width = gl.canvas.clientWidth;
+var height = gl.canvas.clientHeight;
+
+gl.canvas.width = width;
+gl.canvas.height = height;
+</code></pre>
+<p>여기 9가지 경우가 있습니다.
+모두 똑같은 코드를 사용하고 있습니다.
+어떤 코드도 <code class="notranslate" translate="no">window.innerWidth</code>나 <code class="notranslate" translate="no">window.innerHeight</code>를 참조하지 않는다는 점에 주목하세요.</p>
+<p><a href="../../webgl-same-code-canvas-fullscreen.html" target="_blank">CSS를 사용한 전체 화면 캔버스만 있는 페이지</a></p>
+<p><a href="../../webgl-same-code-canvas-partscreen.html" target="_blank">캔버스가 너비의 70%만 차지하고 편집기를 위한 공간이 별도로 있는 페이지</a></p>
+<p><a href="../../webgl-same-code-canvas-embedded.html" target="_blank">단락 중간에 캔버스가 포함된 페이지</a></p>
+<p><a href="../../webgl-same-code-canvas-embedded-border-box.html" target="_blank"><code class="notranslate" translate="no">box-sizing: border-box;</code>를 사용하여 단락 중간에 캔버스가 포함된 페이지</a></p>
+<p><code class="notranslate" translate="no">box-sizing: border-box;</code>는 border와 padding이 외부가 아닌 정의된 요소의 공간을 차지하도록 합니다.
+다시 말해 <code class="notranslate" translate="no">box-sizing: normal</code> 모드에서 15픽셀 border를 가진 400x300 픽셀 크기의 요소는 15픽셀 너비의 border에 둘러싸인 400x300 픽셀 컨텐츠 공간을 가지며 따라서 전체 크기는 430x330px이 됩니다.
+<code class="notranslate" translate="no">box-sizing: border-box</code> 모드에서는 border가 내부로 들어가므로, 동일한 요소가 400x300 픽셀 크기를 유지하며 컨텐츠 공간은 370x270이 됩니다.
+이것이 <code class="notranslate" translate="no">clientWidth</code>와 <code class="notranslate" translate="no">clientHeight</code>를 사용하는 또 다른 중요한 이유입니다.
+border를 <code class="notranslate" translate="no">1em</code>으로 설정하면 캔버스의 크기를 알아낼 방법이 없습니다.
+다른 컴퓨터 혹은 다른 브라우저의 다른 글꼴에 따라 달라질 수도 있습니다.</p>
+<p><a href="../../webgl-same-code-container-fullscreen.html" target="_blank">CSS를 사용하여 전체 화면으로 표시할 컨테이너와 그 곳에 캔버스를 삽입할 코드만 있는 페이지</a></p>
+<p><a href="../../webgl-same-code-container-partscreen.html" target="_blank">화면의 70% 너비를 차지할 컨테이너만 있어서 캔버스를 삽입할 코드와 편집기 공간이 있는 페이지</a></p>
+<p><a href="../../webgl-same-code-container-embedded.html" target="_blank">단락에 캔버스를 삽입할 컨테이너와 그 곳에 캔버스를 삽입할 코드만 있는 페이지</a></p>
+<p><a href="../../webgl-same-code-container-embedded-border-box.html" target="_blank"><code class="notranslate" translate="no">box-sizing: border-box;</code>를 사용하여 단락에 컨테이너를 삽입하고 그 곳에 팬버스를 삽입할 코드만 있는 페이지</a></p>
+<p><a href="../../webgl-same-code-body-only-fullscreen.html" target="_blank">전체 화면으로 표시할 CSS 요소가 없고 코드로 캔버스를 삽입하는 페이지</a></p>
+<p>다시 말하지만 요점은, 웹을 받아들이고 위의 기술들을 사용하여 코드를 작성한다면 다른 방식으로 사용할 때에도 코드를 수정할 필요가 없게 된다는 것입니다.</p>
+</li>
+<li>
+<p><a id="resize"></a>캔버스 크기 변경을 위해 <code class="notranslate" translate="no">'resize'</code> 이벤트 사용</p>
+<p>일부 앱은 캔버스의 크기 조정을 위해 다음과 같은 윈도우 <code class="notranslate" translate="no">'resize'</code> 이벤트를 확인합니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">window.addEventListener('resize', resizeTheCanvas);
+</code></pre>
+<p>또는 아래와 같이요.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">window.onresize = resizeTheCanvas;
+</code></pre>
+<p><strong>나쁜 이유:</strong></p>
+<p>그 자체로 나쁘진 않지만, <em>대부분</em>의 WebGL 프로그램을 고려하면 사용에 적합하지는 않습니다.
+특히 <code class="notranslate" translate="no">'resize'</code>는 윈도우의 크기가 바뀔 때만 동작합니다. 어떠한 이유로 캔버스의 크기가 바뀔 때는 동작하지 않습니다.
+예를 들어 3D 에디터를 만들고 있다고 가정해 봅시다. 캔버스는 왼쪽에 있고 설정 창은 오른쪽에 있습니다.
+두 부분을 분리하는 드래그할 수 있는 바가 있도록 만들었고 바를 드래그하여 설정 창을 크거나 작게 만들 수 있습니다.
+이 경우 <code class="notranslate" translate="no">'resize'</code> 이벤트가 발생하지 않습니다.
+마찬가지로 다른 컨텐츠가 추가되거나 제거되는 페이지가 있고 브라우저가 레이아웃을 변경함에 따라 캔버스의 크기가 변한다면 resize 이벤트가 발생하지 않습니다.</p>
+<p><strong>대신 할 일:</strong></p>
+<p>안티패턴에 대한 위의 여러 해결법과 마찬가지로 대부분의 경우에 작동하도록 코드를 작성할 수 있습니다.
+모든 프레임을 끊임없이 그리는 WebGL 앱의 경우 해결법은 다음과 같이 매번 크기 조정이 필요한지 확인하는 겁니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">function resizeCanvasToDisplaySize() {
+  var width = gl.canvas.clientWidth;
+  var height = gl.canvas.clientHeight;
+  if (gl.canvas.width != width ||
+      gl.canvas.height != height) {
+     gl.canvas.width = width;
+     gl.canvas.height = height;
+  }
+}
+
+function render() {
+   resizeCanvasToDisplaySize();
+   drawStuff();
+   requestAnimationFrame(render);
+}
+render();
+</code></pre>
+<p>이제 위와 같은 경우에도 캔버스가 올바른 크기로 조정됩니다.
+다른 경우를 고려하려 코드를 바꿀 필요가 없습니다.
+예시로 위의 #3에서 동일한 코드를 사용하여 에디터 부분의 크기 변경이 가능하도록 한 코드입니다.</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-same-code-resize.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-same-code-resize.html" target="_blank">새 창으로 열기</a>
+</div>
+
+</p>
+<p>위와 같은 경우나 페이지에 있는 다른 동적 요소의 크기에 따라 캔버스의 크기가 바뀌는 다른 경우에도 resize 이벤트는 필요하지 않습니다.</p>
+<p>모든 프레임을 다시 그리지 않는 WebGL 앱의 경우에도 위 코드는 여전히 유효하며, 캔버스의 크기가 바뀔 수 있는 모든 경우에 다시 그리기를 작동시키면 됩니다.
+한 가지 쉬운 방법은 <code class="notranslate" translate="no">ResizeObserver</code>를 사용하는 것입니다.</p>
+<pre class="prettyprint">
+const resizeObserver = new ResizeObserver(render);
+resizeObserver.observe(gl.canvas, {box: 'content-box'});
+</pre>
+</li>
+<li>
+<p><a id="properties"></a><code class="notranslate" translate="no">WebGLObject</code>에 속성 추가</p>
+<p><code class="notranslate" translate="no">WebGLObject</code>는 <code class="notranslate" translate="no">WebGLBuffer</code>나 <code class="notranslate" translate="no">WebGLTexture</code>처럼 WebGL의 다양한 유형의 리소스입니다.
+일부 앱들은 이런 객체에 속성을 추가하는 경우가 있습니다.
+예시 코드:</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var buffer = gl.createBuffer();
+buffer.itemSize = 3;        // 나쁨!!
+buffer.numComponents = 75;  // 나쁨!!
+
+var program = gl.createProgram();
+...
+program.u_matrixLoc = gl.getUniformLocation(program, &quot;u_matrix&quot;);  // 나쁨!!
+</code></pre>
+<p><strong>나쁜 이유:</strong></p>
+<p>이게 나쁜 이유는 WebGL이 “컨텍스트를 잃을” 수 있기 때문입니다.
+어떤 이유로든 발생할 수 있지만 가장 일반적인 원인으로 브라우저가 너무 많은 GPU 리소스를 사용하고 있다고 판단하면 여유 공간 확보를 위해 일부 <code class="notranslate" translate="no">WebGLRenderingContext</code>의 컨텍스트를 의도적으로 없앨 수 있습니다.
+WebGL 프로그램이 항상 작동하길 바란다면 이를 처리해야 하는데요.
+구글 맵에서는 이를 처리하고 있습니다.</p>
+<p>위 코드의 문제점은 컨텍스트가 없어졌을 때 위의 <code class="notranslate" translate="no">gl.createBuffer()</code>같은 WebGL 생성 함수가 <code class="notranslate" translate="no">null</code>을 반환한다는 것입니다.
+그러면 사실상 코드가 이렇게 됩니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var buffer = null;
+buffer.itemSize = 3;        // 오류!
+buffer.numComponents = 75;  // 오류!
+</code></pre>
+<p>다음과 같은 오류가 발생하면서 앱이 죽어버립니다.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">TypeError: Cannot set property 'itemSize' of null
+</code></pre>
+<p>많은 앱들이 컨텍스트를 잃어버린 경우에는 앱이 죽어도 상관하지 않는데,
+컨텍스트 손실 이벤트를 처리하도록 앱을 업데이트하기로 결정했을 경우에는 결국 수정해야 할 코드를
+미리 작성하는 것은 안 좋은 생각인 것 같습니다.</p>
+<p><strong>대신 할 일:</strong></p>
+<p><code class="notranslate" translate="no">WebGLObject</code>와 이에 관한 정보를 함께 유지하고 싶다면 한 가지 방법은 자바스크립트 객체를 사용하는 겁니다.
+예시:</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var bufferInfo = {
+  id: gl.createBuffer(),
+  itemSize: 3,
+  numComponents: 75,
+};
+
+var programInfo = {
+  id: program,
+  u_matrixLoc: gl.getUniformLocation(program, &quot;u_matrix&quot;),
+};
+</code></pre>
+<p>개인적으로 <a href="webgl-less-code-more-fun.html">WebGL 작성을 훨씬 간단히 만들어주는 간단한 헬퍼</a>를 사용하는 것을 추천합니다.</p>
+</li>
+</ol>
+<p>위의 내용이 제가 인터넷에서 본 코드 중 WebGL 안티패턴이라고 생각하는 것들의 일부입니다.
+피해야 하는 이유와 그에 대한 쉽고 유용한 해결책이 전달되었기를 바랍니다.</p>
+<div class="webgl_bottombar">
+<a id="drawingbuffer"></a>
+<h3>drawingBufferWidth와 drawingBufferHeight는 뭔가요?</h3>
+<p>
+GPU에는 지원할 수 있는 픽셀 사각형(texture, renderbuffer)의 크기에 대한 제한이 있습니다.
+대개는 GPU가 제조될 당시에 흔히 사용되는 모니터 해상도의 다음 2의 배수 크기입니다.
+예를 들어 GPU가 1280x1024 화면을 지원하도록 설계되었다면 2048의 크기로 제한되어 있을 수 있습니다.
+2560x1600 화면을 지원하도록 설계되었다면 4096의 제한을 가질 겁니다.
+</p>
+<p>
+합리적으로 보이지만 다중 모니터를 사용 중이라면 어떻게 될까요?
+2048의 제한을 가지진 GPU를 사용 중이고 2개의 1920x1080 모니터가 있다고 가정해봅시다.
+사용자가 WebGL 페이지가 있는 브라우저 창을 연 다음, 두 모니터에 걸쳐서 창을 확장합니다.
+코드는 <code class="notranslate" translate="no">canvas.width</code>를 3840인 <code class="notranslate" translate="no">canvas.clientWidth</code>로 설정하려고 합니다.
+어떤 일이 발생해야 할까요?
+</p>
+<p>머릿속에 떠오르는 세 가지 선택지가 있습니다.</p>
+<ol>
+<li>
+<p>예외를 발생시킴</p>
+<p>
+안 좋은 것 같습니다.
+대부분의 웹 앱은 예외를 처리하지 않으며 그러면 앱이 제대로 동작하지 않을겁니다.
+만약 앱이 사용자 데이터를 가지고 있다면 사용자는 데이터를 잃어버리겠죠.
+</p>
+</li>
+<li>
+<p>캔버스 크기를 GPU 한도로 제한</p>
+<p>
+이 해결책의 문제점은 코드가 캔버스가 요청한 크기대로 될 것이라 예상하고, UI의 다른 부분들 및 페이지에 있는 요소들이 적절한 위치에 있을 것이라 생각하기 때문에, 충돌로 이어지거나 웹 페이지를 엉망으로 만들 수 있습니다.
+</p>
+</li>
+<li>
+<p>캔버스는 사용자가 요청한 크기가 되지만 drawingbuffer에 제한을 둠</p>
+<p>
+이게 WebGL이 사용하는 해결책입니다.
+코드가 올바르게 작성되었다면 사용자가 알아차릴 수 있는 유일한 것은 캔버스에 표시된 이미지의 크기가 약간 변경된다는 것입니다.
+다른 것들은 제대로 동작합니다.
+최악의 경우 제대로 작성되지 않은 WebGL 프로그램은 화면을 약간 벗어나지만, 사용자가 창의 크기를 조정하면 정상으로 돌아올겁니다. 
+</p>
+</li>
+</ol>
+<p>
+대다수의 사람이 다중 모니터를 가지고 있지는 않으므로 이 이슈는 흔하지 않습니다.
+적어도 예전에는 그랬습니다.
+2015년 1월 기준, 크롬과 사파리의 경우 캔버스 크기가 하드 코딩으로 4096으로 제한되어 있습니다.
+애플의 5K iMac은 그 제한을 넘어섰습니다.
+이러한 이유로 인해 많은 WebGL 앱이 화면에 이상하게 표시되었습니다.
+마찬가지로 많은 사람들이 다중 모니터가 설치된 환경에서 WebGL을 사용하기 시작했으며 제한을 넘어섰습니다.
+</p>
+<p>
+따라서 이런 경우를 처리하고 싶다면 위의 #1에서 보여드린 <code class="notranslate" translate="no">gl.drawingBufferWidth</code>와 <code class="notranslate" translate="no">gl.drawingBufferHeight</code>를 사용하세요.
+대부분의 앱에서 위 모범 사례를 따르면 제대로 작동할 겁니다.
+하지만 drawingBuffer의 실제 크기를 고려한 계산을 수행한다면 주의하셔야 합니다.
+머리속에 떠오르는 예제는, [picking](webgl-picking.html), 즉 마우스 좌표를 캔버스 픽셀 좌표로 변환하는 계산입니다.
+다른 하나는 drawingbuffer의 실제 크기를 알아야 하는 모든 종류의 후처리 효과의 계산입니다.
+</p>
+</div>
+
+    </div>
+    <div class="lesson-sidebar">
+        <select class="language">
+    <option value="/webgl/lessons/webgl-anti-patterns.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-anti-patterns.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-anti-patterns.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-anti-patterns.html" selected>한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-anti-patterns.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-anti-patterns.html" >Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-anti-patterns.html" >简体中文</a>
+</select>
+
+
+        <div id="toc">
+          <ul>  <li>기초</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-getting-webgl2.html">WebGL2 사용법</a></li>
+<li><a href="/webgl/lessons/ko/webgl-fundamentals.html">기초</a></li>
+<li><a href="/webgl/lessons/ko/webgl-how-it-works.html">WebGL2 작동 원리</a></li>
+<li><a href="/webgl/lessons/ko/webgl-shaders-and-glsl.html">WebGL2 셰이더와 GLSL</a></li>
+<li><a href="/webgl/lessons/resources/webgl-state-diagram.html">WebGL2 State Diagram</a></li>
+        </ul>
+  <li>WebGL2 vs WebGL1</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl2-whats-new.html">WebGL2 새로운 기능</a></li>
+<li><a href="/webgl/lessons/ko/webgl1-to-webgl2.html">WebGL1에서 WebGL2로의 변경</a></li>
+<li><a href="/webgl/lessons/ko/webgl1-to-webgl2-fundamentals.html">WebGLFundamentals.org과 WebGL2Fundamentals.org의 차이점</a></li>
+        </ul>
+  <li>이미지 처리</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-image-processing.html">이미지 처리</a></li>
+<li><a href="/webgl/lessons/ko/webgl-image-processing-continued.html">WebGL2 이미지 처리 심화</a></li>
+        </ul>
+  <li>2D 이동, 회전, 크기 변환 행렬 계산</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-2d-translation.html">WebGL2 2D 이동</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-rotation.html">WebGL2 2D 회전</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-scale.html">WebGL2 2D 크기 변환</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-matrices.html">WebGL2 2D 행렬</a></li>
+        </ul>
+  <li>3D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-3d-orthographic.html">3D 직교 투영</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-perspective.html">3D 원근 투영</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-camera.html">3D - 카메라</a></li>
+<li><a href="/webgl/lessons/ko/webgl-matrix-naming.html">3D - 행렬의 이름</a></li>
+        </ul>
+  <li>Lighting</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-3d-lighting-directional.html">방향성 조명 효과(Directional Lighting)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-lighting-point.html">점 조명 효과(Point Lighting)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-lighting-spot.html">스팟 조명 효과(Spot Lighting)</a></li>
+        </ul>
+  <li>Structure and Organization</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-less-code-more-fun.html">더 적은 코드로 즐겁게 코딩하기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-drawing-multiple-things.html">여러 물체를 그리는 법</a></li>
+<li><a href="/webgl/lessons/ko/webgl-scene-graph.html">장면(Scene) 그래프</a></li>
+        </ul>
+  <li>Geometry</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-3d-geometry-lathe.html">3D Geometry - Lathe</a></li>
+<li><a href="/webgl/lessons/ko/webgl-load-obj.html">.obj 파일 로딩</a></li>
+<li><a href="/webgl/lessons/ko/webgl-load-obj-w-mtl.html">Loading .obj w .mtl files</a></li>
+        </ul>
+  <li>Textures</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-3d-textures.html">텍스처</a></li>
+<li><a href="/webgl/lessons/ko/webgl-data-textures.html">데이터 텍스처</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2-textures.html">두개 이상의 텍스처 사용하기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-cors-permission.html">교차 출처 이미지(Cross Origin Image)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-3d-perspective-correct-texturemapping.html">원근 교정 텍스처 매핑</a></li>
+<li><a href="/webgl/lessons/ko/webgl-planar-projection-mapping.html">평면 및 원근 투영 매핑</a></li>
+        </ul>
+  <li>Rendering To A Texture</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-render-to-texture.html">텍스처에 렌더링하기</a></li>
+        </ul>
+  <li>Shadows</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-shadows.html">그림자</a></li>
+        </ul>
+  <li>Techniques</li>
+        <ul>
+            <li>2D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-2d-drawimage.html">2D - DrawImage</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-matrix-stack.html">2D - 행렬 스택</a></li>
+<li><a href="/webgl/lessons/ko/webgl-sprites.html">Sprite</a></li>
+        </ul>
+  <li>3D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-cube-maps.html">큐브맵</a></li>
+<li><a href="/webgl/lessons/ko/webgl-environment-maps.html">환경맵</a></li>
+<li><a href="/webgl/lessons/ko/webgl-skybox.html">Skybox</a></li>
+<li><a href="/webgl/lessons/ko/webgl-skinning.html">Skinning</a></li>
+<li><a href="/webgl/lessons/ko/webgl-fog.html">Fog</a></li>
+<li><a href="/webgl/lessons/ko/webgl-picking.html">Picking (clicking on stuff)</a></li>
+        </ul>
+  <li>Text</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-text-html.html">텍스트 - HTML</a></li>
+<li><a href="/webgl/lessons/ko/webgl-text-canvas2d.html">텍스트 - Canvas 2D</a></li>
+<li><a href="/webgl/lessons/ko/webgl-text-texture.html">텍스트 - 텍스처 사용</a></li>
+<li><a href="/webgl/lessons/ko/webgl-text-glyphs.html">Text - Using a Glyph Texture</a></li>
+        </ul>
+  <li>GPGPU</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-gpgpu.html">GPGPU</a></li>
+        </ul>
+        </ul>
+  <li>Tips</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-smallest-programs.html">Smallest Programs</a></li>
+<li><a href="/webgl/lessons/ko/webgl-drawing-without-data.html">Drawing Without Data</a></li>
+<li><a href="/webgl/lessons/ko/webgl-shadertoy.html">Shadertoy</a></li>
+<li><a href="/webgl/lessons/ko/webgl-pulling-vertices.html">Pulling Vertices</a></li>
+        </ul>
+  <li>Optimization</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-indexed-vertices.html">정점 인덱스 (gl.drawElements)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-instanced-drawing.html">인스턴스 드로잉(Instanced Drawing)</a></li>
+        </ul>
+  <li>기타</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-setup-and-installation.html">설정 및 설치</a></li>
+<li><a href="/webgl/lessons/ko/webgl-boilerplate.html">보일러플레이트(Boilerplate)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-resizing-the-canvas.html">Canvas 리사이징</a></li>
+<li><a href="/webgl/lessons/ko/webgl-animation.html">애니메이션</a></li>
+<li><a href="/webgl/lessons/ko/webgl-points-lines-triangles.html">점, 선, 삼각형</a></li>
+<li><a href="/webgl/lessons/ko/webgl-multiple-views.html">Multiple Views, Multiple Canvases</a></li>
+<li><a href="/webgl/lessons/ko/webgl-visualizing-the-camera.html">Visualizing the Camera</a></li>
+<li><a href="/webgl/lessons/ko/webgl-and-alpha.html">WebGL2 알파(Alpha)</a></li>
+<li><a href="/webgl/lessons/ko/webgl-2d-vs-3d-library.html">2D vs 3D 라이브러리</a></li>
+<li><a href="/webgl/lessons/ko/webgl-anti-patterns.html">안티패턴</a></li>
+<li><a href="/webgl/lessons/ko/webgl-matrix-vs-math.html">WebGL2 행렬 vs 수학에서의 행렬</a></li>
+<li><a href="/webgl/lessons/ko/webgl-precision-issues.html">정밀도 이슈</a></li>
+<li><a href="/webgl/lessons/ko/webgl-tips.html#screenshot">스크린샷 찍기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-tips.html#preservedrawingbuffer">Canvas Clear 방지</a></li>
+<li><a href="/webgl/lessons/ko/webgl-tips.html#tabindex">캔버스에서 키보드 입력 받기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-tips.html#html-background">HTML에서 WebGL2를 배경으로 사용하기</a></li>
+<li><a href="/webgl/lessons/ko/webgl-cross-platform-issues.html">Cross Platform 문제</a></li>
+<li><a href="/webgl/lessons/ko/webgl-qna.html">질문 및 답변</a></li>
+        </ul>
+  <li>Reference</li>
+        <ul>
+          <li><a href="/webgl/lessons/ko/webgl-attributes.html">Attributes</a></li>
+<li><a href="/webgl/lessons/ko/webgl-texture-units.html">텍스처 유닛</a></li>
+<li><a href="/webgl/lessons/ko/webgl-framebuffers.html">Framebuffer</a></li>
+<li><a href="/webgl/lessons/ko/webgl-readpixels.html">readPixels</a></li>
+<li><a href="/webgl/lessons/ko/webgl-references.html">참고 자료</a></li>
+        </ul></ul>
+<ul>
+  <li><a href="/docs/">Helper API Docs</a></li>
+  <li><a href="https://twgljs.org">TWGL, A tiny WebGL helper library</a></li>
+  <li><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">github</a></li>
+</ul>
+        </div>
+    </div>
+    <div class="lesson-comments">
+        
+    <div>이슈나 버그가 있나요? <a href="https://github.com/greggman/webgl2-fundamentals/issues">깃헙에서 이슈 만들기</a>.</div>
+  
+
+        <div id="disqus_thread"></div>
+        <script>
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'webgl2fundamentals'; // required: replace example with your forum shortname
+            var disqus_identifier = 'WebGL2 안티패턴';
+            var disqus_title = 'WebGL2 안티패턴';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                if (window.location.hostname.indexOf("webgl2fundamentals.org") < 0) {
+                    return;
+                }
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+const settings = {
+  contribTemplate: "<a href=\"${html_url}\"><img src=\"${avatar_url}\"> ${login}</a>님, <br>당신의 <a href=\"https://github.com/${owner}/${repo}/commits?author=${login}\">${contributions} 기여</a>에 감사드립니다.",
+  owner: "gfxfundamentals",
+  repo: "webgl2-fundamentals",
+};
+</script>
+<script src="/contributors.js"></script>
+<script src="/3rdparty/jquery-1.11.2.min.js"></script>
+<script src="/webgl/lessons/resources/prettify.js"></script>
+<script src="/webgl/lessons/resources/lesson.js" type="module"></script>
+<script>
+</script>
+
+
+</html>
+
+
+
